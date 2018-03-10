@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <flashing></flashing>
+	<pomodoro></pomodoro>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Pomodoro from './components/Pomodoro'
+import Flashing from './components/Flashing'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+	  Pomodoro,
+	  Flashing
   }
 }
 </script>
