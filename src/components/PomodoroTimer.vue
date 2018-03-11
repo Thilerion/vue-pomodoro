@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<p class="time-display">{{$store.getters.timeRemainingFormat}}</p>
+		<p>{{$store.getters.timeRemainingFormat}}</p>
 		<progress-bar></progress-bar>
 		<button @click="timerAction">{{$store.getters.timerButton}}</button>
 		<button @click="timerReset" v-show="timerState.started === true">Reset</button>
@@ -75,25 +75,5 @@ export default {
 </script>
 
 <style>
-button {
-	border-radius: 5px;
-	width: 120px;
-	height: 40px;
-	border: 2px solid darkgreen;
-	background-color: rgb(139, 190, 139);
-	outline: none;
-	cursor: pointer;
-	margin-right: 1em;
-}
 
-button:hover {
-	background-color: darkgreen;
-	color: white;
-}
-
-.time-display {
-	font-size: 4em;
-	margin: 10px 0;
-	font-weight: bold;
-}
 </style>

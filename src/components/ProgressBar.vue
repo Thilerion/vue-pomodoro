@@ -14,7 +14,7 @@ export default {
 .progress {
 	display: block;
 	margin: 1em 0;
-	width: 80%;
+	width: 100%;
 	height: 20px;
 	border: 1px solid grey;
 	border-radius: 5px;
@@ -23,7 +23,7 @@ export default {
 }
 
 .inner-progress {
-	background-color: green;
+	background-color: rgba(0,0,0,0.5);
 	height: 100%;
 	transition: width 500ms linear;
 }
