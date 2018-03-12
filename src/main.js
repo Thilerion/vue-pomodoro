@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import App from './App.vue'
 import { store } from './store/store';
 
+import 'bulma/css/bulma.css'
+
 Vue.use(Vuex);
 
 Vue.config.productionTip = false
