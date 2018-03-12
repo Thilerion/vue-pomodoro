@@ -172,6 +172,9 @@ export const store = new Vuex.Store({
 			commit('setTimerState', { running: false, finished: true });
 			dispatch('stopInterval');
 			dispatch('createSessionLog');
+			dispatch('loadNextSession');
+		},
+		loadNextSession({ state, commit, dispatch }) {
 			if (state.currentSession.sessionType === "long") {
 				commit('nextCycle');
 			} else {
