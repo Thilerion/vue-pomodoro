@@ -6,6 +6,8 @@ Vue.use(Vuex)
 import moment from 'moment';
 moment.locale('nl');
 
+let interval;
+
 export const store = new Vuex.Store({
 	state: {
 		durations: {
@@ -13,90 +15,81 @@ export const store = new Vuex.Store({
 			short: 5,
 			long: 20
 		},
-		currentSession: "focus",
+		sessions: ["focus", "short", "long"],
 		timeRemaining: 25 * 60 * 1000,
 		timeFormatting: "mm:ss",
 		timerState: {
 			running: false,
 			started: false
 		},
-		sessionNumber: 1,
-		focusSessionsBeforeLong: 3,
-		speed: 1,
-		autoPlay: false,
-		endOfSession: false
+		sessionInCycle: 0,
+		cycleLength: 3,
+		endOfSession: false,
+		settings: {
+			autoPlay: false,
+			speed: 1
+		}
 	},
 	getters: {
 		timeRemainingFormat: state => {
-			return moment.utc(moment.duration(state.timeRemaining).asMilliseconds()).format(state.timeFormatting);
+			return formatDuration(state.timeRemaining, state.timeFormatting);
 		},
-		timerStateString(state) {
-			if (state.timerState.started === false) {
-				return "Nog niet gestart.";
-			} else if (state.timerState.running === true) {
-				return "Gestart.";
-			} else {
-				return "Gepauzeerd.";
-			}
+		currentSession: state => {
+			return getCurrentSession(state);
 		},
-		timerButton: state => {
-			if (state.timerState.started === false) {
-				return "Start"
-			} else if (state.timerState.running === false) return "Resume"
-			else return "Pause"
+		currentSessionString: state => {
+			return state.sessions[getCurrentSession(state)];
+		}
+	},
+	actions: {
+		start: ({ commit }) => {
+			startInterval();
+			let newState = {
+				running: true,
+				started: true
+			};
+			commit('setState', newState);
+			console.log('Interval started.');			
 		},
-		percentageRemaining: state => {
-			let initial = state.durations[state.currentSession] * 60 * 1000;
-			let timePassed = initial - state.timeRemaining;
-			return timePassed / initial * 100;
+		pause: ({ commit }) => {
+			stopInterval();
+			console.log('Interval stopped.');
 		}
 	},
 	mutations: {
-		start(state) {
-			state.timerState.running = true;
-			state.timerState.started = true;
-			state.endOfSession = false;
-		},
-		pause(state) {
-			state.timerState.running = false;
-		},
-		resume(state) {
-			state.timerState.running = true;
-		},
-		reset(state) {
-			reset(state);
-		},
-		timerTick(state) {
+		tick(state) {
 			state.timeRemaining -= 1000;
-			if (state.timeRemaining < 100) {
-				nextSession(state);
-			}
 		},
-		skip(state) {
-			nextSession(state);
+		setState(state, payload) {
+			state.timerState.running = payload.running;
+			state.timerState.started = payload.started;
 		}
 	}
 });
 
-function nextSession(state) {
-	console.log("End of timer");
-	state.endOfSession = true;
-	if (state.currentSession === "focus" && state.sessionNumber !== 5) state.currentSession = "short";
-	else if (state.currentSession === "short") state.currentSession = "focus";
-	else if (state.currentSession === "long") {
-		state.currentSession = "focus";
-		state.sessionNumber = 0;
-	}
-	else state.currentSession = "long"; 
-	state.sessionNumber += 1;
-	console.log(state.sessionNumber);
-	reset(state);
+const startInterval = () => {
+	interval = setInterval(() => {
+		store.commit('tick');
+	}, 1000);
 }
 
-function reset(state) {
-	if (state.autoPlay === false) {
-		state.timerState.running = false;
-		state.timerState.started = false;
-	}	
-	state.timeRemaining = state.durations[state.currentSession] * 60 * 1000;
+const stopInterval = () => {
+	clearInterval(interval);
+}
+
+const getCurrentSession = (state) => {
+	if (state.sessionInCycle === 0 || state.sessionInCycle % 2 === 0) {
+		//work
+		return 0;
+	} else if (state.sessionInCycle / 2 === state.cycleLength) {
+		//long
+		return 2;
+	} else {
+		//short
+		return 1;
+	}
+}
+
+const formatDuration = (duration, formatting) => {
+	return moment.utc(moment.duration(duration).asMilliseconds()).format(formatting);
 }

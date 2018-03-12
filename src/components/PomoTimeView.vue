@@ -25,7 +25,6 @@ export default {
 
 .time-display {
 	font-size: 15vmin;
-	padding: 4rem 0;
 	letter-spacing: 0.15rem;
 }
 </style>

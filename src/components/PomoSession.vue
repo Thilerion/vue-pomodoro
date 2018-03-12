@@ -13,10 +13,10 @@
 export default {
 	computed: {
 		sessionView() {
-			return this.$store.state.currentSession;
+			return this.$store.getters.currentSessionString;
 		},
 		sessionsInCycle() {
-			return this.$store.state.focusSessionsBeforeLong;
+			return this.$store.state.cycleLength;
 		}
 	}
 }

@@ -1,14 +1,35 @@
 <template>
 	<div class="button-container">
 		<button id="reset-timer" class="state-button small"><i class="material-icons">replay</i></button>
-		<button id="start-timer" class="state-button large"><i class="material-icons">play_arrow</i></button>
+		<button id="start-timer" class="state-button large"><i class="material-icons" @click="mainButtonActions">play_arrow</i></button>
 		<button id="skip-timer" class="state-button small"><i class="material-icons">skip_next</i></button>
 	</div>
 </template>
 
 <script>
 export default {
-
+	methods: {
+		start() {
+			this.$store.dispatch('start');
+		},
+		pause() {
+			this.$store.dispatch('pause');
+		},
+		mainButtonActions() {
+			if (this.timerState.started === false) {
+				this.start();
+			} else if (this.timerState.running === true) {
+				this.pause();
+			} else {
+				this.start();
+			}
+		}
+	},
+	computed: {
+		timerState() {
+			return this.$store.state.timerState;
+		}
+	}
 }
 </script>
 
