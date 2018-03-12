@@ -5,20 +5,21 @@
 		</nav>
 		<main>
 			<pomo-time-view></pomo-time-view>
-		</main>
-		
-		
+			<pomo-controls></pomo-controls>
+		</main>	
 	</div>
 </template>
 
 <script>
 import PomoNav from "./components/PomoNav";
 import PomoTimeView from "./components/PomoTimeView";
+import PomoControls from "./components/PomoControls";
 export default {
 	name: "app",
 	components: {
 		PomoNav,
-		PomoTimeView
+		PomoTimeView,
+		PomoControls
 	}
 };
 </script>
@@ -46,5 +47,11 @@ html {
 
 body {
 	min-height: 100%;
+}
+
+main {
+	display: grid;
+	grid-template-rows: auto 10rem;
+	align-items: center;
 }
 </style>
