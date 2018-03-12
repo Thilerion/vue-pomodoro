@@ -1,7 +1,7 @@
 <template>
 	<div class="time-view">
 		<div class="time-display">
-			{{timeRemaining}}
+			{{timeDisplay}}
 		</div>
 	</div>
 </template>
@@ -11,6 +11,19 @@ export default {
 	computed: {
 		timeRemaining() {
 			return this.$store.getters.timeRemainingFormatted;
+		},
+		currentSessionFinished() {
+			return this.$store.getters.currentState.finished;
+		},
+		timeDisplay() {
+			if (this.currentSessionFinished === false) {
+				return this.timeRemaining;
+			} else {
+				return "Next session length: " + this.nextSessionLengthFormatted;
+			}
+		},
+		nextSessionLengthFormatted() {
+			return this.$store.getters.nextSessionLengthFormatted;
 		}
 	}
 }

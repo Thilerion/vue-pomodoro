@@ -81,6 +81,22 @@ export const store = new Vuex.Store({
 		},
 		currentState(state) {
 			return state.currentSession.state;
+		},
+		nextSessionLength(state, getters) {
+			return state.durations[getters.nextSessionType];
+		},
+		nextSessionLengthFormatted(state, getters) {
+			let t = getters.nextSessionLength;
+			return formatDuration(t, "mm:ss");
+		},
+		nextSessionType(state) {
+			if (state.currentSession.sessionType === "long") return "focus";
+			else if (state.currentSession.sessionType === "short") return "focus";
+			else {
+				let nxt = (state.sessionNumber + 1);
+				if (nxt === state.sessionsPerCycle * 2) return "long";
+				else return "short";
+			}
 		}
 	},
 	mutations: {
@@ -175,7 +191,7 @@ export const store = new Vuex.Store({
 			commit('setTimerState', { running: false, finished: true });
 			dispatch('stopInterval');
 			dispatch('createSessionLog');
-			dispatch('loadNextSession');
+			//dispatch('loadNextSession');
 		},
 		loadNextSession({ state, commit, dispatch }) {
 			if (state.currentSession.sessionType === "long") {
