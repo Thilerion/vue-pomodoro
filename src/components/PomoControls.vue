@@ -24,12 +24,11 @@ export default {
 		border-radius: 50%;
 		border: none;
 		background: transparent;
-		color: white;
 		margin: 0 0.8rem;
 	}
 
 	.state-button.large {
-		border: 3px solid white;
+		border: 3px solid;
 		background-color: rgba(255,255,255,0.2);
 	}
 

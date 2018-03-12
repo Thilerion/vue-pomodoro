@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div id="app" class="theme-light">
 		<nav>
 			<pomo-nav></pomo-nav>
 		</nav>
@@ -29,10 +29,21 @@ export default {
 	font-family: "Roboto", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: rgba(0, 0, 0, 0.8);
-	min-height: 100vh;
-	background-image: linear-gradient(135deg, #90f7ec 10%, #32ccbc 100%);
+	text-align: center;	
+	min-height: 100vh;	
+}
+
+/* GRADIENTS https://webgradients.com/ */
+
+.theme-dark {
+	color: rgba(255, 255, 255, 0.9);
+	background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898; 
+ 	background-blend-mode: multiply,multiply;
+}
+
+.theme-light {
+	color: rgba(0,0,0,0.8);
+	background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
 }
 
 #app {
