@@ -10,24 +10,13 @@
 export default {
 	methods: {
 		start() {
-			this.$store.dispatch('start');
+			
 		},
 		pause() {
-			this.$store.dispatch('pause');
+			
 		},
 		mainButtonActions() {
-			if (this.timerState.started === false) {
-				this.start();
-			} else if (this.timerState.running === true) {
-				this.pause();
-			} else {
-				this.start();
-			}
-		}
-	},
-	computed: {
-		timerState() {
-			return this.$store.state.timerState;
+			
 		}
 	}
 }

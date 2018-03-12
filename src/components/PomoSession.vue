@@ -1,24 +1,17 @@
 <template>
 	<div class="session-view">
 		<div class="session-name">
-			{{sessionView}}
+			focus
 		</div>
 		<div class="session-number">
-			<div class="session-item" v-for="session in sessionsInCycle" :key="session"></div>
+			<div class="session-item"></div>
 		</div>
 	</div>
 </template>
 
 <script>
 export default {
-	computed: {
-		sessionView() {
-			return this.$store.getters.currentSessionString;
-		},
-		sessionsInCycle() {
-			return this.$store.state.cycleLength;
-		}
-	}
+	
 }
 </script>
 
