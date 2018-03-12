@@ -57,12 +57,24 @@ export const store = new Vuex.Store({
 		timeRemaining(state, getters) {
 			return state.currentSession.duration - getters.timePassed;
 		},
+		timeRemainingSeconds(state, getters) {
+			return Math.ceil(getters.timeRemaining / 1000) * 1000;
+		},
 		timeRemainingFormatted(state, getters) {
-			return formatDuration(getters.timeRemaining, "mm:ss");
+			return formatDuration(getters.timeRemainingSeconds, "mm:ss");
+		},
+		nextTimeoutDuration(state, getters) {
+			let normalTime = 1000; //ms
+			let roundedDiff = getters.timeRemaining - getters.timeRemainingSeconds;
+			let nextDelay = normalTime + roundedDiff;
+			console.log(nextDelay);
+			return nextDelay;
 		},
 		pausesLength(state) {
 			return state.currentSession.pauses.reduce((acc, val) => {
-				if (val.pauseEnd === null) return 0 + acc;
+				if (val.pauseEnd === null) {
+					return (Date.now() - val.pauseStart) + acc;
+				};
 				return (val.pauseEnd - val.pauseStart) + acc;
 			}, 0);
 		}
@@ -113,11 +125,13 @@ export const store = new Vuex.Store({
 			commit('timerTick');
 			dispatch('runInterval');
 		},
-		runInterval({ state, commit, dispatch }) {
+		runInterval({ state, commit, dispatch, getters }) {
+			let delay = getters.nextTimeoutDuration;
+			console.log(delay);
 			state.timeoutId = setTimeout(() => {
 				commit('timerTick');
 				dispatch('runInterval');
-			}, 1000);
+			}, delay);
 		},
 		stopInterval({ state, commit }) {
 			clearTimeout(state.timeoutId);
@@ -139,5 +153,5 @@ export const store = new Vuex.Store({
 });
 
 const formatDuration = (duration, formatting) => {
-	return moment.utc(moment.duration(duration).asMilliseconds()).format(formatting);
+	return moment.utc(moment.duration(Math.floor(duration /1000) * 1000).asMilliseconds()).format(formatting);
 }
