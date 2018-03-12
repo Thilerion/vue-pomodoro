@@ -1,28 +1,42 @@
 <template>
 	<div id="app">
-		<pomo-nav></pomo-nav>
+		<nav>
+			<pomo-nav></pomo-nav>
+		</nav>
+		<main>
+			<pomo-time-view></pomo-time-view>
+		</main>
+		
+		
 	</div>
 </template>
 
 <script>
-import PomoNav from './components/PomoNav'
+import PomoNav from "./components/PomoNav";
+import PomoTimeView from "./components/PomoTimeView";
 export default {
-  name: 'app',
-  components: {
-	  PomoNav
-  }
-}
+	name: "app",
+	components: {
+		PomoNav,
+		PomoTimeView
+	}
+};
 </script>
 
 <style>
 #app {
-	font-family: 'Roboto', sans-serif;
+	font-family: "Roboto", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-	color: rgba(0,0,0,0.8);
+	color: rgba(0, 0, 0, 0.8);
 	min-height: 100vh;
-	background-image: linear-gradient( 135deg, #90F7EC 10%, #32CCBC 100%);
+	background-image: linear-gradient(135deg, #90f7ec 10%, #32ccbc 100%);
+}
+
+#app {
+	display: grid;
+	grid-template-rows: 3rem auto;
 }
 
 html {
