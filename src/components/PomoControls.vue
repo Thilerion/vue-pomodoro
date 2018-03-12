@@ -1,7 +1,7 @@
 <template>
 	<div class="button-container">
 		<button id="reset-timer" class="state-button small"><i class="material-icons">replay</i></button>
-		<button id="start-timer" class="state-button large"><i class="material-icons" @click="mainActionButton">play_arrow</i></button>
+		<button id="start-timer" class="state-button large"><i class="material-icons" @click="mainActionButton">{{mainActionIcon}}</i></button>
 		<button id="skip-timer" class="state-button small"><i class="material-icons">skip_next</i></button>
 	</div>
 </template>
@@ -25,6 +25,11 @@ export default {
 		},
 		sessionState() {
 			return this.$store.state.currentSession.state;
+		},
+		mainActionIcon() {
+			let action = this.startPauseResume;
+			if (action === 'pauseTimer') return "pause";
+			else return "play_arrow";
 		}
 	}
 }
