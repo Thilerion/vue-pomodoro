@@ -1,6 +1,5 @@
 <template>
 	<div class="main">
-		<h1>Simple Pomodoro</h1>
 		<h2>Time:</h2>
 		<pomodoro-timer></pomodoro-timer>
 		<div>
