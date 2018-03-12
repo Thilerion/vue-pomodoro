@@ -11,9 +11,9 @@ import Session from '@/constructors/session';
 export const store = new Vuex.Store({
 	state: {
 		durations: {
-			focus: 25 * (60 * 1000),
-			short: 5 * (60 * 1000),
-			long: 20 * (60 * 1000)
+			focus: 4000,
+			short: 2000,
+			long: 3000
 		},
 		sessions: ["focus", "short", "long"],
 		initialized: false,
@@ -34,7 +34,8 @@ export const store = new Vuex.Store({
 			startTime: null
 		},
 		sessionNumber: 0,
-		sessionsPerCycle: 3,
+		sessionsPerCycle: 2,
+		sessionHistory: [[]],
 		timeoutId: null
 	},
 	getters: {
@@ -61,13 +62,13 @@ export const store = new Vuex.Store({
 			return Math.ceil(getters.timeRemaining / 1000) * 1000;
 		},
 		timeRemainingFormatted(state, getters) {
-			return formatDuration(getters.timeRemainingSeconds, "mm:ss");
+			let t = Math.max(getters.timeRemainingSeconds, 0);
+			return formatDuration(t, "mm:ss");
 		},
 		nextTimeoutDuration(state, getters) {
 			let normalTime = 1000; //ms
 			let roundedDiff = getters.timeRemaining - getters.timeRemainingSeconds;
 			let nextDelay = normalTime + roundedDiff;
-			console.log(nextDelay);
 			return nextDelay;
 		},
 		pausesLength(state) {
@@ -106,18 +107,32 @@ export const store = new Vuex.Store({
 		},
 		clearTimeout(state) {
 			state.timeoutId = null;
+		},
+		logSession(state, sesLog) {
+			let sesLogNew = Object.assign({}, sesLog);
+			let lastCycle = state.sessionHistory.length - 1;
+			state.sessionHistory[lastCycle].push(sesLogNew);
+		},
+		nextSession(state) {
+			state.sessionNumber += 1;
+		},
+		nextCycle(state) {
+			state.sessionNumber = 0;
+			state.sessionHistory.push([]);
 		}
 	},
 	actions: {
-		initializeTimer({ state, commit, getters }) {
+		initializeTimer({ state, commit, dispatch }) {
 			if (state.initialized === true) return;
+			dispatch('initNewSession');
+			commit('setInitialized');
+			console.log("Timer initialize complete.");
+		},
+		initNewSession({getters, state, commit}) {
 			let nextSessionType = getters.cycleArray[state.sessionNumber];
 			let nextSessionDur = state.durations[nextSessionType];
 			let nextSessionObject = new Session(nextSessionType, nextSessionDur);
-
 			commit('setNewCurrentSession', nextSessionObject);
-			commit('setInitialized');
-			console.log("Timer initialize complete.");
 		},
 		startTimer({ state, commit, dispatch }) {			
 			commit('setTimerState', { started: true, running: true });
@@ -130,7 +145,11 @@ export const store = new Vuex.Store({
 			console.log(delay);
 			state.timeoutId = setTimeout(() => {
 				commit('timerTick');
-				dispatch('runInterval');
+				if (getters.timeRemaining <= 0) {
+					dispatch('timerFinished');
+				} else {
+					dispatch('runInterval');
+				}				
 			}, delay);
 		},
 		stopInterval({ state, commit }) {
@@ -148,6 +167,30 @@ export const store = new Vuex.Store({
 			commit('addPause');
 			commit('timerTick');
 			dispatch('stopInterval');
+		},
+		timerFinished({state, commit, dispatch}) {
+			commit('setTimerState', { running: false, finished: true });
+			dispatch('stopInterval');
+			dispatch('createSessionLog');
+			if (state.currentSession.sessionType === "long") {
+				commit('nextCycle');
+			} else {
+				commit('nextSession');
+			}			
+			dispatch('initNewSession');
+		},
+		createSessionLog({ state, commit, getters }) {
+			let cur = state.currentSession;
+			let sesLog = {
+				sessionType: cur.sessionType,
+				pauses: cur.pauses.length,
+				pausesLength: getters.pausesLength,
+				duration: cur.duration,
+				startTime: cur.startTime,
+				endTime: cur.lastTick,
+				finished: cur.state.finished
+			}
+			commit('logSession', sesLog);
 		}
 	}	
 });
