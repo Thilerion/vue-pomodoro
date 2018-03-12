@@ -1,5 +1,5 @@
 <template>
-	<div id="app" class="theme-light">
+	<div id="app" class="theme-premium-white">
 		<nav>
 			<pomo-nav></pomo-nav>
 		</nav>
@@ -44,6 +44,16 @@ export default {
 .theme-light {
 	color: rgba(0,0,0,0.8);
 	background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+}
+
+.theme-clear-mirror {
+	color: hsla(222, 10%, 0%, 0.9);
+	background-image: linear-gradient(45deg, hsl(222, 38%, 69%) 0%, #e4efe9 100%);
+}
+
+.theme-premium-white {
+	color: rgba(0,0,0,0.8);
+	background-image: linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #eeeeec 31%, #efeeec 75%, #e9e9e7 100%);
 }
 
 #app {
