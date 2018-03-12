@@ -1,17 +1,14 @@
 <template>
 	<div id="app">
 		<pomo-nav></pomo-nav>
-		<pomodoro></pomodoro>
 	</div>
 </template>
 
 <script>
-import Pomodoro from './components/Pomodoro'
 import PomoNav from './components/PomoNav'
 export default {
   name: 'app',
   components: {
-	  Pomodoro,
 	  PomoNav
   }
 }
