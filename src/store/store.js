@@ -21,6 +21,7 @@ export const store = new Vuex.Store({
 			started: false
 		},
 		sessionNumber: 1,
+		focusSessionsBeforeLong: 3,
 		speed: 1,
 		autoPlay: false,
 		endOfSession: false

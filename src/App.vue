@@ -4,6 +4,7 @@
 			<pomo-nav></pomo-nav>
 		</nav>
 		<main>
+			<pomo-session></pomo-session>
 			<pomo-time-view></pomo-time-view>
 			<pomo-controls></pomo-controls>
 		</main>	
@@ -14,12 +15,14 @@
 import PomoNav from "./components/PomoNav";
 import PomoTimeView from "./components/PomoTimeView";
 import PomoControls from "./components/PomoControls";
+import PomoSession from './components/PomoSession';
 export default {
 	name: "app",
 	components: {
 		PomoNav,
 		PomoTimeView,
-		PomoControls
+		PomoControls,
+		PomoSession
 	}
 };
 </script>
@@ -72,7 +75,7 @@ body {
 
 main {
 	display: grid;
-	grid-template-rows: auto 10rem;
+	grid-template-rows: 3rem auto 10rem;
 	align-items: center;
 }
 </style>
