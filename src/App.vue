@@ -26,7 +26,6 @@ export default {
 	color: rgba(0,0,0,0.8);
 	min-height: 100vh;
 	background-image: linear-gradient( 135deg, #90F7EC 10%, #32CCBC 100%);
-	padding: 1rem;
 }
 
 html {
