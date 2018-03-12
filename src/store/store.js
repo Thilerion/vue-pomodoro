@@ -78,6 +78,9 @@ export const store = new Vuex.Store({
 				};
 				return (val.pauseEnd - val.pauseStart) + acc;
 			}, 0);
+		},
+		currentState(state) {
+			return state.currentSession.state;
 		}
 	},
 	mutations: {
