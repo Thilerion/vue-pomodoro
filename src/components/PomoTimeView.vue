@@ -1,14 +1,18 @@
 <template>
 	<div class="time-view">
 		<div class="time-display">
-			<p>25:00</p>
+			{{timeRemaining}}
 		</div>
 	</div>
 </template>
 
 <script>
 export default {
-	
+	computed: {
+		timeRemaining() {
+			return this.$store.getters.timeRemainingFormatted;
+		}
+	}
 }
 </script>
 

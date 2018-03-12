@@ -23,6 +23,10 @@ export default {
 		PomoTimeView,
 		PomoControls,
 		PomoSession
+	},
+	beforeCreate() {
+		this.$store.dispatch('initializeTimer');
+		console.log("Vue instance, before create, initialized the timer in Vuex store.");
 	}
 };
 </script>

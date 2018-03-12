@@ -1,7 +1,7 @@
 <template>
 	<div class="button-container">
 		<button id="reset-timer" class="state-button small"><i class="material-icons">replay</i></button>
-		<button id="start-timer" class="state-button large"><i class="material-icons" @click="mainButtonActions">play_arrow</i></button>
+		<button id="start-timer" class="state-button large"><i class="material-icons" @click="mainActionButton">play_arrow</i></button>
 		<button id="skip-timer" class="state-button small"><i class="material-icons">skip_next</i></button>
 	</div>
 </template>
@@ -9,14 +9,22 @@
 <script>
 export default {
 	methods: {
-		start() {
-			
+		mainActionButton() {
+			this.$store.dispatch(this.startPauseResume);
+		}
+	},
+	computed: {
+		startPauseResume() {
+			if (this.sessionState.started === false) {
+				return 'startTimer';
+			} else if (this.sessionState.running === false) {
+				return 'resumeTimer';
+			} else {
+				return 'pauseTimer';
+			}
 		},
-		pause() {
-			
-		},
-		mainButtonActions() {
-			
+		sessionState() {
+			return this.$store.state.currentSession.state;
 		}
 	}
 }
