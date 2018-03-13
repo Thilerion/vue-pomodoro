@@ -1,10 +1,11 @@
 <template>
 	<div class="session-view">
-		<div class="session-name">
-			{{currentSessionType}}
-		</div>
+		
 		<div class="session-number">
 			<pomo-session-circle class="session-item" v-for="(session, index) in sessionStatesFocus" :key="index" :finished="isFinished(index)" :started="isStarted(index)" :running="isRunning(index)"></pomo-session-circle>
+		</div>
+		<div class="session-name">
+			{{currentSessionType}}
 		</div>
 	</div>
 </template>
@@ -45,6 +46,7 @@ export default {
 	font-size: 1.3rem;
 	border: 2px 0 2px 0 solid;
 	text-transform: capitalize;
+	opacity: 0.8;
 }
 
 .session-number {

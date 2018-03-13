@@ -6,6 +6,7 @@
 		<main>
 			<pomo-session></pomo-session>
 			<pomo-time-view></pomo-time-view>
+			<div></div>
 			<pomo-controls></pomo-controls>
 		</main>	
 	</div>
@@ -99,7 +100,7 @@ body {
 
 main {
 	display: grid;
-	grid-template-rows: 4rem auto 10rem;
+	grid-template-rows: 10rem auto 5rem 10rem;
 	align-items: center;
 }
 </style>
