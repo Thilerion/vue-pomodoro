@@ -42,8 +42,9 @@ export default {
 
 <style scoped>
 .session-name {
-	font-size: 0.8rem;
-	font-style: italic;
+	font-size: 1.3rem;
+	border: 2px 0 2px 0 solid;
+	text-transform: capitalize;
 }
 
 .session-number {
