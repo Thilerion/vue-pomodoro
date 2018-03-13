@@ -3,16 +3,14 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import moment from 'moment';
-moment.locale('nl');
-
 import Session from '@/constructors/session';
+import formatDuration from '@/utils/format-duration';
 
 export const store = new Vuex.Store({
 	state: {
 		durations: {
 			focus: 4000,
-			short: 2000,
+			short: 5 * 60 * 1000,
 			long: 3000
 		},
 		sessions: ["focus", "short", "long"],
@@ -84,10 +82,6 @@ export const store = new Vuex.Store({
 		},
 		nextSessionLength(state, getters) {
 			return state.durations[getters.nextSessionType];
-		},
-		nextSessionLengthFormatted(state, getters) {
-			let t = getters.nextSessionLength;
-			return formatDuration(t, "mm:ss");
 		},
 		nextSessionType(state) {
 			if (state.currentSession.sessionType === "long") return "focus";
@@ -216,7 +210,3 @@ export const store = new Vuex.Store({
 		}
 	}	
 });
-
-const formatDuration = (duration, formatting) => {
-	return moment.utc(moment.duration(Math.floor(duration /1000) * 1000).asMilliseconds()).format(formatting);
-}
