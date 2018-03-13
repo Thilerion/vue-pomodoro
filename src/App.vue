@@ -1,5 +1,5 @@
 <template>
-	<div id="app" class="theme-sky-high">
+	<div id="app" class="theme-clear-mirror">
 		<nav>
 			<pomo-nav></pomo-nav>
 		</nav>
