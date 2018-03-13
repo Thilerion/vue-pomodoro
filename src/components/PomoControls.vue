@@ -44,12 +44,12 @@ export default {
 	.button-container {
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
+		justify-content: space-around;
 		align-items: center;
+		padding: 0 2rem;
 	}
 
 	.state-button {
-		border-radius: 50%;
 		border: none;
 		margin: 0 0.8rem;
 		background: none;
@@ -68,6 +68,6 @@ export default {
 	}
 
 	.state-button.large i {
-		font-size: 5em;
+		font-size: 4.5rem;
 	}
 </style>
