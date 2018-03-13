@@ -18,7 +18,8 @@ export default {
 <style scoped>
 	h1 {
 		font-size: 1.25rem;
-		font-weight: 500;
+		font-weight: bold;
+		letter-spacing: 0.03em;
 	}
 
 	.nav-top {

@@ -81,7 +81,11 @@ export default {
 }
 
 .time-display {
-	font-size: 15vmin;
-	letter-spacing: 0.15rem;
+	font-family: "Crimson Text", serif; 
+	font-size: 26vmin;
+	opacity: 0.8;
+	font-family: "Source Sans Pro", sans-serif;
+	font-weight: 300;
+	letter-spacing: 2px;
 }
 </style>
