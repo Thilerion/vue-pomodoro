@@ -34,7 +34,6 @@ export default {
 	},
 	watch: {
 		currentSessionFinished(newVal, oldVal) {
-			console.log(this.tween, this.nextSessionLength);
 			if (newVal === true) {
 				this.tween(0, this.nextSessionLength);
 			}
@@ -48,8 +47,12 @@ export default {
 					requestAnimationFrame(animate);
 				}
 			}
+			let tweenLength = (endValue - startValue) / 375;
+			let adjTweenLength = Math.min(Math.max(tweenLength, 0), 1000);
+			if (adjTweenLength < 100) adjTweenLength = 0;
+			console.log(adjTweenLength);
 			new TWEEN.Tween({tweeningValue: startValue})
-			.to({tweeningValue: endValue}, 1500)
+			.to({tweeningValue: endValue}, adjTweenLength)
 			.onUpdate(function (object) {
 				vm.tweenedNumber = object.tweeningValue.toFixed(0)
 			})
