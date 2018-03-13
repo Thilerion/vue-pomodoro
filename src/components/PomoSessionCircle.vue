@@ -29,13 +29,12 @@ export default {
 	width: 6px;
 	border-radius: 50%;
 	margin: 0 5px;
-	border: 1px solid;
-	transition: all 0.5s ease;
-	opacity: 0.8;
+	border: 3px solid;
+	transition: all 0.7s ease;
 }
 
 .inactive {
-	opacity: 0.5;
+	opacity: 0.3;
 }
 
 .active {
@@ -44,24 +43,21 @@ export default {
 }
 
 .paused {
-	opacity: 0.6;
-	animation: 1.2s infinite alternate pulsate;
-	animation-delay: 0.5s;
+	animation: 1.5s infinite alternate pulsate;
 }
 
 .finished {
-	background-color: black;
+	opacity: 1;
 }
 
 @keyframes pulsate {
 	0% {
-		opacity: 0.6;
-	}
-	50% {
-		opacity: 0.6;
+		opacity: 1;
+		transform: scale(1.4);
 	}
 	100% {
-		opacity: 0.2;
+		opacity: 0.6;
+		transform: scale(1.2);
 	}
 }
 

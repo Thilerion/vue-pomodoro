@@ -9,9 +9,9 @@ import formatDuration from '@/utils/format-duration';
 export const store = new Vuex.Store({
 	state: {
 		durations: {
-			focus: 1000,
-			short: 25 * 60 * 1000,
-			long: 20 * 60 * 1000
+			focus: 8000,
+			short: 5000,
+			long: 6000
 		},
 		sessions: ["focus", "short", "long"],
 		initialized: false,
