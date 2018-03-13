@@ -91,6 +91,27 @@ export const store = new Vuex.Store({
 				if (nxt === state.sessionsPerCycle * 2) return "long";
 				else return "short";
 			}
+		},
+		currentCycle(state) {
+			let currentCycleHistory = state.sessionHistory[state.sessionHistory.length - 1].slice();
+			currentCycleHistory.push(state.currentSession);
+			return currentCycleHistory;
+		},
+		currentCycleSimple(state, getters) {
+			let curCycle = getters.currentCycle.slice();
+			//reduce: only if finished, or is current session (last in array), only show type
+			let amount = state.sessionPerCycle;
+			let simple = curCycle.reduce(function(res, val) {
+				if (val.sessionType === "focus") {
+					if (val.finished) {
+						res.push(2);
+					} else if (val.state && val.state.started) {
+						res.push(1);
+					} else res.push(0);
+				}
+				return res;
+			}, []);
+			return simple;
 		}
 	},
 	mutations: {
