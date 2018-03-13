@@ -9,9 +9,9 @@ import formatDuration from '@/utils/format-duration';
 export const store = new Vuex.Store({
 	state: {
 		durations: {
-			focus: 4000,
-			short: 5 * 60 * 1000,
-			long: 3000
+			focus: 10000,
+			short: 2000,
+			long: 2000
 		},
 		sessions: ["focus", "short", "long"],
 		initialized: false,
@@ -32,7 +32,7 @@ export const store = new Vuex.Store({
 			startTime: null
 		},
 		sessionNumber: 0,
-		sessionsPerCycle: 2,
+		sessionsPerCycle: 4,
 		sessionHistory: [[]],
 		timeoutId: null
 	},
@@ -50,7 +50,6 @@ export const store = new Vuex.Store({
 			return arr;
 		},
 		timePassed(state, getters) {
-			//TODO: add pauses
 			return state.currentSession.lastTick - state.currentSession.startTime - getters.pausesLength;
 		},
 		timeRemaining(state, getters) {
@@ -92,26 +91,43 @@ export const store = new Vuex.Store({
 				else return "short";
 			}
 		},
-		currentCycle(state) {
-			let currentCycleHistory = state.sessionHistory[state.sessionHistory.length - 1].slice();
-			currentCycleHistory.push(state.currentSession);
-			return currentCycleHistory;
-		},
-		currentCycleSimple(state, getters) {
-			let curCycle = getters.currentCycle.slice();
-			//reduce: only if finished, or is current session (last in array), only show type
-			let amount = state.sessionPerCycle;
-			let simple = curCycle.reduce(function(res, val) {
-				if (val.sessionType === "focus") {
-					if (val.finished) {
-						res.push(2);
-					} else if (val.state && val.state.started) {
-						res.push(1);
-					} else res.push(0);
+		currentCycle(state, getters) {
+			let history = state.sessionHistory[state.sessionHistory.length - 1].slice();
+			history.push(Object.assign({}, state.currentSession));
+			for (let i = history.length; i < getters.cycleArray.length; i++) {
+				let nObj = {
+					sessionType: getters.cycleArray.slice()[i],
+					state: {
+						finished: false,
+						running: false,
+						started: false
+					}
 				}
-				return res;
+				history.push(Object.assign({}, nObj));
+			}
+			return history.slice();
+		},
+		currentCycleSessionStates(state, getters) {
+			let curCycle = getters.currentCycle.slice();
+			let reduced = curCycle.reduce(function (acc, cur) {
+				let sess = {
+					sessionType: cur.sessionType,
+					started: cur.state.started,
+					running: cur.state.running,
+					finished: cur.state.finished
+				}
+				if (sess.finished === true) {
+					sess.started = true;
+					sess.running = false;
+				}
+				let deepCopySess = Object.assign({}, sess);
+				return [...acc, deepCopySess];
 			}, []);
-			return simple;
+			return reduced;
+		},
+		focusSessionStates(state, getters) {
+			let arr = getters.currentCycleSessionStates;
+			return arr.filter(sess => sess.sessionType === "focus");
 		}
 	},
 	mutations: {
@@ -205,10 +221,11 @@ export const store = new Vuex.Store({
 		timerFinished({state, commit, dispatch}) {
 			commit('setTimerState', { running: false, finished: true });
 			dispatch('stopInterval');
-			dispatch('createSessionLog');
+			//dispatch('createSessionLog');
 			//dispatch('loadNextSession');
 		},
 		loadNextSession({ state, commit, dispatch }) {
+			dispatch('createSessionLog');
 			if (state.currentSession.sessionType === "long") {
 				commit('nextCycle');
 			} else {
@@ -225,7 +242,9 @@ export const store = new Vuex.Store({
 				duration: cur.duration,
 				startTime: cur.startTime,
 				endTime: cur.lastTick,
-				finished: cur.state.finished
+				state: {
+					finished: cur.state.finished
+				}				
 			}
 			commit('logSession', sesLog);
 		}

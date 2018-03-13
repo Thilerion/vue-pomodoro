@@ -85,7 +85,7 @@ export default {
 
 #app {
 	display: grid;
-	grid-template-rows: 3rem auto;
+	grid-template-rows: 4rem auto;
 }
 
 html {
@@ -99,7 +99,7 @@ body {
 
 main {
 	display: grid;
-	grid-template-rows: 3rem auto 10rem;
+	grid-template-rows: 4rem auto 10rem;
 	align-items: center;
 }
 </style>

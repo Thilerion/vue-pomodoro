@@ -22,11 +22,12 @@ export default {
 	}
 
 	.nav-top {
-		height: 3rem;
+		height: 4rem;
 		display: grid;
 		grid-template-columns: 3rem auto 3rem;
 		grid-auto-rows: 100%;
 		align-items: center;
+		position: relative;
 	}
 
 	.nav-item.center {
