@@ -1,19 +1,23 @@
 <template>
-	<div :class="circleClass">
-
-	</div>
+	<div class="cycle-circles">
+		<div :class="circleClass(session)" class="session-item" v-for="(session, index) in focusSessionStates" :key="index"></div>
+	</div>	
 </template>
 
 <script>
 export default {
-	props: ["finished", "started", "running"],
 	computed: {
-		circleClass() {
-			if (this.finished === true) {
+		focusSessionStates() {
+			return this.$store.getters.focusSessionStates;
+		}
+	},
+	methods: {
+		circleClass(session) {
+			if (session.finished === true) {
 				return "finished";
-			} else if (this.started === true && this.running === true) {
+			} else if (session.started === true && session.running === true) {
 				return "active";
-			} else if (this.started === true && this.running === false) {
+			} else if (session.started === true && session.running === false) {
 				return ["active", "paused"];
 			} else {
 				return "inactive";
@@ -24,6 +28,13 @@ export default {
 </script>
 
 <style scoped>
+.cycle-circles {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 25px;
+}
+
 .session-item {
 	height: 6px;
 	width: 6px;
@@ -60,6 +71,4 @@ export default {
 		transform: scale(1.2);
 	}
 }
-
-
 </style>

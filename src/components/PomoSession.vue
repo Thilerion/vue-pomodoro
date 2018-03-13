@@ -2,7 +2,7 @@
 	<div class="session-view">
 		
 		<div class="session-number">
-			<pomo-session-circle class="session-item" v-for="(session, index) in sessionStatesFocus" :key="index" :finished="isFinished(index)" :started="isStarted(index)" :running="isRunning(index)"></pomo-session-circle>
+			<pomo-cycle></pomo-cycle>
 		</div>
 		<div class="session-name">
 			{{currentSessionType}}
@@ -11,31 +11,14 @@
 </template>
 
 <script>
-import PomoSessionCircle from './PomoSessionCircle'
+import PomoCycle from './PomoCycle'
 export default {
 	components: {
-		PomoSessionCircle
+		PomoCycle
 	},
 	computed: {
-		sessionStates() {
-			return this.$store.getters.currentCycleSessionStates;
-		},
-		sessionStatesFocus() {
-			return this.$store.getters.focusSessionStates;
-		},
 		currentSessionType() {
 			return this.$store.state.currentSession.sessionType;
-		}
-	},
-	methods: {
-		isFinished(index) {
-			return this.sessionStatesFocus[index].finished;
-		},
-		isStarted(index) {
-			return this.sessionStatesFocus[index].started;
-		},
-		isRunning(index) {
-			return this.sessionStatesFocus[index].running;
 		}
 	}
 }
@@ -47,12 +30,5 @@ export default {
 	border: 2px 0 2px 0 solid;
 	text-transform: capitalize;
 	opacity: 0.8;
-}
-
-.session-number {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 25px;
 }
 </style>
