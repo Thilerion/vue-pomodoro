@@ -1,5 +1,5 @@
 <template>
-	<div id="app" class="theme-premium-white">
+	<div id="app" class="theme-sky-high">
 		<nav>
 			<pomo-nav></pomo-nav>
 		</nav>
@@ -61,6 +61,26 @@ export default {
 .theme-premium-white {
 	color: rgba(0,0,0,0.8);
 	background-image: linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #eeeeec 31%, #efeeec 75%, #e9e9e7 100%);
+}
+
+.theme-morpheus-den {
+	background-image: linear-gradient(20deg, #30cfd0 0%, #330867 100%);
+	color: #ececec;
+}
+
+.theme-sharpeye-eagle {
+	background-image: linear-gradient(to top, #9890e3 0%, #b1f4cf 100%);
+	color: #05021b;
+}
+
+.theme-strong-bliss {
+	background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
+	color: rgb(36, 4, 4);
+}
+
+.theme-sky-high {
+	background-image: linear-gradient(-30deg, #48c6ef 10%, #6f86d6 90%);
+	color: rgb(4, 21, 43);
 }
 
 #app {
