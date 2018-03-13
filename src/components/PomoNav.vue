@@ -4,7 +4,7 @@
 			<h1>Simple Pomodoro</h1>
 		</div>
 		<div class="nav-item right">
-			<i class="material-icons">menu</i>
+			<img class="menu-icon" src="../assets/menu-icon.svg" height="29" width="29">
 		</div>		
 	</div>
 </template>
@@ -25,7 +25,7 @@ export default {
 	.nav-top {
 		height: 4rem;
 		display: grid;
-		grid-template-columns: 3rem auto 3rem;
+		grid-template-columns: 4rem auto 4rem;
 		grid-auto-rows: 100%;
 		align-items: center;
 		position: relative;
@@ -42,5 +42,9 @@ export default {
 
 	.nav-item.left {
 		grid-column-start: 1;
+	}
+
+	.menu-icon {
+		opacity: 0.7;
 	}
 </style>
