@@ -1,21 +1,11 @@
 <template>
-	<div class="session-view">
-		
-		<div class="session-number">
-			<pomo-cycle></pomo-cycle>
-		</div>
 		<div class="session-name">
 			{{currentSessionType}}
 		</div>
-	</div>
 </template>
 
 <script>
-import PomoCycle from './PomoCycle'
 export default {
-	components: {
-		PomoCycle
-	},
 	computed: {
 		currentSessionType() {
 			return this.$store.state.currentSession.sessionType;

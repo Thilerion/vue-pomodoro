@@ -4,10 +4,10 @@
 			<pomo-nav></pomo-nav>
 		</nav>
 		<main>
-			<pomo-session></pomo-session>
-			<pomo-time-view></pomo-time-view>
-			<div></div>
-			<pomo-controls></pomo-controls>
+			<pomo-session class="grid-session"></pomo-session>
+			<pomo-cycle class="grid-cycle"></pomo-cycle>
+			<pomo-time-view class="grid-time"></pomo-time-view>
+			<pomo-controls class="grid-controls"></pomo-controls>
 		</main>	
 	</div>
 </template>
@@ -17,13 +17,15 @@ import PomoNav from "./components/PomoNav";
 import PomoTimeView from "./components/PomoTimeView";
 import PomoControls from "./components/PomoControls";
 import PomoSession from './components/PomoSession';
+import PomoCycle from './components/PomoCycle';
 export default {
 	name: "app",
 	components: {
 		PomoNav,
 		PomoTimeView,
 		PomoControls,
-		PomoSession
+		PomoSession,
+		PomoCycle
 	},
 	beforeCreate() {
 		this.$store.dispatch('initializeTimer');
@@ -100,7 +102,24 @@ body {
 
 main {
 	display: grid;
-	grid-template-rows: 10rem auto 5rem 10rem;
+	grid-template-rows: repeat(10, auto);
 	align-items: center;
+	height: 100%;
+}
+
+.grid-session {
+	grid-row: 2;
+}
+
+.grid-cycle {
+	grid-row: 7;
+}
+
+.grid-time {
+	grid-row: 6;
+}
+
+.grid-controls {
+  grid-row: 10 / -2;
 }
 </style>
