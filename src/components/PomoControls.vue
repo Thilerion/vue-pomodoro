@@ -51,13 +51,12 @@ export default {
 	.state-button {
 		border-radius: 50%;
 		border: none;
-		background: transparent;
 		margin: 0 0.8rem;
+		background: none;
 	}
 
 	.state-button.large {
-		border: 3px solid;
-		background-color: rgba(255,255,255,0.2);
+		opacity: 0.85;
 	}
 
 	.state-button.small {
@@ -69,6 +68,6 @@ export default {
 	}
 
 	.state-button.large i {
-		font-size: 48px;
+		font-size: 5em;
 	}
 </style>
