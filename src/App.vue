@@ -1,5 +1,5 @@
 <template>
-	<div id="app" class="theme-clear-mirror">
+	<div id="app" class="theme-dark">
 		<nav>
 			<pomo-nav></pomo-nav>
 		</nav>
@@ -89,6 +89,10 @@ export default {
 #app {
 	display: grid;
 	grid-template-rows: 4rem auto;
+}
+
+i, button {
+	color: inherit;
 }
 
 html {
