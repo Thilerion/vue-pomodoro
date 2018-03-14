@@ -1,5 +1,5 @@
 <template>
-	<div id="app" class="theme-dark">
+	<div id="app" class="theme-darker">
 		<nav>
 			<pomo-nav></pomo-nav>
 		</nav>
@@ -51,8 +51,14 @@ export default {
  	background-blend-mode: multiply,multiply;
 }
 
+.theme-darker {
+	color: rgb(250, 250, 250);
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0,0,0,0.2) 100%), radial-gradient(at top center, rgba(255,255,255,0.10) 20%, rgba(0,0,0,0.8) 120%) #757575; 
+ 	background-blend-mode: multiply,multiply;
+}
+
 .theme-light {
-	color: rgba(0,0,0,0.8);
+	color: rgb(34, 34, 34);
 	background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
 }
 

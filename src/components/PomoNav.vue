@@ -53,6 +53,5 @@ h1 {
 
 .menu-icon {
 	width: 28px;
-	opacity: 0.8;
 }
 </style>

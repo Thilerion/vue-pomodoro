@@ -56,11 +56,11 @@ export default {
 	}
 
 	.state-button.large {
-		opacity: 0.85;
+		opacity: 0.9;
 	}
 
 	.state-button.small {
-		opacity: 0.7;
+		opacity: 0.8;
 	}
 	
 	.state-button i {

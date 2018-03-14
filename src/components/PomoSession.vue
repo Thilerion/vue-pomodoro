@@ -19,6 +19,5 @@ export default {
 	font-size: 1.3rem;
 	border: 2px 0 2px 0 solid;
 	text-transform: capitalize;
-	opacity: 0.8;
 }
 </style>
