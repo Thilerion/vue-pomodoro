@@ -16,7 +16,37 @@
 				
 			</div>
 			<div class="main">
-				One setting two setting
+				<div class="input-group-large">
+					<p class="input-label">Durations</p>
+					<div class="input-group">
+						<p class="input-label">Focus</p>
+						<input type="range">
+					</div>
+					<div class="input-group">
+						<p class="input-label">Short</p>
+						<input type="range">
+					</div>						
+					<div class="input-group">
+						<p class="input-label">Long</p>
+						<input type="range">
+					</div>
+				</div>
+				<div class="input-group">
+					<p class="input-label">Sessions per cycle</p>
+					<input type="range">
+				</div>
+				<div class="input-group">
+					<p class="input-label">Autoplay</p>
+					<input type="checkbox">
+				</div>
+				<div class="input-group">
+					<p class="input-label">Sound</p>
+					<input type="checkbox">
+				</div>
+				<div class="input-group">
+					<p class="input-label">Timer speed</p>
+					<input type="range">
+				</div>
 			</div>
 		</div>
 	</transition>
@@ -104,5 +134,35 @@ svg.close-icon {
 	margin-bottom: 1rem;
 	text-align: left;
 	overflow-y: scroll;
+	align-self: center;
+	width: 80%;
+}
+
+.input-group {
+	padding-bottom: 1rem;
+}
+
+.input-label {
+	font-size: 1.2rem;
+	padding-bottom: 0.4rem;
+	line-height: 2;
+}
+
+.input-group-large > .input-group {
+	padding-left: 2rem;
+}
+
+.input-group-large > .input-label {
+	padding-bottom: 0;
+}
+
+.input-group-large .input-group .input-label {
+	font-size: 1rem;
+}
+
+input[type="range"] {
+	width: 60vw;
+	min-width: 150px;
+	max-width: 350px;
 }
 </style>
