@@ -1,5 +1,8 @@
 <template>
 	<div id="app" class="theme-darker">
+		<div class="overlays">
+			<pomo-settings></pomo-settings>
+		</div>
 		<nav>
 			<pomo-nav></pomo-nav>
 		</nav>
@@ -21,6 +24,7 @@ import PomoTimeView from "./components/PomoTimeView";
 import PomoControls from "./components/PomoControls";
 import PomoSession from './components/PomoSession';
 import PomoCycle from './components/PomoCycle';
+import PomoSettings from './components/PomoSettings';
 export default {
 	name: "app",
 	components: {
@@ -28,7 +32,8 @@ export default {
 		PomoTimeView,
 		PomoControls,
 		PomoSession,
-		PomoCycle
+		PomoCycle,
+		PomoSettings
 	},
 	beforeCreate() {
 		this.$store.dispatch('initializeTimer');
@@ -166,5 +171,11 @@ html {
 
 body {
 	min-height: 100%;
+}
+
+.overlays {
+	position: absolute;
+	height: 100%;
+	width: 100%;
 }
 </style>

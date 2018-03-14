@@ -4,7 +4,7 @@
 			<h1>Simple Pomodoro</h1>
 		</div>
 		<div class="nav-item right">
-			<button class="settings-button">
+			<button class="settings-button" @click="toggleSettings">
 				<!-- MENU ICON 
 				<svg class="menu-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 53 53" style="enable-background:new 0 0 53 53;" xml:space="preserve">
 					<g>
@@ -26,7 +26,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+	methods: {
+		toggleSettings() {
+			this.$store.commit('toggleSettings');
+		}
+	}
+};
 </script>
 
 <style scoped>

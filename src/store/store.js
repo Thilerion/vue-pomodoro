@@ -34,7 +34,8 @@ export const store = new Vuex.Store({
 		sessionNumber: 0,
 		sessionsPerCycle: 4,
 		sessionHistory: [[]],
-		timeoutId: null
+		timeoutId: null,
+		settingsOpen: false
 	},
 	getters: {
 		cycleArray(state) {
@@ -173,6 +174,9 @@ export const store = new Vuex.Store({
 		nextCycle(state) {
 			state.sessionNumber = 0;
 			state.sessionHistory.push([]);
+		},
+		toggleSettings(state) {
+			state.settingsOpen = !state.settingsOpen;
 		}
 	},
 	actions: {
