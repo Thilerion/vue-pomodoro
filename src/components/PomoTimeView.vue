@@ -48,7 +48,7 @@ export default {
 				}
 			}
 			let x = (endValue - startValue);
-			let tweenLength = 1.1*((x*Math.sqrt(x))/x);
+			let tweenLength = 1.1*((x*Math.sqrt(x))/x );
 			console.log("Calculated tween length: " + tweenLength);
 			let adjTweenLength = Math.floor(Math.min(Math.max(tweenLength, 100), 1500));
 			console.log("Tween length: " + adjTweenLength);

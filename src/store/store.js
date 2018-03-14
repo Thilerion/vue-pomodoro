@@ -17,7 +17,7 @@ export const store = new Vuex.Store({
 		initialized: false,
 		settings: {
 			autoPlay: false,
-			speed: 20000
+			speed: 1500
 		},
 		currentSession: {
 			sessionType: null,
@@ -64,7 +64,7 @@ export const store = new Vuex.Store({
 		},
 		nextTimeoutDuration(state, getters) {
 			if (state.settings.speed !== 1) {
-				return Math.max(1000 / (state.settings.speed), 4);
+				return Math.max(1000 / (state.settings.speed/Math.sqrt(8* state.settings.speed)), 50);
 			} 
 			let normalTime = 1000; //ms
 			let roundedDiff = getters.timeRemaining - getters.timeRemainingSeconds;
@@ -159,6 +159,7 @@ export const store = new Vuex.Store({
 			console.log(state.currentSession.pauses);
 		},
 		clearTimeout(state) {
+			clearTimeout(state.timeoutId);
 			state.timeoutId = null;
 		},
 		logSession(state, sesLog) {
