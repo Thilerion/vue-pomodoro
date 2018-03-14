@@ -4,9 +4,12 @@
 			<pomo-nav></pomo-nav>
 		</nav>
 		<main>
-			<pomo-session class="grid-session"></pomo-session>
+			<div class="main-wrapper">
+<pomo-session class="grid-session"></pomo-session>
 			<pomo-cycle class="grid-cycle"></pomo-cycle>
 			<pomo-time-view class="grid-time"></pomo-time-view>
+			</div>
+			
 		</main>	
 		<pomo-controls class="controls"></pomo-controls>
 	</div>
@@ -109,12 +112,23 @@ nav {
 }
 
 main {
-	flex: 1 1 auto;
-	max-height: 100%;
+	flex: 1;
+	position: relative;
+	min-height: 300px;
+	
+}
+
+.main-wrapper {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
 	height: 100%;
+	max-height: 100%;
 	display: grid;
 	grid-template-columns: 1fr;
-	grid-auto-rows: minmax(3rem, min-content);
+	grid-template-rows: repeat(10, minmax(10%, max-content));
 }
 
 .grid-session {
@@ -126,7 +140,7 @@ main {
 }
 
 .grid-time {
- 	grid-row: 6;
+ 	grid-row: 5 / span 2 ;
 }
 
 i, button {
