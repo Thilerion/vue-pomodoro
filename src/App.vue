@@ -53,7 +53,7 @@ export default {
 
 .theme-darker {
 	color: rgb(250, 250, 250);
-	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0,0,0,0.2) 100%), radial-gradient(at top center, rgba(255,255,255,0.10) 20%, rgba(0,0,0,0.8) 120%) #757575; 
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 50%, rgba(0,0,0,0.2) 100%), radial-gradient(at 50% 20%, rgba(184, 184, 184, 0.027) 0%, rgba(0,0,0,0.8) 150%) #757575; 
  	background-blend-mode: multiply,multiply;
 }
 
@@ -99,6 +99,15 @@ export default {
 
 i, button {
 	color: inherit;
+}
+
+button {
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: none;
+	outline: none;
+	cursor: pointer;
 }
 
 svg {
