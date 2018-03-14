@@ -267,7 +267,8 @@ export const store = new Vuex.Store({
 			commit('timerTick');
 			dispatch('runInterval');
 		},
-		pauseTimer({ commit, dispatch }) {
+		pauseTimer({ state, commit, dispatch }) {
+			if (state.currentSession.state.running === false) return;
 			commit('setTimerState', { running: false });
 			commit('addPause');
 			commit('timerTick');
