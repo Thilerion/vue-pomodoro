@@ -9,15 +9,15 @@ import formatDuration from '@/utils/format-duration';
 export const store = new Vuex.Store({
 	state: {
 		durations: {
-			focus: 8000,
-			short: 5000,
-			long: 6000
+			focus: 25 * (60 * 1000),
+			short: 5 * (60 * 1000),
+			long: 20 * (60 * 1000)
 		},
 		sessions: ["focus", "short", "long"],
 		initialized: false,
 		settings: {
 			autoPlay: false,
-			speed: 1
+			speed: 20000
 		},
 		currentSession: {
 			sessionType: null,
@@ -50,10 +50,10 @@ export const store = new Vuex.Store({
 			return arr;
 		},
 		timePassed(state, getters) {
-			return state.currentSession.lastTick - state.currentSession.startTime - getters.pausesLength;
+			return (state.currentSession.lastTick - state.currentSession.startTime - getters.pausesLength);
 		},
 		timeRemaining(state, getters) {
-			return state.currentSession.duration - getters.timePassed;
+			return (state.currentSession.duration - getters.timePassed) * state.settings.speed;
 		},
 		timeRemainingSeconds(state, getters) {
 			return Math.ceil(getters.timeRemaining / 1000) * 1000;
@@ -63,6 +63,9 @@ export const store = new Vuex.Store({
 			return formatDuration(t, "mm:ss");
 		},
 		nextTimeoutDuration(state, getters) {
+			if (state.settings.speed !== 1) {
+				return Math.max(1000 / (state.settings.speed), 4);
+			} 
 			let normalTime = 1000; //ms
 			let roundedDiff = getters.timeRemaining - getters.timeRemainingSeconds;
 			let nextDelay = normalTime + roundedDiff;
@@ -180,7 +183,7 @@ export const store = new Vuex.Store({
 		},
 		initNewSession({getters, state, commit}) {
 			let nextSessionType = getters.cycleArray[state.sessionNumber];
-			let nextSessionDur = state.durations[nextSessionType];
+			let nextSessionDur = state.durations[nextSessionType] / state.settings.speed;
 			let nextSessionObject = new Session(nextSessionType, nextSessionDur);
 			commit('setNewCurrentSession', nextSessionObject);
 		},

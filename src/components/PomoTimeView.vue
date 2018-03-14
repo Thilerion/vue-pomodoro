@@ -47,15 +47,17 @@ export default {
 					requestAnimationFrame(animate);
 				}
 			}
-			let tweenLength = (endValue - startValue) / 475;
-			let adjTweenLength = Math.min(Math.max(tweenLength, 0), 750);
-			if (adjTweenLength < 100) adjTweenLength = 0;
+			let x = (endValue - startValue);
+			let tweenLength = 1.1*((x*Math.sqrt(x))/x);
+			console.log("Calculated tween length: " + tweenLength);
+			let adjTweenLength = Math.floor(Math.min(Math.max(tweenLength, 100), 1500));
+			console.log("Tween length: " + adjTweenLength);
 			new TWEEN.Tween({tweeningValue: startValue})
 			.to({tweeningValue: endValue}, adjTweenLength)
 			.onUpdate(function (object) {
 				vm.tweenedNumber = object.tweeningValue.toFixed(0)
 			})
-			.easing(TWEEN.Easing.Quadratic.InOut)
+			.easing(TWEEN.Easing.Quadratic.In)
 			.onComplete(function() {
 				console.log("Tween complete!");
 				vm.$store.dispatch('loadNextSession');
