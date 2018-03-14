@@ -55,9 +55,8 @@ export default {
 }
 
 .theme-darker {
-	color: rgb(250, 250, 250);
-	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 50%, rgba(0,0,0,0.2) 100%), radial-gradient(at 50% 20%, rgba(184, 184, 184, 0.027) 0%, rgba(0,0,0,0.8) 150%) #757575; 
- 	background-blend-mode: multiply,multiply;
+	color: #eee;
+	background-image: linear-gradient(60deg, #171c20 0%, #343c44 100%);
 }
 
 .theme-light {
