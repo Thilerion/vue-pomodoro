@@ -19,6 +19,9 @@
 </template>
 
 <script>
+import NoSleep from 'nosleep.js'
+const noSleep = new NoSleep();
+
 import PomoNav from "./components/PomoNav";
 import PomoTimeView from "./components/PomoTimeView";
 import PomoControls from "./components/PomoControls";
@@ -40,6 +43,19 @@ export default {
 		console.log("Vue instance, before create, initialized the timer in Vuex store.");
 	}
 };
+
+document.addEventListener('click', () => {enableNoSleep();}, false);
+document.addEventListener('touchstart', () => {enableNoSleep();}, false);
+
+const enableNoSleep = () => {
+	if (noSleep.noSleepVideo.paused === false) {
+		return;
+	};
+	noSleep.enable();
+	console.log("No sleep enabled");
+	document.removeEventListener('click', enableNoSleep, false);
+	document.removeEventListener('touchstart', enableNoSleep, false);
+}
 </script>
 
 <style>
