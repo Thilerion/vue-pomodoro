@@ -15,6 +15,9 @@
 				</div>
 				
 			</div>
+			<div class="main">
+				One setting two setting
+			</div>
 		</div>
 	</transition>
 </template>
@@ -42,6 +45,8 @@ export default {
 	width: 100%;
 	background: rgb(32, 32, 32);
 	transform-origin: calc(100% - 2rem) 2.8rem;
+	display: flex;
+	flex-direction: column;
 }
 
 h2 {
@@ -57,6 +62,7 @@ h2 {
 	grid-auto-rows: 100%;
 	align-items: center;
 	position: relative;
+	flex: 0 0 auto;
 }
 
 .center {
@@ -90,5 +96,13 @@ svg.close-icon {
 .fade-enter, .fade-leave-to {
 	transform: scale(0.3);	
 	opacity: 0;	
+}
+
+.main {
+	flex: 1;
+	padding: 0 1rem;
+	margin-bottom: 1rem;
+	text-align: left;
+	overflow-y: scroll;
 }
 </style>
