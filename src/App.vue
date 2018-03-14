@@ -61,7 +61,7 @@ export default {
 
 .theme-darker {
 	color: hsl(210, 50%, 93%);
-	background-image: linear-gradient(60deg, hsl(207, 40%, 8%) 0%, hsl(210, 15%, 20%) 100%);
+	background-image: linear-gradient(60deg, hsl(207, 40%, 8%) 0%, hsl(208, 15%, 20%) 100%);
 }
 
 .theme-light {
