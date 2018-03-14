@@ -56,7 +56,8 @@
 export default {
 	data() {
 		return {
-			settings: {}
+			settings: {},
+			settingsPreChange: {}
 		}
 	},
 	computed: {
@@ -88,21 +89,24 @@ export default {
 			}
 			console.log(s);
 			this.$store.commit('saveSettings', s);
-			this.$store.dispatch('initNewSession');
 		}
 	},
 	watch: {
-		settingsOpen(newValue) {
+		settingsOpen(newValue, oldValue) {
 			console.log("Settings changed to: " + newValue);
+			console.log(JSON.stringify(this.settings), JSON.stringify(this.settingsPreChange));
 			if (newValue === true) {
+				this.$store.dispatch('pauseTimer');
 				this.settings = Object.assign({}, this.settings, this.getSettings);
-			} else if (newValue === false) {
+			} else if (newValue === false && JSON.stringify(this.settings) !== JSON.stringify(this.settingsPreChange)) {
+				console.log("Going to save the new settings now.");
 				this.saveSettings();
 			}
 		}
 	},
 	beforeMount() {
 		this.settings = Object.assign({}, this.settings, this.getSettings);
+		this.settingsPreChange = Object.assign({}, this.settings, this.getSettings);
 	}
 }
 </script>

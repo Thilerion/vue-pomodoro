@@ -32,6 +32,18 @@ export const store = new Vuex.Store({
 			lastTick: null,
 			startTime: null
 		},
+		currentSessionInitial: {
+			sessionType: null,
+			duration: null,
+			pauses: [],
+			state: {
+				started: false,
+				running: false,
+				finished: false
+			},
+			lastTick: null,
+			startTime: null
+		},
 		sessionNumber: 0,
 		sessionsPerCycle: 4,
 		sessionHistory: [[]],
@@ -66,7 +78,7 @@ export const store = new Vuex.Store({
 		},
 		nextTimeoutDuration(state, getters) {
 			if (state.settings.speed !== 1) {
-				return Math.max(1000 / (state.settings.speed/Math.sqrt(8* state.settings.speed)), 50);
+				return Math.round(Math.max(1000 / (state.settings.speed/Math.sqrt(8* state.settings.speed)), 50));
 			} 
 			let normalTime = 1000; //ms
 			let roundedDiff = getters.timeRemaining - getters.timeRemainingSeconds;
@@ -152,6 +164,13 @@ export const store = new Vuex.Store({
 		},
 		setNewCurrentSession(state, sessionObject) {
 			state.currentSession = Object.assign({}, state.currentSession, sessionObject);
+			state.currentSessionInitial = Object.assign({}, state.currentSession);
+		},
+		resetSession(state) {
+			let pauses = [];
+			let init = Object.assign({}, state.currentSessionInitial);
+			init.pauses = pauses;
+			state.currentSession = Object.assign({}, init);
 		},
 		setTimerStartTime(state) {
 			state.currentSession.startTime = Date.now();
@@ -215,6 +234,10 @@ export const store = new Vuex.Store({
 			let nextSessionDur = state.durations[nextSessionType] / state.settings.speed;
 			let nextSessionObject = new Session(nextSessionType, nextSessionDur);
 			commit('setNewCurrentSession', nextSessionObject);
+		},
+		resetSession({ state, commit, dispatch }) {
+			commit('clearTimeout');
+			commit('resetSession');
 		},
 		startTimer({ state, commit, dispatch }) {			
 			commit('setTimerState', { started: true, running: true });
