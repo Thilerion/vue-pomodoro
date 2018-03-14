@@ -7,8 +7,8 @@
 			<pomo-session class="grid-session"></pomo-session>
 			<pomo-cycle class="grid-cycle"></pomo-cycle>
 			<pomo-time-view class="grid-time"></pomo-time-view>
-			<pomo-controls class="grid-controls"></pomo-controls>
 		</main>	
+		<pomo-controls class="controls"></pomo-controls>
 	</div>
 </template>
 
@@ -93,8 +93,40 @@ export default {
 }
 
 #app {
+	display: flex;
+	flex-direction: column;
+}
+
+nav {
+	flex: 0 0 auto;
+}
+
+.controls {
+	flex: 0 0 auto;
+	padding: 1.5rem 0;
+	width: 80%;
+	margin: auto;
+}
+
+main {
+	flex: 1 1 auto;
+	max-height: 100%;
+	height: 100%;
 	display: grid;
-	grid-template-rows: 4rem auto;
+	grid-template-columns: 1fr;
+	grid-auto-rows: minmax(3rem, min-content);
+}
+
+.grid-session {
+	grid-row: 2;
+}
+
+.grid-cycle {
+	grid-row: 8;
+}
+
+.grid-time {
+ 	grid-row: 6;
 }
 
 i, button {
@@ -121,28 +153,5 @@ html {
 
 body {
 	min-height: 100%;
-}
-
-main {
-	display: grid;
-	grid-template-rows: repeat(10, auto);
-	align-items: center;
-	height: 100%;
-}
-
-.grid-session {
-	grid-row: 2;
-}
-
-.grid-cycle {
-	grid-row: 7;
-}
-
-.grid-time {
-	grid-row: 6;
-}
-
-.grid-controls {
-  grid-row: 10 / -2;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
 		<div class="session-name">
-			{{currentSessionType}}
+			<span>
+				{{currentSessionType}}
+			</span>
 		</div>
 </template>
 
@@ -19,5 +21,10 @@ export default {
 	font-size: 1.3rem;
 	border: 2px 0 2px 0 solid;
 	text-transform: capitalize;
+	display: flex;
+}
+
+.session-name span {
+	margin: auto;
 }
 </style>

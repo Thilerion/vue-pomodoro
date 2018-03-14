@@ -86,5 +86,6 @@ export default {
 	font-family: "Source Sans Pro", sans-serif;
 	font-weight: 300;
 	letter-spacing: 3px;
+	line-height: 1;
 }
 </style>
