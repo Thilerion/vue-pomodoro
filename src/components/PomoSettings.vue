@@ -20,32 +20,32 @@
 					<p class="input-label">Durations</p>
 					<div class="input-group">
 						<p class="input-label">Focus</p>
-						<input type="range">
+						<input type="range" v-model="settings.durFocus" min="10" max="60">
 					</div>
 					<div class="input-group">
 						<p class="input-label">Short</p>
-						<input type="range">
+						<input type="range" v-model="settings.durShort" min="1" max="15">
 					</div>						
 					<div class="input-group">
 						<p class="input-label">Long</p>
-						<input type="range">
+						<input type="range" v-model="settings.durLong" min="10" max="60">
 					</div>
 				</div>
 				<div class="input-group">
-					<p class="input-label">Sessions per cycle</p>
-					<input type="range">
+					<p class="input-label">Focus session until long break</p>
+					<input type="range" v-model="settings.sessionsPerCycle" min="2" max="10">
 				</div>
 				<div class="input-group">
 					<p class="input-label">Autoplay</p>
-					<input type="checkbox">
+					<input type="checkbox" v-model="settings.autoPlay">
 				</div>
 				<div class="input-group">
 					<p class="input-label">Sound</p>
-					<input type="checkbox">
+					<input type="checkbox" v-model="settings.sound">
 				</div>
 				<div class="input-group">
-					<p class="input-label">Timer speed</p>
-					<input type="range">
+					<p class="input-label">Multiply speed</p>
+					<input type="range" v-model="settings.speed" min="0" max="15" step="1">
 				</div>
 			</div>
 		</div>
@@ -54,15 +54,55 @@
 
 <script>
 export default {
+	data() {
+		return {
+			settings: {}
+		}
+	},
 	computed: {
 		settingsOpen() {
 			return this.$store.state.settingsOpen;
+		},
+		getSettings() {
+			let s = this.$store.getters.settings;
+			s.speed = Math.round(s.speed / 100);
+			return s;
 		}
 	},
 	methods: {
 		toggleSettings() {
 			this.$store.commit('toggleSettings');
+		},
+		saveSettings() {
+			let s = {};
+			s = Object.assign({}, s, this.settings);
+			s.speed = Math.max(Math.round((s.speed) * 100), 1);
+			s.durLong *= 60 * 1000;
+			s.durShort *= 60 * 1000;
+			s.durFocus *= 60 * 1000;
+			
+			for (let key in s) {
+				if (typeof s[key] === "string") {
+					s[key] = parseInt(s[key]);
+				}
+			}
+			console.log(s);
+			this.$store.commit('saveSettings', s);
+			this.$store.dispatch('initNewSession');
 		}
+	},
+	watch: {
+		settingsOpen(newValue) {
+			console.log("Settings changed to: " + newValue);
+			if (newValue === true) {
+				this.settings = Object.assign({}, this.settings, this.getSettings);
+			} else if (newValue === false) {
+				this.saveSettings();
+			}
+		}
+	},
+	beforeMount() {
+		this.settings = Object.assign({}, this.settings, this.getSettings);
 	}
 }
 </script>
@@ -135,7 +175,7 @@ svg.close-icon {
 	text-align: left;
 	overflow-y: scroll;
 	align-self: center;
-	width: 80%;
+	width: 70%;
 }
 
 .input-group {
@@ -161,8 +201,6 @@ svg.close-icon {
 }
 
 input[type="range"] {
-	width: 60vw;
-	min-width: 150px;
-	max-width: 350px;
+	width: 100%;
 }
 </style>

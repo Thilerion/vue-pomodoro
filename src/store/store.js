@@ -17,7 +17,8 @@ export const store = new Vuex.Store({
 		initialized: false,
 		settings: {
 			autoPlay: false,
-			speed: 1500
+			speed: 1,
+			sound: false
 		},
 		currentSession: {
 			sessionType: null,
@@ -132,6 +133,17 @@ export const store = new Vuex.Store({
 		focusSessionStates(state, getters) {
 			let arr = getters.currentCycleSessionStates;
 			return arr.filter(sess => sess.sessionType === "focus");
+		},
+		settings(state) {
+			return {
+				autoPlay: state.settings.autoPlay,
+				speed: state.settings.speed,
+				durFocus: state.durations.focus / 60000,
+				durShort: state.durations.short / 60000,
+				durLong: state.durations.long / 60000,
+				sessionsPerCycle: state.sessionsPerCycle,
+				sound: state.settings.sound
+			}
 		}
 	},
 	mutations: {
@@ -177,6 +189,18 @@ export const store = new Vuex.Store({
 		},
 		toggleSettings(state) {
 			state.settingsOpen = !state.settingsOpen;
+		},
+		saveSettings(state, s) {
+			console.log("Settings received!");
+			console.log(s);
+			
+			state.settings.autoPlay = s.autoplay;
+			state.settings.speed = s.speed;
+			state.settings.sound = s.sound;
+			state.durations.focus = s.durFocus;
+			state.durations.short = s.durShort;
+			state.durations.long = s.durLong;
+			state.sessionsPerCycle = s.sessionsPerCycle;
 		}
 	},
 	actions: {
