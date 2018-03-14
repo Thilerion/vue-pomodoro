@@ -126,7 +126,7 @@ nav {
 
 .controls {
 	flex: 0 0 auto;
-	padding: 1.5rem 0;
+	padding: 0.2rem 0;
 	width: 80%;
 	margin: auto;
 }
@@ -156,11 +156,12 @@ main {
 }
 
 .grid-cycle {
-	grid-row: 8;
+	grid-row: 8 / span 1;
+	align-self: center;
 }
 
 .grid-time {
- 	grid-row: 5 / span 2 ;
+ 	grid-row: 4 / span 4 ;
 }
 
 i, button {
