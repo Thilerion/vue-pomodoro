@@ -1,7 +1,7 @@
 <template>
 	<div class="time-view">
 		<div class="time-display">
-			<!--{{timeDisplay}}-->
+			{{timeDisplay | formatDuration}}
 		</div>
 	</div>
 </template>
@@ -13,10 +13,10 @@ import formatDuration from '@/utils/format-duration';
 export default {
 	computed: {
 		timeRemaining() {
-			return this.$store.getters.timeRemainingFormatted;
+			return this.$store.getters.currentSessionTimeRemaining;
 		},
 		currentSessionFinished() {
-			return; //this.$store.getters.currentState.finished;
+			return this.$store.getters.currentSessionState.finished;
 		},
 		timeDisplay() {
 			if (this.currentSessionFinished === false) {
@@ -71,6 +71,9 @@ export default {
 		return {
 			tweenedNumber: 0
 		}
+	},
+	filters: {
+		formatDuration
 	}
 }
 </script>

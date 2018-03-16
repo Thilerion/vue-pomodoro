@@ -14,6 +14,7 @@ const sessionTypes = {
 };
 
 export const store = new Vuex.Store({
+	strict: true,
 	state: {
 		settings: {
 			durations: {
@@ -44,7 +45,7 @@ export const store = new Vuex.Store({
 			return arr;
 		},
 		sessionTypeDuration: state => sessionName => {
-			return state.settings.durations[sessionName];
+			return state.settings.durations[sessionName] / state.settings.speed;
 		},
 		sessionName: (state, getters) => sessionId => {
 			return getters.cycleArray[sessionId];
@@ -63,6 +64,37 @@ export const store = new Vuex.Store({
 		},
 		nextSessionName: (state, getters) => {
 			return getters.sessionName(getters.nextSessionId);
+		},
+		currentSession: (state, getters) => {
+			return state.cycles[getters.currentCycleId][getters.currentSessionId];
+		},
+		currentSessionState: (state, getters) => {
+			let s = getters.currentSession;
+			return {
+				finished: s.finished,
+				started: s.started,
+				running: s.running
+			}
+		},
+		timePaused: (state, getters) => (session) => {
+			let pauses = session.pauses;
+			return pauses.reduce((acc, val) => {
+				if (val.end === null) {
+					return (Date.now() - val.start) + acc;
+				};
+				return (val.end - val.start) + acc;
+			}, 0);
+		},
+		currentSessionTimePaused: (state, getters) => {
+			return getters.timePaused(getters.currentSession);
+		},
+		currentSessionTimePassed: (state, getters) => {
+			let s = getters.currentSession;
+			return s.lastTick - s.startTime;
+		},
+		currentSessionTimeRemaining: (state, getters) => {
+			let s = getters.currentSession;
+			return s.duration - getters.currentSessionTimePassed + getters.currentSessionTimePaused;
 		}
 	},
 	mutations: {
