@@ -29,24 +29,10 @@ export const store = new Vuex.Store({
 			settingsOpen: false
 		},
 		initialized: false,
-		cycles: [[]],
-		cyclesObj: {
-			0: {
-				0: {
-					type: null,
-					duration: null,
-					pauses: [],
-					started: false,
-					running: false,
-					finished: false,
-					startTime: null,
-					lastTick: null
-				}
-			}
-		},
-		currentSessionId: 0,
-		currentCycleId: 0,
-		timeoutId: null
+		sessionId: null,
+		cycleId: 0,
+		timeoutId: null,
+		currentSession: new Session()
 	},
 	getters: {
 		cycleArray: state => {
@@ -60,69 +46,36 @@ export const store = new Vuex.Store({
 			}
 			return arr;
 		},
-		sessionTypeDuration: state => sessionName => {
-			return state.settings.durations[sessionName] / state.settings.speed;
-		},
-		sessionName: (state, getters) => sessionId => {
-			return getters.cycleArray[sessionId];
-		},
-		nextSessionId: (state, getters) => {
-			return (state.currentSessionId + 1) % state.settings.cycleLength;
-		},
-		isCycleFinished: (state, getters) => {
-			return state.currentSessionId + 1 >= state.settings.cycleLength;
-		},
-		nextSessionName: (state, getters) => {
-			let id;
-			if (getters.nextSessionId == null) id = 0;
-			else id = getters.nextSessionId;
-			return getters.sessionName(id);
-		},
-		currentSession: (state) => {
-			return state.cyclesObj[state.currentCycleId][state.currentSessionId];
-		},
-		sessionFinished: (state, getters) => {
-			return getters.currentSession.finished;
-		},
-		sessionStarted: (state, getters) => {
-			return getters.currentSession.started;
-		},
-		sessionRunning: (state, getters) => {
-			return getters.currentSession.running;
-		},
-		timePaused: (state, getters) => (session) => {
-			let pauses = session.pauses;
-			return pauses.reduce((acc, val) => {
-				if (val.end === null) {
-					return (Date.now() - val.start) + acc;
-				};
-				return (val.end - val.start) + acc;
-			}, 0);
-		},
-		currentSessionTimePaused: (state, getters) => {
-			return getters.timePaused(getters.currentSession);
-		},
-		currentSessionTimePassed: (state, getters) => {
-			let s = getters.currentSession;
-			return s.lastTick - s.startTime;
-		},
-		currentSessionTimeRemaining: (state, getters) => {
-			let s = getters.currentSession;
-			return s.duration - getters.currentSessionTimePassed + getters.currentSessionTimePaused;
-		}
+		sessionTypeDuration: state => sessionName => state.settings.durations[sessionName] / state.settings.speed,
+		sessionName: (state, getters) => sessionId => getters.cycleArray[sessionId],
+		currentCycleId: state => state.cycleId,
+		currentSessionId: state => state.sessionId,
+		nextSessionId: (state, getters) => getters.currentSessionId + 1,
+		isCycleFinished: (state, getters) => getters.nextSessionId >= state.settings.cycleLength,
+		nextSessionName: (state, getters) => getters.sessionName(getters.nextSessionId),
+		currentSession: state => state.currentSession,
+		sessionFinished: state => state.currentSession.finished,
+		sessionStarted: state => state.currentSession.started,
+		sessionRunning: state => state.currentSession.running,
+		timePaused: (state, getters) => (session) => session.pauses.reduce(pauseReducer, 0),
+		currentSessionTimePaused: (state, getters) => getters.timePaused(state.currentSession),
+		currentSessionTimePassed: state => state.lastTick - state.startTime,
+		currentSessionTimeRemaining: (state, getters) => state.currentSession.duration - getters.currentSessionTimePassed + getters.currentSessionTimePaused
 	},
 	mutations: {
-		setNewSession(state, { sessionObj, cycleId, sessId }) {
-			let newObj = {};
-			newObj[sessId] = sessionObj;
-			state.cyclesObj[cycleId] = Object.assign({}, state.cyclesObj[cycleId], newObj);
-			console.log(state.cyclesObj);
+		setNewSession(state, sessionObj) {
+			state.cyclesObj[state.cycleId][state.sessionId] = Object.assign({}, state.cyclesObj[state.cycleId][state.sessionId], sessionObj);
+			console.log(state.cyclesObj[state.cycleId][state.sessionId]);
 		},
 		setInitialized: state => state.initialized = true,
 		setNewCycle: state => state.cycles.push([]),
 		updateSession: (state, { updatedValues, s, c }) => {
 			let updated = { ...state.cycles[c][s], ...updatedValues };
 			state.cycles[c].splice(s, 1, updated);
+		},
+		addSessionId: state => {
+			if (state.sessionId == null) state.sessionId = 0;
+			else state.sessionId += 1;
 		}
 	},
 	actions: {
@@ -134,16 +87,15 @@ export const store = new Vuex.Store({
 		createNewSession({ state, commit, getters }) {
 			let n = getters.nextSessionName;
 			let d = getters.sessionTypeDuration(n);
-			let sessId = state.currentSessionId + 1;
-			let cycleId = state.currentCycleId;
 			let sess = new Session(n, d);
-			commit('setNewSession', { sessionObj: sess, cycleId, sessId });
+			commit('setNewSession', sess);
 		},
 		initNewSession({ getters, dispatch, commit }) {
 			if (getters.isCycleFinished === true) {
 				commit('setNewCycle');
 			}
 			dispatch('createNewSession');
+			commit('addSessionId');
 		},
 		startTimer({ state, getters, commit, dispatch }) {
 			let s = getters.currentSessionId, c = getters.currentCycleId;
@@ -172,13 +124,18 @@ export const store = new Vuex.Store({
 	}	
 });
 
+const pauseReducer = (acc, val) => {
+	if (val.end === null) return (Date.now() - val.start) + acc;
+	else return (val.end - val.start) + acc;
+}
+
 //DEBUG TEST ARRAY
 /*
-store.commit('setInitialized');
-for (let i = 0; i < 15; i++) {
+setInterval(() => {
+	store.dispatch('initializeTimer');
 	store.dispatch('initNewSession');
-}
-*/
+}, 2000);
+
 /*
 //DEBUG START TIMER
 
