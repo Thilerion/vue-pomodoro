@@ -1,7 +1,7 @@
 <template>
 	<div id="app" class="theme-darker">
-		<!--<div class="overlays">
-			<pomo-settings></pomo-settings>
+		<div class="overlays">
+			<!--<pomo-settings></pomo-settings>-->
 		</div>
 		<nav>
 			<pomo-nav></pomo-nav>
@@ -14,7 +14,7 @@
 			</div>
 			
 		</main>	
-		<pomo-controls class="controls"></pomo-controls>-->
+		<pomo-controls class="controls"></pomo-controls>
 	</div>
 </template>
 
@@ -31,16 +31,16 @@ import PomoSettings from './components/PomoSettings';
 export default {
 	name: "app",
 	components: {
-		/*PomoNav,
+		PomoNav,
 		PomoTimeView,
 		PomoControls,
 		PomoSession,
 		PomoCycle,
-		PomoSettings*/
+		PomoSettings
 	},
 	beforeCreate() {
-		/*this.$store.dispatch('initializeTimer');
-		console.log("Vue instance, before create, initialized the timer in Vuex store.");*/
+		this.$store.dispatch('initializeTimer');
+		console.log("Vue instance, before create, initialized the timer in Vuex store.");
 	}
 };
 

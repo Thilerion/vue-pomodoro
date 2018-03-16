@@ -10,6 +10,7 @@
 export default {
 	methods: {
 		mainActionButton() {
+			this.$store.dispatch('startTimer');
 			let action = this.startPauseResume;
 			if (action != null) {
 				this.$store.dispatch(this.startPauseResume);

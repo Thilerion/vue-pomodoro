@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 import Session from '@/constructors/session';
 import formatDuration from '@/utils/format-duration';
-import {minToMs} from '@/utils/time-utils';
+import { minToMs } from '@/utils/time-utils';
 
 const sessionTypes = {
 	focus: "Focus",
@@ -14,7 +14,6 @@ const sessionTypes = {
 };
 
 export const store = new Vuex.Store({
-	strict: true,
 	state: {
 		settings: {
 			durations: {
@@ -31,8 +30,8 @@ export const store = new Vuex.Store({
 		initialized: false,
 		sessionId: null,
 		cycleId: 0,
-		timeoutId: null,
-		currentSession: new Session()
+		currentSession: new Session(),
+		history: [[]]
 	},
 	getters: {
 		cycleArray: state => {
@@ -59,55 +58,74 @@ export const store = new Vuex.Store({
 		sessionRunning: state => state.currentSession.running,
 		timePaused: (state, getters) => (session) => session.pauses.reduce(pauseReducer, 0),
 		currentSessionTimePaused: (state, getters) => getters.timePaused(state.currentSession),
-		currentSessionTimePassed: state => state.lastTick - state.startTime,
-		currentSessionTimeRemaining: (state, getters) => state.currentSession.duration - getters.currentSessionTimePassed + getters.currentSessionTimePaused
-	},
-	mutations: {
-		setNewSession(state, sessionObj) {
-			state.cyclesObj[state.cycleId][state.sessionId] = Object.assign({}, state.cyclesObj[state.cycleId][state.sessionId], sessionObj);
-			console.log(state.cyclesObj[state.cycleId][state.sessionId]);
-		},
-		setInitialized: state => state.initialized = true,
-		setNewCycle: state => state.cycles.push([]),
-		updateSession: (state, { updatedValues, s, c }) => {
-			let updated = { ...state.cycles[c][s], ...updatedValues };
-			state.cycles[c].splice(s, 1, updated);
-		},
-		addSessionId: state => {
-			if (state.sessionId == null) state.sessionId = 0;
-			else state.sessionId += 1;
+		currentSessionTimePassed: state => (state.currentSession.lastTick - state.currentSession.startTime),
+		currentSessionTimeRemaining: (state, getters) => state.currentSession.duration - getters.currentSessionTimePassed + getters.currentSessionTimePaused,
+		nextTimeoutDelay: (state, getters) => {
+			let flatRemaining = Math.ceil(getters.currentSessionTimeRemaining / 1000) * 1000;
+			let diff = getters.currentSessionTimeRemaining - flatRemaining;
+			console.log(1000 + diff);
+			return 1000 + diff;
 		}
 	},
+	mutations: {
+		setNewSession(state, { type, dur, id }) {
+			state.currentSession = new Session(type, dur, id);
+		},
+		setSessionId(state, id) {
+			if (id == null) state.sessionId += 1;
+			else state.sessionId = id;
+		},
+		setInitialized: state => state.initialized = true,
+		logCurrentSession: state => state.history[state.history.length - 1].push(JSON.stringify(state.currentSession)),
+		logNewCycle: state => state.history.push([]),
+		timerTick: state => state.currentSession.lastTick = Date.now(),
+		setStarted: state => {
+			state.currentSession.started = true;
+			state.currentSession.running = true;
+			state.currentSession.startTime = Date.now();
+		},
+		setPaused: state => state.currentSession.running = false,
+		setResume: state => state.currentSession.running = true
+	},
 	actions: {
-		initializeTimer({ state, dispatch, commit }) {
+		initializeTimer({ state, commit, getters }) {
 			if (state.initialized === true) return;
-			dispatch('initNewSession');
+			let id = getters.currentSessionId || 0;
+			let type = getters.sessionName(id);
+			let dur = getters.sessionTypeDuration(type);
+			console.log(id, dur, type);
+			commit('setNewSession', { type, dur, id });
+			commit('setSessionId', id);
 			commit('setInitialized');
 		},
 		createNewSession({ state, commit, getters }) {
-			let n = getters.nextSessionName;
-			let d = getters.sessionTypeDuration(n);
-			let sess = new Session(n, d);
-			commit('setNewSession', sess);
+			let id = getters.nextSessionId;
+			let type = getters.nextSessionName;
+			let dur = getters.sessionTypeDuration(type);
+			commit('setNewSession', { type, dur, id });
+			commit('setSessionId');
 		},
-		initNewSession({ getters, dispatch, commit }) {
-			if (getters.isCycleFinished === true) {
-				commit('setNewCycle');
-			}
-			dispatch('createNewSession');
-			commit('addSessionId');
+		startNewCycle({commit, getters}) {
+			commit('logNewCycle');
+			let type = getters.sessionName(0);
+			let dur = getters.sessionTypeDuration(type);
+			commit('setNewSession', { type, dur, id: 0 });
+			commit('setSessionId', 0);
 		},
-		startTimer({ state, getters, commit, dispatch }) {
-			let s = getters.currentSessionId, c = getters.currentCycleId;
-			let updatedValues = { started: true, running: true, startTime: Date.now(), lastTick: Date.now() };
-			commit('updateSession', { updatedValues, c, s });
-			dispatch('timerTick');
-			//dispatch('runInterval');
+		startTimer({ commit, dispatch }) {
+			commit('setStarted');
+			commit('timerTick');
+			dispatch('runInterval');
 		},
-		timerTick({getters, commit}) {
-			let s = getters.currentSessionId, c = getters.currentCycleId;
-			let updatedValues = { lastTick: Date.now() };
-			commit('updateSession', {updatedValues, c, s})
+		runInterval({ getters, commit, dispatch }) {
+			let delay = getters.nextTimeoutDelay;
+			timeoutId = setTimeout(() => {
+				commit('timerTick');
+				dispatch('runInterval');
+			}, delay);
+		},
+		stopInterval() {
+			clearTimeout(timeoutId);
 		},
 		pauseTimer() {
 
@@ -118,8 +136,13 @@ export const store = new Vuex.Store({
 		resetTimer() {
 
 		},
-		timerFinished() {
-
+		timerFinished({getters, commit, dispatch}) {
+			commit('logCurrentSession');
+			if (getters.isCycleFinished === true) {
+				dispatch('startNewCycle');
+			} else {
+				dispatch('createNewSession');
+			}			
 		}
 	}	
 });
@@ -129,21 +152,12 @@ const pauseReducer = (acc, val) => {
 	else return (val.end - val.start) + acc;
 }
 
-//DEBUG TEST ARRAY
+let timeoutId;
+
 /*
+store.dispatch('initializeTimer');
+
 setInterval(() => {
-	store.dispatch('initializeTimer');
-	store.dispatch('initNewSession');
+	store.dispatch('timerFinished');
 }, 2000);
-
-/*
-//DEBUG START TIMER
-
-setTimeout(() => {
-	store.dispatch('startTimer');
-}, 500)
-
-setInterval(() => {
-	store.dispatch('timerTick');
-}, 1000);
 */

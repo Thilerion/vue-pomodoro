@@ -1,5 +1,5 @@
 export default class Session {
-	constructor(sessionType, durationMS) {
+	constructor(sessionType, durationMS, sessionId) {
 		this.type = sessionType;
 		this.duration = durationMS;
 		this.pauses = [];
@@ -8,5 +8,6 @@ export default class Session {
 		this.finished = false;
 		this.startTime = null;
 		this.lastTick = null;
+		this.sessionId = sessionId;
 	} 
 }
