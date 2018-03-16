@@ -6,7 +6,6 @@ export default class Session {
 		this.started = false;
 		this.running = false;
 		this.finished = false;
-		this.reset = false;
 		this.startTime = null;
 		this.lastTick = null;
 	} 

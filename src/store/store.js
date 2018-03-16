@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 import Session from '@/constructors/session';
 import formatDuration from '@/utils/format-duration';
+import {minToMs} from '@/utils/time-utils';
 
 const sessionTypes = {
 	focus: "Focus",
@@ -16,9 +17,9 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: 25 * (60 * 1000),
-				short: 5 * (60 * 1000),
-				long: 20 * (60 * 1000)
+				focus: minToMs(25),
+				short: minToMs(5),
+				long: minToMs(20)
 			},
 			autoPlay: false,
 			speed: 1,
@@ -94,7 +95,9 @@ export const store = new Vuex.Store({
 });
 
 //DEBUG TEST ARRAY
+/*
 store.commit('setInitialized');
 for (let i = 0; i < 15; i++) {
 	store.dispatch('initNewSession');
 }
+*/
