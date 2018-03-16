@@ -1,7 +1,7 @@
 <template>
 	<div class="time-view">
 		<div class="time-display">
-			{{timeDisplay | formatDuration}}
+			<!--{{timeDisplay | formatDuration}}-->
 		</div>
 	</div>
 </template>
@@ -11,25 +11,25 @@ import TWEEN from '@tweenjs/tween.js'
 import formatDuration from '@/utils/format-duration';
 
 export default {
-	computed: {
+	/*computed: {
 		timeRemaining() {
 			return this.$store.getters.currentSessionTimeRemaining;
 		},
 		currentSessionFinished() {
-			return this.$store.getters.currentSessionState.finished;
+			return this.$store.getters.sessionFinished;
+		},
+		currentSessionStarted() {
+			return this.$store.getters.sessionStarted;
 		},
 		timeDisplay() {
 			if (this.currentSessionFinished === false) {
 				return this.timeRemaining;
 			} else {
-				return this.tweenedDisplay;
+				return this.tweenedNumber;
 			}
 		},
 		nextSessionLength() {
 			return this.$store.getters.nextSessionLength;
-		},
-		tweenedDisplay() {
-			return formatDuration(this.tweenedNumber, "mm:ss");
 		}
 	},
 	watch: {
@@ -74,7 +74,7 @@ export default {
 	},
 	filters: {
 		formatDuration
-	}
+	}*/
 }
 </script>
 
