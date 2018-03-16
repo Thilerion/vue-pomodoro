@@ -1,14 +1,13 @@
 export default class Session {
 	constructor(sessionType, durationMS) {
-		this.sessionType = sessionType;
+		this.type = sessionType;
 		this.duration = durationMS;
 		this.pauses = [];
-		this.state = {
-			started: false,
-			running: false,
-			finished: false
-		};
-		this.lastTick = null;
+		this.started = false;
+		this.running = false;
+		this.finished = false;
+		this.reset = false;
 		this.startTime = null;
+		this.lastTick = null;
 	} 
 }

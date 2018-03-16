@@ -1,7 +1,7 @@
 <template>
 		<div class="session-name">
 			<span>
-				{{currentSessionType}}
+				<!--{{currentSessionType}}-->
 			</span>
 		</div>
 </template>

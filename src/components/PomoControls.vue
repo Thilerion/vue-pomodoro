@@ -18,7 +18,7 @@ export default {
 	},
 	computed: {
 		startPauseResume() {
-			if (this.sessionState.finished === true) {
+			/*if (this.sessionState.finished === true) {
 				return;
 			} else if (this.sessionState.started === false) {
 				return 'startTimer';
@@ -26,7 +26,7 @@ export default {
 				return 'resumeTimer';
 			} else {
 				return 'pauseTimer';
-			}
+			}*/
 		},
 		sessionState() {
 			return this.$store.state.currentSession.state;

@@ -1,7 +1,7 @@
 <template>
 	<div id="app" class="theme-darker">
 		<div class="overlays">
-			<pomo-settings></pomo-settings>
+			<!--<pomo-settings></pomo-settings>-->
 		</div>
 		<nav>
 			<pomo-nav></pomo-nav>
