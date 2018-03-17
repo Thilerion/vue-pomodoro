@@ -13,7 +13,7 @@ import formatDuration from '@/utils/format-duration';
 export default {
 	computed: {
 		timeRemaining() {
-			return this.$store.getters.currentSessionTimeRemaining;
+			return Math.round(this.$store.getters.currentSessionTimeRemaining);
 		},
 		currentSessionFinished() {
 			return this.$store.getters.sessionFinished;

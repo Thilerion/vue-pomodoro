@@ -17,9 +17,9 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: minToMs(25),
-				short: minToMs(5),
-				long: minToMs(20)
+				focus: 5000,//minToMs(25),
+				short: 2000,//minToMs(5),
+				long: 3000,//minToMs(20)
 			},
 			autoPlay: false,
 			speed: 1,
@@ -66,7 +66,8 @@ export const store = new Vuex.Store({
 			let diff = getters.currentSessionTimeRemaining - flatRemaining;
 			console.log(1000 + diff);
 			return 1000 + diff;
-		}
+		},
+		isTimerFinished: (state, getters) => getters.currentSessionTimeRemaining <= 10
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {
@@ -132,7 +133,9 @@ export const store = new Vuex.Store({
 			let delay = getters.nextTimeoutDelay;			
 			let timeoutId = setTimeout(() => {
 				commit('timerTick');
-				dispatch('startTimeout');
+				if (getters.isTimerFinished === true) {
+					dispatch('timerFinished');
+				} else dispatch('startTimeout');
 			}, delay);
 			commit('setTimeoutId', timeoutId);
 		},
@@ -152,6 +155,7 @@ export const store = new Vuex.Store({
 
 		},
 		timerFinished({getters, commit, dispatch}) {
+			commit('clearTimeoutId');
 			commit('logCurrentSession');
 			if (getters.isCycleFinished === true) {
 				dispatch('startNewCycle');
