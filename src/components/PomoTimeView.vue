@@ -29,7 +29,7 @@ export default {
 			}
 		},
 		nextSessionLength() {
-			return this.$store.getters.nextSessionLength;
+			return this.$store.getters.trueNextSessionDuration;
 		}
 	},
 	watch: {
@@ -50,7 +50,7 @@ export default {
 			let x = (endValue - startValue);
 			let tweenLength = 1.1*((x*Math.sqrt(x))/x );
 			console.log("Calculated tween length: " + tweenLength);
-			let adjTweenLength = Math.floor(Math.min(Math.max(tweenLength, 100), 1500));
+			let adjTweenLength = Math.floor(Math.min(Math.max(tweenLength, 500), 1500));
 			console.log("Tween length: " + adjTweenLength);
 			new TWEEN.Tween({tweeningValue: startValue})
 			.to({tweeningValue: endValue}, adjTweenLength)
@@ -60,7 +60,7 @@ export default {
 			.easing(TWEEN.Easing.Quadratic.In)
 			.onComplete(function() {
 				console.log("Tween complete!");
-				vm.$store.dispatch('loadNextSession');
+				vm.$store.dispatch('initializeNextSession');
 			})
 			.start()
 

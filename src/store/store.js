@@ -17,9 +17,9 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: 2000,//minToMs(25),
-				short: 1000,//minToMs(5),
-				long: 1000,//minToMs(20)
+				focus: 5000,//minToMs(25),
+				short: 3000,//minToMs(5),
+				long: 4000,//minToMs(20)
 			},
 			autoPlay: false,
 			speed: 1,
@@ -58,6 +58,7 @@ export const store = new Vuex.Store({
 			else return getters.nextSessionId;
 		},
 		trueNextSessionName: (state, getters) => getters.sessionName(getters.trueNextSessionId),
+		trueNextSessionDuration: (state, getters) => getters.sessionTypeDuration(getters.trueNextSessionName),
 		nextSessionName: (state, getters) => getters.sessionName(getters.nextSessionId),
 		currentSession: state => state.currentSession,
 		sessionFinished: state => state.currentSession.finished,
@@ -166,7 +167,7 @@ export const store = new Vuex.Store({
 		timerFinished({commit, dispatch}) {
 			commit('setFinished');
 			commit('clearTimeoutId');	
-			dispatch('initializeNextSession');
+			//dispatch('initializeNextSession');
 		},
 		initializeNextSession({ commit, dispatch, getters }) {
 			commit('logCurrentSession');
