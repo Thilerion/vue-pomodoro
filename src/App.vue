@@ -2,6 +2,8 @@
 	<div id="app" class="theme-premium-white">
 		<div class="overlays">
 			<!--<pomo-settings></pomo-settings>-->
+			<pomo-settings v-if="settingsOpen"></pomo-settings>
+			<pomo-stats v-else-if="statsOpen"></pomo-stats>
 		</div>
 		<nav>
 			<pomo-nav></pomo-nav>
@@ -28,6 +30,7 @@ import PomoControls from "./components/PomoControls";
 import PomoSession from './components/PomoSession';
 import PomoCycle from './components/PomoCycle';
 import PomoSettings from './components/PomoSettings';
+import PomoStats from './components/PomoStats';
 export default {
 	name: "app",
 	components: {
@@ -36,11 +39,20 @@ export default {
 		PomoControls,
 		PomoSession,
 		PomoCycle,
-		PomoSettings
+		PomoSettings,
+		PomoStats
 	},
 	beforeCreate() {
 		this.$store.dispatch('initializeTimer');
 		console.log("Vue instance, before create, initialized the timer in Vuex store.");
+	},
+	computed: {
+		settingsOpen() {
+			return this.$store.getters.settingsOpen;
+		},
+		statsOpen() {
+			return this.$store.getters.statsOpen;
+		}
 	}
 };
 

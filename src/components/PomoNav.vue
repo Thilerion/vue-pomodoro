@@ -1,7 +1,7 @@
 <template>
 	<div class="nav-top">
 		<div class="nav-item left">
-			<button class="stats-button">
+			<button class="stats-button" @click="toggleStatsOpen">
 				<svg  viewBox="0 0 24 24" class="stats-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<defs>
 						<path d="M0 0h24v24H0V0z" id="a"/>
@@ -17,7 +17,7 @@
 			<h1>Simple Pomodoro</h1>
 		</div>
 		<div class="nav-item right">
-			<button class="settings-button" @click="toggleSettings">
+			<button class="settings-button" @click="toggleSettingsOpen">
 				<!-- MENU ICON 
 				<svg class="menu-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 53 53" style="enable-background:new 0 0 53 53;" xml:space="preserve">
 					<g>
@@ -41,8 +41,11 @@
 <script>
 export default {
 	methods: {
-		toggleSettings() {
-			this.$store.commit('toggleSettings');
+		toggleSettingsOpen() {
+			this.$store.commit('toggleSettingsOpen');
+		},
+		toggleStatsOpen() {
+			this.$store.commit('toggleStatsOpen');
 		}
 	}
 };

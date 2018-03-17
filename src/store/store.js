@@ -25,7 +25,8 @@ export const store = new Vuex.Store({
 			speed: 1,
 			sound: false,
 			cycleLength: 4, //f s f s f l = 6
-			settingsOpen: false
+			settingsOpen: false,
+			statsOpen: false
 		},
 		initialized: false,
 		sessionId: null,
@@ -85,7 +86,9 @@ export const store = new Vuex.Store({
 		runTweenTo: state => state.timeTween.tweenTo,
 		runAfterTween: state => state.timeTween.tweenCallback,
 		history: state => state.history,
-		currentCycleHistory: (state, getters) => state.history[getters.currentCycleId]
+		currentCycleHistory: (state, getters) => state.history[getters.currentCycleId],
+		settingsOpen: state => state.settings.settingsOpen,
+		statsOpen: state => state.settings.statsOpen
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {
@@ -130,6 +133,8 @@ export const store = new Vuex.Store({
 		disableTimeTween: state => state.timeTween.run = false,
 		tweenTo: (state, tweenTo) => state.timeTween.tweenTo = tweenTo,
 		setTweenCallback: (state, callback) => state.timeTween.tweenCallback = callback,
+		toggleSettingsOpen: (state) => state.settings.settingsOpen = !state.settings.settingsOpen,
+		toggleStatsOpen: state => state.settings.statsOpen = !state.settings.statsOpen,
 
 		DEBUG_skipToSessionEnd: (state, endStartTime) => state.currentSession.startTime = endStartTime
 	},
