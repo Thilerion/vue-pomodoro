@@ -31,7 +31,8 @@ export const store = new Vuex.Store({
 		sessionId: null,
 		cycleId: 0,
 		currentSession: new Session(),
-		history: [[]]
+		history: [[]],
+		timeoutId: null
 	},
 	getters: {
 		cycleArray: state => {
@@ -85,7 +86,12 @@ export const store = new Vuex.Store({
 			state.currentSession.startTime = Date.now();
 		},
 		setPaused: state => state.currentSession.running = false,
-		setResume: state => state.currentSession.running = true
+		setResume: state => state.currentSession.running = true,
+		setTimeoutId: (state, intId) => state.timeoutId = intId,
+		clearTimeoutId: (state) => {
+			clearTimeout(state.timeoutId);
+			state.timeoutId = null;
+		}
 	},
 	actions: {
 		initializeTimer({ state, commit, getters }) {
@@ -115,20 +121,19 @@ export const store = new Vuex.Store({
 		startTimer({ commit, dispatch }) {
 			commit('setStarted');
 			commit('timerTick');
-			dispatch('runInterval');
+			dispatch('startTimeout');
 		},
-		runInterval({ getters, commit, dispatch }) {
-			let delay = getters.nextTimeoutDelay;
-			timeoutId = setTimeout(() => {
+		startTimeout({ getters, commit, dispatch }) {
+			let delay = getters.nextTimeoutDelay;			
+			let timeoutId = setTimeout(() => {
 				commit('timerTick');
-				dispatch('runInterval');
+				dispatch('startTimeout');
 			}, delay);
-		},
-		stopInterval() {
-			clearTimeout(timeoutId);
+			commit('setTimeoutId', timeoutId);
 		},
 		pauseTimer() {
-
+			commit('clearTimeoutId');
+			commit('setPaused');
 		},
 		resumeTimer() {
 
@@ -151,9 +156,6 @@ const pauseReducer = (acc, val) => {
 	if (val.end === null) return (Date.now() - val.start) + acc;
 	else return (val.end - val.start) + acc;
 }
-
-let timeoutId;
-
 /*
 store.dispatch('initializeTimer');
 
