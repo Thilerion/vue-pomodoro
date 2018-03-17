@@ -109,7 +109,10 @@ export const store = new Vuex.Store({
 			state.currentSession.running = false;
 		},
 		setReset: state => state.currentSession.reset = true,
-		setSkipped: state => state.currentSession.skipped = true,
+		setSkipped: state => {
+			state.currentSession.skipped = true;
+			state.currentSession.finished = true;
+		},
 		setTimeoutId: (state, intId) => state.timeoutId = intId,
 		clearTimeoutId: (state) => {
 			clearTimeout(state.timeoutId);
