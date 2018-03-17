@@ -194,11 +194,16 @@ export const store = new Vuex.Store({
 				console.warn("Session already finished, can't reset now...");
 				return;
 			}
-			commit('setCancelled');
 			if (getters.sessionRunning === true) {
 				commit('clearTimeoutId');
 				commit('setPaused');
 			}
+			commit('setCancelled');
+
+			let dur = getters.currentSession.duration;
+			dispatch('runTween', { to: dur, then: "initializeResetCurrentSession" });			
+		},
+		initializeResetCurrentSession({commit, dispatch}) {
 			commit('logCurrentSession');
 			dispatch('recreateCurrentSession');
 		},

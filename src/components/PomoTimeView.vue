@@ -13,7 +13,7 @@ import formatDuration from '@/utils/format-duration';
 export default {
 	computed: {
 		timeRemaining() {
-			return Math.round(this.$store.getters.currentSessionTimeRemaining / 1000) * 1000;
+			return this.$store.getters.currentSessionTimeRemaining;
 		},
 		runTween() {
 			return this.$store.getters.runTween;
@@ -23,16 +23,16 @@ export default {
 		},
 		timeDisplay() {
 			if (this.runTween === false) {
-				return this.timeRemaining;
+				return Math.round(this.timeRemaining / 1000) * 1000;
 			} else if (this.runTween === true) {
-				return this.tweenedNumber;
+				return Math.round(this.tweenedNumber / 1000) * 1000;
 			}
 		}
 	},
 	watch: {
 		runTween(newVal, oldVal) {
 			if (newVal === true) {
-				let from = Math.abs(this.timeRemaining);
+				let from = Math.max(0, this.timeRemaining);
 				console.log(from, this.tweenTo);
 				this.tween(from, this.tweenTo);
 			}
