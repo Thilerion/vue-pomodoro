@@ -82,7 +82,9 @@ export const store = new Vuex.Store({
 		isTimerFinished: (state, getters) => getters.currentSessionTimeRemaining <= 10,
 		runTween: state => state.timeTween.run,
 		runTweenTo: state => state.timeTween.tweenTo,
-		runAfterTween: state => state.timeTween.tweenCallback
+		runAfterTween: state => state.timeTween.tweenCallback,
+		history: state => state.history,
+		currentCycleHistory: (state, getters) => state.history[getters.currentCycleId]
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {
