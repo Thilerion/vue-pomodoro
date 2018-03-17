@@ -108,7 +108,7 @@ export const store = new Vuex.Store({
 			state.currentSession.finished = true;
 			state.currentSession.running = false;
 		},
-		setCancelled: state => state.currentSession.cancelled = true,
+		setReset: state => state.currentSession.reset = true,
 		setTimeoutId: (state, intId) => state.timeoutId = intId,
 		clearTimeoutId: (state) => {
 			clearTimeout(state.timeoutId);
@@ -198,7 +198,7 @@ export const store = new Vuex.Store({
 				commit('clearTimeoutId');
 				commit('setPaused');
 			}
-			commit('setCancelled');
+			commit('setReset');
 
 			let dur = getters.currentSession.duration;
 			dispatch('runTween', { to: dur, then: "initializeResetCurrentSession" });			

@@ -8,7 +8,8 @@ export default class Session {
 		this.running = false;
 		this.finished = false;
 		this.startTime = null;
-		this.cancelled = false;
+		this.reset = false;
+		this.skipped = false;
 		this.lastTick = null;
 		this.sessionId = sessionId;
 	} 
