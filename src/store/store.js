@@ -91,6 +91,11 @@ export const store = new Vuex.Store({
 		clearTimeoutId: (state) => {
 			clearTimeout(state.timeoutId);
 			state.timeoutId = null;
+		},
+		addPauseStart: state => state.currentSession.pauses.push({ start: Date.now(), end: null }),
+		addPauseEnd: state => {
+			let currentPause = state.currentSession.pauses.length - 1;
+			let pauseObj = state.currentSession.pauses[currentPause].end = Date.now();
 		}
 	},
 	actions: {
@@ -120,8 +125,8 @@ export const store = new Vuex.Store({
 		},
 		startTimer({ commit, dispatch }) {
 			commit('setStarted');
-			commit('timerTick');
 			dispatch('startTimeout');
+			commit('timerTick');
 		},
 		startTimeout({ getters, commit, dispatch }) {
 			let delay = getters.nextTimeoutDelay;			
@@ -131,12 +136,17 @@ export const store = new Vuex.Store({
 			}, delay);
 			commit('setTimeoutId', timeoutId);
 		},
-		pauseTimer() {
-			commit('clearTimeoutId');
+		pauseTimer({commit}) {
 			commit('setPaused');
+			commit('clearTimeoutId');			
+			commit('timerTick');
+			commit('addPauseStart');
 		},
-		resumeTimer() {
-
+		resumeTimer({commit, dispatch}) {
+			commit('addPauseEnd');
+			commit('setResume');
+			dispatch('startTimeout');
+			commit('timerTick');
 		},
 		resetTimer() {
 

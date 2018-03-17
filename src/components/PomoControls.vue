@@ -10,7 +10,6 @@
 export default {
 	methods: {
 		mainActionButton() {
-			this.$store.dispatch('startTimer');
 			let action = this.startPauseResume;
 			if (action != null) {
 				this.$store.dispatch(this.startPauseResume);
@@ -19,6 +18,12 @@ export default {
 	},
 	computed: {
 		startPauseResume() {
+			if (this.sessionFinished === true) return;
+			else if (this.sessionStarted === false) {
+				return 'startTimer';
+			} else if (this.sessionRunning === false) {
+				return 'resumeTimer';
+			} else return 'pauseTimer';
 			/*if (this.sessionState.finished === true) {
 				return;
 			} else if (this.sessionState.started === false) {
@@ -29,8 +34,14 @@ export default {
 				return 'pauseTimer';
 			}*/
 		},
-		sessionState() {
-			return this.$store.state.currentSession.state;
+		sessionRunning() {
+			return this.$store.getters.sessionRunning;
+		},
+		sessionFinished() {
+			return this.$store.getters.sessionFinished;
+		},
+		sessionStarted() {
+			return this.$store.getters.sessionStarted;
 		},
 		mainActionIcon() {
 			let action = this.startPauseResume;
