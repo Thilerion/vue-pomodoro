@@ -52,6 +52,12 @@ export const store = new Vuex.Store({
 		currentSessionId: state => state.sessionId,
 		nextSessionId: (state, getters) => getters.currentSessionId + 1,
 		isCycleFinished: (state, getters) => getters.nextSessionId >= state.settings.cycleLength,
+		trueNextSessionId: (state, getters) => {
+			if (getters.isCycleFinished === true) return 0;
+			else if (getters.currentSessionId == null) return 0;
+			else return getters.nextSessionId;
+		},
+		trueNextSessionName: (state, getters) => getters.sessionName(getters.trueNextSessionId),
 		nextSessionName: (state, getters) => getters.sessionName(getters.nextSessionId),
 		currentSession: state => state.currentSession,
 		sessionFinished: state => state.currentSession.finished,
@@ -88,6 +94,7 @@ export const store = new Vuex.Store({
 		},
 		setPaused: state => state.currentSession.running = false,
 		setResume: state => state.currentSession.running = true,
+		setFinished: state => state.currentSession.finished = true,
 		setTimeoutId: (state, intId) => state.timeoutId = intId,
 		clearTimeoutId: (state) => {
 			clearTimeout(state.timeoutId);
@@ -154,14 +161,18 @@ export const store = new Vuex.Store({
 		resetTimer() {
 
 		},
-		timerFinished({getters, commit, dispatch}) {
-			commit('clearTimeoutId');
+		timerFinished({commit, dispatch}) {
+			commit('setFinished');
+			commit('clearTimeoutId');	
+			dispatch('initializeNextSession');
+		},
+		initializeNextSession({ commit, dispatch, getters }) {
 			commit('logCurrentSession');
 			if (getters.isCycleFinished === true) {
 				dispatch('startNewCycle');
 			} else {
 				dispatch('createNewSession');
-			}			
+			}	
 		}
 	}	
 });
