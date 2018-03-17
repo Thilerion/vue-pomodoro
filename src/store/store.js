@@ -55,6 +55,7 @@ export const store = new Vuex.Store({
 		sessionName: (state, getters) => sessionId => getters.cycleArray[sessionId],
 		currentCycleId: state => state.cycleId,
 		currentSessionId: state => state.sessionId,
+		currentSessionName: (state, getters) => getters.sessionName(state.sessionId),
 		nextSessionId: (state, getters) => getters.currentSessionId + 1,
 		isCycleFinished: (state, getters) => getters.nextSessionId >= state.settings.cycleLength,
 		trueNextSessionId: (state, getters) => {

@@ -1,7 +1,7 @@
 <template>
 		<div class="session-name">
 			<span>
-				<!--{{currentSessionType}}-->
+				{{currentSessionName}}
 			</span>
 		</div>
 </template>
@@ -9,8 +9,8 @@
 <script>
 export default {
 	computed: {
-		currentSessionType() {
-			return this.$store.state.currentSession.sessionType;
+		currentSessionName() {
+			return this.$store.getters.currentSessionName;
 		}
 	}
 }
