@@ -17,9 +17,9 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: 5000,//minToMs(25),
-				short: 3000,//minToMs(5),
-				long: 4000,//minToMs(20)
+				focus: 15000,//minToMs(25),
+				short: 13000,//minToMs(5),
+				long: 14000,//minToMs(20)
 			},
 			autoPlay: false,
 			speed: 1,
@@ -106,7 +106,9 @@ export const store = new Vuex.Store({
 		addPauseEnd: state => {
 			let currentPause = state.currentSession.pauses.length - 1;
 			let pauseObj = state.currentSession.pauses[currentPause].end = Date.now();
-		}
+		},
+
+		DEBUG_skipToSessionEnd: (state, endStartTime) => state.currentSession.startTime = endStartTime
 	},
 	actions: {
 		initializeTimer({ state, commit, getters }) {
@@ -184,6 +186,17 @@ const pauseReducer = (acc, val) => {
 	if (val.end === null) return (Date.now() - val.start) + acc;
 	else return (val.end - val.start) + acc;
 }
+
+//FOR DEBUGGING, ALSO: DEBUG MUTATION
+const debugGoToSessionEnd = (timeDiff) => {
+	let lastTick = store.state.currentSession.lastTick;
+	let duration = store.state.currentSession.duration;
+	let diff = duration - timeDiff;
+	let newStartTime = lastTick - diff;
+	store.commit('DEBUG_skipToSessionEnd', newStartTime);
+}
+window.debugGoToSessionEnd = debugGoToSessionEnd;
+
 /*
 store.dispatch('initializeTimer');
 
