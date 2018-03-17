@@ -17,14 +17,14 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: 5000,//minToMs(25),
-				short: 2000,//minToMs(5),
-				long: 3000,//minToMs(20)
+				focus: 2000,//minToMs(25),
+				short: 1000,//minToMs(5),
+				long: 1000,//minToMs(20)
 			},
 			autoPlay: false,
 			speed: 1,
 			sound: false,
-			cycleLength: 6, //f s f s f l = 6
+			cycleLength: 4, //f s f s f l = 6
 			settingsOpen: false
 		},
 		initialized: false,
@@ -80,9 +80,10 @@ export const store = new Vuex.Store({
 			state.currentSession = new Session(type, dur, id);
 		},
 		setSessionId(state, id) {
-			if (id == null) state.sessionId += 1;
-			else state.sessionId = id;
+			if (id != null) state.sessionId = id;
+			else state.sessionId += 1;
 		},
+		setCycleId: state => state.cycleId += 1,
 		setInitialized: state => state.initialized = true,
 		logCurrentSession: state => state.history[state.history.length - 1].push(JSON.stringify(state.currentSession)),
 		logNewCycle: state => state.history.push([]),
@@ -109,8 +110,8 @@ export const store = new Vuex.Store({
 	actions: {
 		initializeTimer({ state, commit, getters }) {
 			if (state.initialized === true) return;
-			let id = getters.currentSessionId || 0;
-			let type = getters.sessionName(id);
+			let id = getters.trueNextSessionId;
+			let type = getters.trueNextSessionName;
 			let dur = getters.sessionTypeDuration(type);
 			console.log(id, dur, type);
 			commit('setNewSession', { type, dur, id });
@@ -118,18 +119,19 @@ export const store = new Vuex.Store({
 			commit('setInitialized');
 		},
 		createNewSession({ state, commit, getters }) {
-			let id = getters.nextSessionId;
-			let type = getters.nextSessionName;
+			let id = getters.trueNextSessionId;
+			let type = getters.trueNextSessionName;
 			let dur = getters.sessionTypeDuration(type);
 			commit('setNewSession', { type, dur, id });
-			commit('setSessionId');
+			commit('setSessionId', id);
 		},
 		startNewCycle({commit, getters}) {
 			commit('logNewCycle');
-			let type = getters.sessionName(0);
+			let type = getters.trueNextSessionName;
 			let dur = getters.sessionTypeDuration(type);
 			commit('setNewSession', { type, dur, id: 0 });
 			commit('setSessionId', 0);
+			commit('setCycleId');
 		},
 		startTimer({ commit, dispatch }) {
 			commit('setStarted');
