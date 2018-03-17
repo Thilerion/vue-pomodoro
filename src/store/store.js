@@ -109,6 +109,7 @@ export const store = new Vuex.Store({
 			state.currentSession.running = false;
 		},
 		setReset: state => state.currentSession.reset = true,
+		setSkipped: state => state.currentSession.skipped = true,
 		setTimeoutId: (state, intId) => state.timeoutId = intId,
 		clearTimeoutId: (state) => {
 			clearTimeout(state.timeoutId);
@@ -231,6 +232,18 @@ export const store = new Vuex.Store({
 			commit('disableTimeTween');			
 			commit('setTweenCallback', null);
 			commit('tweenTo', null);			
+		},
+		skipTimer({getters, commit, dispatch}) {
+			if (getters.sessionFinished === true) {
+				console.warn("Session already finished, can't reset now...");
+				return;
+			}
+			if (getters.sessionRunning === true) {
+				commit('clearTimeoutId');
+				commit('setPaused');
+			}
+			commit('setSkipped');
+			dispatch('initializeNextSession');
 		}
 	}	
 });
