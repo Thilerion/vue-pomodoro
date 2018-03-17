@@ -258,21 +258,3 @@ const pauseReducer = (acc, val) => {
 	if (val.end === null) return (Date.now() - val.start) + acc;
 	else return (val.end - val.start) + acc;
 }
-
-//FOR DEBUGGING, ALSO: DEBUG MUTATION
-const debugGoToSessionEnd = (timeDiff) => {
-	let lastTick = store.state.currentSession.lastTick;
-	let duration = store.state.currentSession.duration;
-	let diff = duration - timeDiff;
-	let newStartTime = lastTick - diff;
-	store.commit('DEBUG_skipToSessionEnd', newStartTime);
-}
-window.debugGoToSessionEnd = debugGoToSessionEnd;
-
-/*
-store.dispatch('initializeTimer');
-
-setInterval(() => {
-	store.dispatch('timerFinished');
-}, 2000);
-*/

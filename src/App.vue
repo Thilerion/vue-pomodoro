@@ -1,5 +1,5 @@
 <template>
-	<div id="app" class="theme-darker">
+	<div id="app" class="theme-premium-white">
 		<div class="overlays">
 			<!--<pomo-settings></pomo-settings>-->
 		</div>
