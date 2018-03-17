@@ -1,5 +1,18 @@
 <template>
 	<div class="nav-top">
+		<div class="nav-item left">
+			<button class="stats-button">
+				<svg  viewBox="0 0 24 24" class="stats-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+					<defs>
+						<path d="M0 0h24v24H0V0z" id="a"/>
+					</defs>
+					<clipPath id="b">
+						<use overflow="visible" xlink:href="#a"/>
+					</clipPath>
+					<path clip-path="url(#b)" d="M23 8c0 1.1-.9 2-2 2-.18 0-.35-.02-.51-.07l-3.56 3.55c.05.16.07.34.07.52 0 1.1-.9 2-2 2s-2-.9-2-2c0-.18.02-.36.07-.52l-2.55-2.55c-.16.05-.34.07-.52.07s-.36-.02-.52-.07l-4.55 4.56c.05.16.07.33.07.51 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.18 0 .35.02.51.07l4.56-4.55C8.02 9.36 8 9.18 8 9c0-1.1.9-2 2-2s2 .9 2 2c0 .18-.02.36-.07.52l2.55 2.55c.16-.05.34-.07.52-.07s.36.02.52.07l3.55-3.56C19.02 8.35 19 8.18 19 8c0-1.1.9-2 2-2s2 .9 2 2z"/>
+				</svg>
+			</button>
+		</div>
 		<div class="nav-item center">
 			<h1>Simple Pomodoro</h1>
 		</div>
@@ -68,12 +81,12 @@ h1 {
 	width: 28px;
 }
 
-.settings-icon {
+.settings-icon, .stats-icon {
 	height: 28px;
 	width: 28px;
 }
 
-.settings-button {
+.settings-button, .stats-button {
 	width: 38px;
 	height: 38px;
 	padding: 5px;
@@ -81,7 +94,7 @@ h1 {
 	transition: opacity .3s ease;
 }
 
-.settings-button:hover, .settings-button:focus {
+.settings-button:hover, .settings-button:focus, .stats-button:hover, .stats-button:focus {
 	opacity: 1;
 }
 </style>
