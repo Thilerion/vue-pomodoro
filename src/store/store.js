@@ -96,7 +96,11 @@ export const store = new Vuex.Store({
 		},
 		setPaused: state => state.currentSession.running = false,
 		setResume: state => state.currentSession.running = true,
-		setFinished: state => state.currentSession.finished = true,
+		setFinished: state => {
+			state.currentSession.finished = true;
+			state.currentSession.running = false;
+		},
+		setCancelled: state => state.currentSession.cancelled = true,
 		setTimeoutId: (state, intId) => state.timeoutId = intId,
 		clearTimeoutId: (state) => {
 			clearTimeout(state.timeoutId);
@@ -127,6 +131,12 @@ export const store = new Vuex.Store({
 			let dur = getters.sessionTypeDuration(type);
 			commit('setNewSession', { type, dur, id });
 			commit('setSessionId', id);
+		},
+		recreateCurrentSession({getters, commit}) {
+			let id = getters.currentSessionId;
+			let type = getters.currentSession.type;
+			let dur = getters.sessionTypeDuration(type);
+			commit('setNewSession', { type, dur, id });
 		},
 		startNewCycle({commit, getters}) {
 			commit('logNewCycle');
@@ -163,8 +173,22 @@ export const store = new Vuex.Store({
 			dispatch('startTimeout');
 			commit('timerTick');
 		},
-		resetTimer() {
-
+		resetTimer({getters, commit, dispatch}) {
+			if (getters.sessionStarted !== true) {
+				console.warn("Can't reset a session that hasn't even started yet.");
+				return;
+			}
+			if (getters.sessionFinished === true) {
+				console.warn("Session already finished, can't reset now...");
+				return;
+			}
+			commit('setCancelled');
+			if (getters.sessionRunning === true) {
+				commit('clearTimeoutId');
+				commit('setPaused');
+			}
+			commit('logCurrentSession');
+			dispatch('recreateCurrentSession');
 		},
 		timerFinished({commit, dispatch}) {
 			commit('setFinished');

@@ -1,6 +1,6 @@
 <template>
 	<div class="button-container">
-		<button id="reset-timer" class="state-button small"><i class="material-icons">replay</i></button>
+		<button id="reset-timer" @click="resetSession" class="state-button small"><i class="material-icons">replay</i></button>
 		<button id="start-timer" class="state-button large"><i class="material-icons" @click="mainActionButton">{{mainActionIcon}}</i></button>
 		<button id="skip-timer" class="state-button small"><i class="material-icons">skip_next</i></button>
 	</div>
@@ -14,6 +14,9 @@ export default {
 			if (action != null) {
 				this.$store.dispatch(this.startPauseResume);
 			}			
+		},
+		resetSession() {
+			this.$store.dispatch('resetTimer');
 		}
 	},
 	computed: {
