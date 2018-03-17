@@ -17,7 +17,7 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: 15000,//minToMs(25),
+				focus: 3000,//minToMs(25),
 				short: 13000,//minToMs(5),
 				long: 14000,//minToMs(20)
 			},
@@ -32,7 +32,12 @@ export const store = new Vuex.Store({
 		cycleId: 0,
 		currentSession: new Session(),
 		history: [[]],
-		timeoutId: null
+		timeoutId: null,
+		timeTween: {
+			run: false,
+			tweenTo: null,
+			tweenCallback: null
+		}
 	},
 	getters: {
 		cycleArray: state => {
@@ -74,7 +79,10 @@ export const store = new Vuex.Store({
 			console.log(1000 + diff);
 			return 1000 + diff;
 		},
-		isTimerFinished: (state, getters) => getters.currentSessionTimeRemaining <= 10
+		isTimerFinished: (state, getters) => getters.currentSessionTimeRemaining <= 10,
+		runTween: state => state.timeTween.run,
+		runTweenTo: state => state.timeTween.tweenTo,
+		runAfterTween: state => state.timeTween.tweenCallback
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {
@@ -111,6 +119,10 @@ export const store = new Vuex.Store({
 			let currentPause = state.currentSession.pauses.length - 1;
 			let pauseObj = state.currentSession.pauses[currentPause].end = Date.now();
 		},
+		enableTimeTween: state => state.timeTween.run = true,
+		disableTimeTween: state => state.timeTween.run = false,
+		tweenTo: (state, tweenTo) => state.timeTween.tweenTo = tweenTo,
+		setTweenCallback: (state, callback) => state.timeTween.tweenCallback = callback,
 
 		DEBUG_skipToSessionEnd: (state, endStartTime) => state.currentSession.startTime = endStartTime
 	},
@@ -190,9 +202,10 @@ export const store = new Vuex.Store({
 			commit('logCurrentSession');
 			dispatch('recreateCurrentSession');
 		},
-		timerFinished({commit, dispatch}) {
+		timerFinished({commit, dispatch, getters}) {
 			commit('setFinished');
-			commit('clearTimeoutId');	
+			commit('clearTimeoutId');
+			dispatch('runTween', { to: getters.trueNextSessionDuration, then: "initializeNextSession" });
 			//dispatch('initializeNextSession');
 		},
 		initializeNextSession({ commit, dispatch, getters }) {
@@ -202,6 +215,17 @@ export const store = new Vuex.Store({
 			} else {
 				dispatch('createNewSession');
 			}	
+		},
+		runTween({ commit }, { to, then }) {
+			commit('tweenTo', to);
+			commit('setTweenCallback', then);
+			commit('enableTimeTween');
+		},
+		finishTween({commit, dispatch, getters}) {
+			dispatch(getters.runAfterTween);
+			commit('disableTimeTween');			
+			commit('setTweenCallback', null);
+			commit('tweenTo', null);			
 		}
 	}	
 });

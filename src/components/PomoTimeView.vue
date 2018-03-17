@@ -15,27 +15,26 @@ export default {
 		timeRemaining() {
 			return Math.round(this.$store.getters.currentSessionTimeRemaining / 1000) * 1000;
 		},
-		currentSessionFinished() {
-			return this.$store.getters.sessionFinished;
+		runTween() {
+			return this.$store.getters.runTween;
 		},
-		currentSessionStarted() {
-			return this.$store.getters.sessionStarted;
+		tweenTo() {
+			return this.$store.getters.runTweenTo;
 		},
 		timeDisplay() {
-			if (this.currentSessionFinished === false) {
+			if (this.runTween === false) {
 				return this.timeRemaining;
-			} else {
+			} else if (this.runTween === true) {
 				return this.tweenedNumber;
 			}
-		},
-		nextSessionLength() {
-			return this.$store.getters.trueNextSessionDuration;
 		}
 	},
 	watch: {
-		currentSessionFinished(newVal, oldVal) {
+		runTween(newVal, oldVal) {
 			if (newVal === true) {
-				this.tween(0, this.nextSessionLength);
+				let from = Math.abs(this.timeRemaining);
+				console.log(from, this.tweenTo);
+				this.tween(from, this.tweenTo);
 			}
 		}
 	},
@@ -60,7 +59,7 @@ export default {
 			.easing(TWEEN.Easing.Quadratic.In)
 			.onComplete(function() {
 				console.log("Tween complete!");
-				vm.$store.dispatch('initializeNextSession');
+				vm.$store.dispatch('finishTween');
 			})
 			.start()
 
