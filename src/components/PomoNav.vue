@@ -2,7 +2,7 @@
 	<div class="nav-top">
 		<div class="nav-item left">
 			<button class="stats-button" @click="toggleStatsOpen">
-				<svg  viewBox="0 0 24 24" class="stats-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				<svg viewBox="0 0 24 24" class="stats-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<defs>
 						<path d="M0 0h24v24H0V0z" id="a"/>
 					</defs>

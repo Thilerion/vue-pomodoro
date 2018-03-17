@@ -20,32 +20,32 @@
 					<p class="input-label">Durations</p>
 					<div class="input-group">
 						<p class="input-label">Focus</p>
-						<input type="range" v-model="settings.durFocus" min="10" max="60">
+						<!--<input type="range" v-model="settings.durFocus" min="10" max="60">-->
 					</div>
 					<div class="input-group">
 						<p class="input-label">Short</p>
-						<input type="range" v-model="settings.durShort" min="1" max="15">
+						<!--<input type="range" v-model="settings.durShort" min="1" max="15">-->
 					</div>						
 					<div class="input-group">
 						<p class="input-label">Long</p>
-						<input type="range" v-model="settings.durLong" min="10" max="60">
+						<!--<input type="range" v-model="settings.durLong" min="10" max="60">-->
 					</div>
 				</div>
 				<div class="input-group">
 					<p class="input-label">Focus session until long break</p>
-					<input type="range" v-model="settings.sessionsPerCycle" min="2" max="10">
+					<!--<input type="range" v-model="settings.sessionsPerCycle" min="2" max="10">-->
 				</div>
 				<div class="input-group">
 					<p class="input-label">Autoplay</p>
-					<input type="checkbox" v-model="settings.autoPlay">
+					<!--<input type="checkbox" v-model="settings.autoPlay">-->
 				</div>
 				<div class="input-group">
 					<p class="input-label">Sound</p>
-					<input type="checkbox" v-model="settings.sound">
+					<!--<input type="checkbox" v-model="settings.sound">-->
 				</div>
 				<div class="input-group">
 					<p class="input-label">Multiply speed</p>
-					<input type="range" v-model="settings.speed" min="0" max="15" step="1">
+					<!--<input type="range" v-model="settings.speed" min="0" max="15" step="1">-->
 				</div>
 			</div>
 		</div>
@@ -62,19 +62,19 @@ export default {
 	},
 	computed: {
 		settingsOpen() {
-			return this.$store.state.settingsOpen;
+			return this.$store.getters.settingsOpen;
 		},
 		getSettings() {
-			let s = this.$store.getters.settings;
-			s.speed = Math.round(s.speed / 100);
-			return s;
+			//let s = this.$store.getters.settings;
+			//s.speed = Math.round(s.speed / 100);
+			//return s;
 		}
 	},
 	methods: {
 		toggleSettings() {
-			this.$store.commit('toggleSettings');
+			this.$store.commit('toggleSettingsOpen');
 		},
-		saveSettings() {
+		/*saveSettings() {
 			let s = {};
 			s = Object.assign({}, s, this.settings);
 			s.speed = Math.max(Math.round((s.speed) * 100), 1);
@@ -102,11 +102,11 @@ export default {
 				console.log("Going to save the new settings now.");
 				this.saveSettings();
 			}
-		}
+		}*/
 	},
 	beforeMount() {
-		this.settings = Object.assign({}, this.settings, this.getSettings);
-		this.settingsPreChange = Object.assign({}, this.settings, this.getSettings);
+		//this.settings = Object.assign({}, this.settings, this.getSettings);
+		//this.settingsPreChange = Object.assign({}, this.settings, this.getSettings);
 	}
 }
 </script>
@@ -118,6 +118,7 @@ export default {
 	height: 100%;
 	width: 100%;
 	background: rgb(32, 32, 32);
+	background: #eeeeee;
 	transform-origin: calc(100% - 2rem) 2.8rem;
 	display: flex;
 	flex-direction: column;
