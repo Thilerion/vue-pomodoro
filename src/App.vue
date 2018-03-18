@@ -214,6 +214,8 @@ body {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
+		max-width: 400px;
+		margin: auto;
 	}
 
 	.grid-cycle {
@@ -225,8 +227,8 @@ body {
 	}
 
 	.wrapper {
-		max-width: 500px;
-		width: 50%;
+		width: 80%;
+		max-width: 800px;
 		margin: auto;
 	}
 
