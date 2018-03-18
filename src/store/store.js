@@ -99,6 +99,9 @@ export const store = new Vuex.Store({
 		setNewSession(state, { type, dur, id }) {
 			state.currentSession = new Session(type, dur, id);
 		},
+		setCurrentSessionDuration: (state, dur) => {
+			state.currentSession.duration = dur;
+		},
 		setSessionId(state, id) {
 			if (id != null) state.sessionId = id;
 			else state.sessionId += 1;
@@ -222,6 +225,8 @@ export const store = new Vuex.Store({
 		resetTimer({getters, commit, dispatch}) {
 			if (getters.sessionStarted !== true) {
 				console.warn("Can't reset a session that hasn't even started yet.");
+				console.warn('Resetting duration instead.');
+				commit('setCurrentSessionDuration', getters.sessionTypeDuration(getters.currentSessionName));
 				return;
 			}
 			if (getters.sessionFinished === true) {
