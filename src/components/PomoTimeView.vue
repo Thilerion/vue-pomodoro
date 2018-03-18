@@ -92,4 +92,10 @@ export default {
 	letter-spacing: 3px;
 	line-height: 1;
 }
+
+@media (max-height: 400px) {
+	.time-display {
+		font-size: 22vmin;
+	}
+}
 </style>

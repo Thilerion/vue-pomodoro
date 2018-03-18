@@ -10,7 +10,7 @@
 		</nav>
 		<main>
 			<div class="main-wrapper">
-<pomo-session class="grid-session"></pomo-session>
+			<pomo-session class="grid-session"></pomo-session>
 			<pomo-cycle class="grid-cycle"></pomo-cycle>
 			<pomo-time-view class="grid-time"></pomo-time-view>
 			</div>
@@ -145,9 +145,7 @@ nav {
 
 main {
 	flex: 1;
-	position: relative;
-	min-height: 300px;
-	
+	position: relative;	
 }
 
 .main-wrapper {
@@ -206,5 +204,21 @@ body {
 	position: absolute;
 	height: 100%;
 	width: 100%;
+}
+
+@media (max-height: 400px) {
+	.main-wrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+	}
+
+	.grid-cycle {
+		order: 1;
+	}
+
+	html {
+		font-size: 80%;
+	}
 }
 </style>

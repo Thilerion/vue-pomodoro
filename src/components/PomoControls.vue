@@ -68,7 +68,7 @@ export default {
 
 	.state-button {
 		border: none;
-		margin: 0 0.8rem;
+		margin: 0 0.8em;
 		background: none;
 	}
 
@@ -81,10 +81,21 @@ export default {
 	}
 	
 	.state-button i {
-		margin: calc(.7rem + 5px) .7rem;
+		margin: calc(.1em + 5px) .1em;
 	}
 
 	.state-button.large i {
-		font-size: 4.5rem;
+		font-size: 4.5em;
+	}
+
+	@media (max-height: 400px) {
+		.state-button i {
+			font-size: 1.6em;
+		}
+		
+		.state-button.large i {
+			font-size: 3em;
+			margin: 5px .1em;
+		}
 	}
 </style>
