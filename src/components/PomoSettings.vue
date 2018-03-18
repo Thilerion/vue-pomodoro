@@ -130,6 +130,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	font-size: 14px;
+	overflow-y: scroll;
 }
 
 .input-value {
@@ -193,9 +194,9 @@ svg.close-icon {
 	padding: 0 1em;
 	margin-bottom: 1em;
 	text-align: left;
-	overflow-y: scroll;
 	align-self: center;
 	width: 70%;
+	max-height: 100%;
 }
 
 .input-group {
@@ -233,26 +234,43 @@ input[type="range"] {
 </style>
 
 <style scoped>
-input[type="range"]{
-  -webkit-appearance:none;
-  height:20px;
-  background: linear-gradient(to right, #bbb 0%, #bbb 100%);
-  background-size: 150px 6px;
-  background-position:center;
-  background-repeat:repeat-x;
-  overflow:hidden;
-  outline: none;
-  padding-right: 2px;
+/* SOURCE: https://codepen.io/arianalynn/pen/yOWgog found in https://line25.com/inspiration/css-range-sliders */
+
+
+input[type=range] {
+  -webkit-appearance: none;
+  position: relative;
+  height: 20px;
+  background: none;
 }
 
-input[type="range"]::-webkit-slider-thumb{
-  -webkit-appearance:none;
-  margin-left: 1px;
-  width:10px;
-  height:18px;
-  background:#ddd;
-  position:relative;
-  z-index:3;
-  box-shadow:0 0 3px 0 rgba(0,0,0,1);
+input[type=range]::-webkit-slider-runnable-track {
+  width: 300px;
+  height: 6px;
+  border: none;
+  border-radius: 3px;
+  background: rgba(0,0,0,0.2);
+  box-shadow: inset 0px 8px 10px -10px rgba(0,0,0,0.5);
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 510%;
+  background: #ccc;
+  margin-top: -5px;
+  cursor: pointer;
+  box-shadow: 0px 0px 2px 0px rgba(0,0,0,1);
+}
+
+input[type=range]:focus {
+  outline: none
+}
+
+input[type=range]::-webkit-slider-thumb {
+  background: #eee;
+  border-color: #ccc;
 }
 </style>
