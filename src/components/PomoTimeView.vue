@@ -95,7 +95,13 @@ export default {
 
 @media (max-height: 400px) {
 	.time-display {
-		font-size: 22vmin;
+		font-size: max(22vmin, 50px);
+	}
+}
+
+@media (max-height: 250px) {
+	.time-display {
+		font-size: calc(30px + 10vh);
 	}
 }
 </style>
