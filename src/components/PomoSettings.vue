@@ -129,6 +129,7 @@ export default {
 	transform-origin: calc(100% - 2rem) 2.8rem;
 	display: flex;
 	flex-direction: column;
+	font-size: 14px;
 }
 
 .input-value {
@@ -189,8 +190,8 @@ svg.close-icon {
 
 .main {
 	flex: 1;
-	padding: 0 1rem;
-	margin-bottom: 1rem;
+	padding: 0 1em;
+	margin-bottom: 1em;
 	text-align: left;
 	overflow-y: scroll;
 	align-self: center;
@@ -198,13 +199,13 @@ svg.close-icon {
 }
 
 .input-group {
-	padding-bottom: 1rem;
+	padding-bottom: 1em;
 	position: relative;
 }
 
 .input-label {
-	font-size: 1.2rem;
-	padding-bottom: 0.4rem;
+	font-size: 1.2em;
+	padding-bottom: 0.4em;
 	line-height: 2;
 }
 
@@ -214,7 +215,7 @@ svg.close-icon {
 }
 
 .input-group-large > .input-group {
-	padding-left: 2rem;
+	padding-left: 2em;
 }
 
 .input-group-large > .input-label {
@@ -222,7 +223,7 @@ svg.close-icon {
 }
 
 .input-group-large .input-group .input-label {
-	font-size: 1rem;
+	font-size: 1em;
 }
 
 input[type="range"] {
