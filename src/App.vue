@@ -227,7 +227,7 @@ body {
 	}
 
 	.wrapper {
-		width: 80%;
+		width: calc(80%);
 		max-width: 800px;
 		margin: auto;
 		min-height: 210px;
@@ -247,4 +247,10 @@ body {
 		position: absolute;
 	}
 }
+
+@media (max-width: 600px) {
+		.wrapper {
+			width: 100%;
+		}
+	}
 </style>
