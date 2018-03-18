@@ -1,22 +1,24 @@
 <template>
 	<div id="app" class="theme-premium-white">
-		<div class="overlays">
-			<!--<pomo-settings></pomo-settings>-->
-			<pomo-settings v-if="settingsOpen"></pomo-settings>
-			<pomo-stats v-else-if="statsOpen"></pomo-stats>
-		</div>
-		<nav>
-			<pomo-nav></pomo-nav>
-		</nav>
-		<main>
-			<div class="main-wrapper">
-			<pomo-session class="grid-session"></pomo-session>
-			<pomo-cycle class="grid-cycle"></pomo-cycle>
-			<pomo-time-view class="grid-time"></pomo-time-view>
+		<div class="wrapper">
+			<div class="overlays">
+				<!--<pomo-settings></pomo-settings>-->
+				<pomo-settings v-if="settingsOpen"></pomo-settings>
+				<pomo-stats v-else-if="statsOpen"></pomo-stats>
 			</div>
-			
-		</main>	
-		<pomo-controls class="controls"></pomo-controls>
+			<nav>
+				<pomo-nav></pomo-nav>
+			</nav>
+			<main>
+				<div class="main-wrapper">
+				<pomo-session class="grid-session"></pomo-session>
+				<pomo-cycle class="grid-cycle"></pomo-cycle>
+				<pomo-time-view class="grid-time"></pomo-time-view>
+				</div>
+				
+			</main>	
+			<pomo-controls class="controls"></pomo-controls>
+		</div>		
 	</div>
 </template>
 
@@ -79,6 +81,12 @@ const enableNoSleep = () => {
 	min-height: 100vh;	
 }
 
+.wrapper {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
 /* GRADIENTS https://webgradients.com/ */
 
 .theme-dark {
@@ -125,11 +133,6 @@ const enableNoSleep = () => {
 .theme-sky-high {
 	background-image: linear-gradient(-30deg, #48c6ef 10%, #6f86d6 90%);
 	color: rgb(4, 21, 43);
-}
-
-#app {
-	display: flex;
-	flex-direction: column;
 }
 
 nav {
@@ -219,6 +222,13 @@ body {
 
 	html {
 		font-size: 80%;
+	}
+
+	.wrapper {
+		max-width: 500px;
+		width: 50%;
+		margin: auto;
+		position: relative;
 	}
 }
 </style>
