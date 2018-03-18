@@ -230,6 +230,8 @@ body {
 		width: 80%;
 		max-width: 800px;
 		margin: auto;
+		min-height: 210px;
+		height: 100vh;
 	}
 
 	.overlays {
