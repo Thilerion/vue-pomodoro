@@ -6,6 +6,7 @@ Vue.use(Vuex)
 import Session from '@/constructors/session';
 import formatDuration from '@/utils/format-duration';
 import { minToMs } from '@/utils/time-utils';
+import merge from 'deepmerge';
 
 const sessionTypes = {
 	focus: "Focus",
@@ -25,7 +26,7 @@ export const store = new Vuex.Store({
 			speed: 1,
 			sound: false,
 			cycleLength: 6, //f s f s f l = 6
-			settingsOpen: false,
+			settingsOpen: true,
 			statsOpen: false
 		},
 		initialized: false,
@@ -91,7 +92,8 @@ export const store = new Vuex.Store({
 		history: state => state.history,
 		currentCycleHistory: (state, getters) => state.history[getters.currentCycleId],
 		settingsOpen: state => state.settings.settingsOpen,
-		statsOpen: state => state.settings.statsOpen
+		statsOpen: state => state.settings.statsOpen,
+		getSettings: state => state.settings
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {
@@ -138,6 +140,11 @@ export const store = new Vuex.Store({
 		setTweenCallback: (state, callback) => state.timeTween.tweenCallback = callback,
 		toggleSettingsOpen: (state) => state.settings.settingsOpen = !state.settings.settingsOpen,
 		toggleStatsOpen: state => state.settings.statsOpen = !state.settings.statsOpen,
+		changeSettings: (state, changes) => {
+			console.log(changes);
+			state.settings = merge(state.settings, changes);
+			console.log(state.settings);
+		},
 
 		DEBUG_skipToSessionEnd: (state, endStartTime) => state.currentSession.startTime = endStartTime
 	},

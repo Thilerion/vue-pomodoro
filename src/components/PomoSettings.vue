@@ -20,32 +20,37 @@
 					<p class="input-label">Durations</p>
 					<div class="input-group">
 						<p class="input-label">Focus</p>
-						<!--<input type="range" v-model="settings.durFocus" min="10" max="60">-->
+						<input type="range" v-model="settings.focus" min="15" max="60" step="1">
+						<span class="input-value">{{settings.focus}}</span>
 					</div>
 					<div class="input-group">
 						<p class="input-label">Short</p>
-						<!--<input type="range" v-model="settings.durShort" min="1" max="15">-->
+						<input type="range" v-model="settings.short" min="1" max="15" step="1">
+						<span class="input-value">{{settings.short}}</span>
 					</div>						
 					<div class="input-group">
 						<p class="input-label">Long</p>
-						<!--<input type="range" v-model="settings.durLong" min="10" max="60">-->
+						<input type="range" v-model="settings.long" min="10" max="60" step="1">
+						<span class="input-value">{{settings.long}}</span>
 					</div>
 				</div>
 				<div class="input-group">
-					<p class="input-label">Focus session until long break</p>
-					<!--<input type="range" v-model="settings.sessionsPerCycle" min="2" max="10">-->
+					<p class="input-label">Cycle length</p>
+					<input type="range" v-model="settings.cycleLength" min="2" max="10">
+					<span class="input-value">{{settings.cycleLength}}</span>
 				</div>
 				<div class="input-group">
-					<p class="input-label">Autoplay</p>
-					<!--<input type="checkbox" v-model="settings.autoPlay">-->
+					<p class="input-label checkbox">Autoplay</p>
+					<input type="checkbox" v-model="settings.autoPlay">
 				</div>
 				<div class="input-group">
-					<p class="input-label">Sound</p>
-					<!--<input type="checkbox" v-model="settings.sound">-->
+					<p class="input-label checkbox">Sound</p>
+					<input type="checkbox" v-model="settings.sound">
 				</div>
 				<div class="input-group">
 					<p class="input-label">Multiply speed</p>
-					<!--<input type="range" v-model="settings.speed" min="0" max="15" step="1">-->
+					<input type="range" v-model="settings.speed" min="1" max="200" step="1">
+					<span class="input-value">{{settings.speed}}</span>
 				</div>
 			</div>
 		</div>
@@ -53,6 +58,7 @@
 </template>
 
 <script>
+import { minToMs, msToMin } from '@/utils/time-utils';
 export default {
 	data() {
 		return {
@@ -65,48 +71,43 @@ export default {
 			return this.$store.getters.settingsOpen;
 		},
 		getSettings() {
-			//let s = this.$store.getters.settings;
-			//s.speed = Math.round(s.speed / 100);
-			//return s;
+			return this.$store.getters.getSettings;
 		}
 	},
 	methods: {
 		toggleSettings() {
 			this.$store.commit('toggleSettingsOpen');
-		},
-		/*saveSettings() {
-			let s = {};
-			s = Object.assign({}, s, this.settings);
-			s.speed = Math.max(Math.round((s.speed) * 100), 1);
-			s.durLong *= 60 * 1000;
-			s.durShort *= 60 * 1000;
-			s.durFocus *= 60 * 1000;
-			
-			for (let key in s) {
-				if (typeof s[key] === "string") {
-					s[key] = parseInt(s[key]);
-				}
-			}
-			console.log(s);
-			this.$store.commit('saveSettings', s);
 		}
 	},
-	watch: {
-		settingsOpen(newValue, oldValue) {
-			console.log("Settings changed to: " + newValue);
-			console.log(JSON.stringify(this.settings), JSON.stringify(this.settingsPreChange));
-			if (newValue === true) {
-				this.$store.dispatch('pauseTimer');
-				this.settings = Object.assign({}, this.settings, this.getSettings);
-			} else if (newValue === false && JSON.stringify(this.settings) !== JSON.stringify(this.settingsPreChange)) {
-				console.log("Going to save the new settings now.");
-				this.saveSettings();
-			}
-		}*/
-	},
 	beforeMount() {
-		//this.settings = Object.assign({}, this.settings, this.getSettings);
-		//this.settingsPreChange = Object.assign({}, this.settings, this.getSettings);
+		let s = JSON.parse(JSON.stringify(this.getSettings));
+		for (let dur in s.durations) {
+			s[dur] = msToMin(s.durations[dur]);
+		}
+		delete s.durations;
+		console.log(s);
+		this.settings = s;
+
+		let pre = JSON.parse(JSON.stringify(s));
+		this.settingsPreChange = pre;
+	},
+	beforeDestroy() {
+		let s = this.settings;
+		let pre = this.settingsPreChange;
+
+		let changes = {};
+		for (let key in s) {
+			if (s[key] !== pre[key] && key !== "settingsOpen") {
+				if (key === "focus" || key === "long" || key === "short") {
+					if (!changes.durations) changes.durations = {};
+					changes.durations[key] = minToMs(s[key]);
+				} else {
+					changes[key] = s[key];
+				}
+			}
+		}
+		console.log(changes);
+		this.$store.commit('changeSettings', changes);
 	}
 }
 </script>
@@ -122,6 +123,13 @@ export default {
 	transform-origin: calc(100% - 2rem) 2.8rem;
 	display: flex;
 	flex-direction: column;
+}
+
+.input-value {
+	position: absolute;
+	right: 0;
+	transform: translate(10px, -2px);
+	opacity: 0.8;
 }
 
 h2 {
@@ -185,12 +193,18 @@ svg.close-icon {
 
 .input-group {
 	padding-bottom: 1rem;
+	position: relative;
 }
 
 .input-label {
 	font-size: 1.2rem;
 	padding-bottom: 0.4rem;
 	line-height: 2;
+}
+
+.input-label.checkbox {
+	display: inline-block;
+	width: 40%;
 }
 
 .input-group-large > .input-group {
@@ -206,6 +220,6 @@ svg.close-icon {
 }
 
 input[type="range"] {
-	width: 100%;
+	width: calc(100% - 10px);
 }
 </style>
