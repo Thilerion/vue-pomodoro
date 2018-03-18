@@ -16,19 +16,30 @@
 				
 			</div>
 			<div class="main">
-				<div class="cycleDiv faded">
-					<ul class="cycleList" ref="sessionList">
-						<li class="cycleSession" v-for="(session, index) in cycleArray" :key="index" :ref="'session' + index" :class="cycleSessionClass(index)">{{session}}</li>
+				<h3>Current Cycle</h3>
+					<ul class="cycleList section-border">
+						<li class="cycleSession" v-for="(session, index) in cycleArray" :key="index" :class="cycleSessionClass(index)">{{session}}</li>
 					</ul>
+				<h3>Current cycle 2.0</h3>
+				<pomo-cycle-slider class="section-border"></pomo-cycle-slider>
+				<h3>Total focus time</h3>
+				<div class="section-border">
+					<pre>
+						{{history[0][0]}}
+					</pre>
+					
 				</div>
-				
 			</div>
 		</div>
 	</transition>
 </template>
 
 <script>
+import PomoCycleSlider from './PomoCycleSlider';
 export default {
+	components: {
+		PomoCycleSlider
+	},
 	computed: {
 		statsOpen() {
 			return this.$store.getters.statsOpen;
@@ -38,6 +49,9 @@ export default {
 		},
 		currentSessionId() {
 			return this.$store.getters.currentSessionId;
+		},
+		history() {
+			return this.$store.getters.history;
 		}
 	},
 	methods: {
@@ -51,15 +65,6 @@ export default {
 				return "current";
 			} else return "future";
 		}
-	},
-	mounted() {
-		for (let i = 0; i < this.cycleArray.length; i++) {
-			let refName = "session" + i;
-			console.log(this.$refs[refName][0]);
-			if (i === this.currentSessionId) {
-				console.log("Current session!");
-			}
-		}
 	}
 }
 </script>
@@ -69,31 +74,27 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	max-width: 100%;
-	overflow: hidden;
+	flex-wrap: wrap;
 }
 
-.cycleDiv {
-	overflow: hidden;
-	width: 100%;
-	border: 1px solid black;
+li {
+	padding: 0.2rem 0;
 }
 
-.faded {
-	position: relative;
+.section-border {
+	border-top: 1px solid rgba(0,0,0,0.1);
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding: 0.5rem 0;
+	margin: 0.3rem 0 1rem 0;
 }
 
-.faded:after {
-	content: '';
-	position: absolute;
-	left: 0; right: 0;
-	top: 0; bottom: 0;
-	background-image: linear-gradient(to right, #eee, rgba(0,128,128,0) 50px),
-    linear-gradient(to left , #eee, rgba(0,128,128,0) 50px);
+h3 {
+	font-weight: bold;
+	line-height: 2.2;
 }
 
 .cycleSession {
-	min-width: 6rem;
-	flex: 1 0 auto;
+	flex: 1 0 7rem;
 	text-align: center;
 }
 
@@ -107,7 +108,7 @@ export default {
 }
 
 .cycleSession.future {
-	opacity: 0.8;
+	opacity: 0.7;
 }
 
 .stats-overlay {
