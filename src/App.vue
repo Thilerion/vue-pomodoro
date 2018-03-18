@@ -228,7 +228,19 @@ body {
 		max-width: 500px;
 		width: 50%;
 		margin: auto;
-		position: relative;
+	}
+
+	.overlays {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		max-width: 100%;
+	}
+
+	.overlays > div.settings-overlay {
+		position: absolute;
 	}
 }
 </style>
