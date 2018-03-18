@@ -5,6 +5,7 @@
 				<!--<pomo-settings></pomo-settings>-->
 				<pomo-settings v-if="settingsOpen"></pomo-settings>
 				<pomo-stats v-else-if="statsOpen"></pomo-stats>
+				<pomo-sound></pomo-sound>
 			</div>
 			<nav>
 				<pomo-nav></pomo-nav>
@@ -33,6 +34,8 @@ import PomoSession from './components/PomoSession';
 import PomoCycle from './components/PomoCycle';
 import PomoSettings from './components/PomoSettings';
 import PomoStats from './components/PomoStats';
+import PomoSound from './components/PomoSound';
+
 export default {
 	name: "app",
 	components: {
@@ -42,7 +45,8 @@ export default {
 		PomoSession,
 		PomoCycle,
 		PomoSettings,
-		PomoStats
+		PomoStats,
+		PomoSound
 	},
 	beforeCreate() {
 		this.$store.dispatch('initializeTimer');

@@ -26,7 +26,7 @@ export const store = new Vuex.Store({
 			speed: 1,
 			sound: false,
 			cycleLength: 6, //f s f s f l = 6
-			settingsOpen: true,
+			settingsOpen: false,
 			statsOpen: false
 		},
 		initialized: false,
