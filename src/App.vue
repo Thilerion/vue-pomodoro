@@ -77,6 +77,10 @@ const enableNoSleep = () => {
 </script>
 
 <style>
+html {
+	overflow-y: hidden;
+}
+
 #app {
 	font-family: "Titillium Web", sans-serif;
 	-webkit-font-smoothing: antialiased;
