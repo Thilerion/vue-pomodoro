@@ -223,5 +223,12 @@ body {
 	html {
 		font-size: 80%;
 	}
+
+	.wrapper {
+		max-width: 500px;
+		width: 50%;
+		margin: auto;
+		position: relative;
+	}
 }
 </style>
