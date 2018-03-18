@@ -112,7 +112,7 @@ export default {
 			}
 		}
 		console.log(changes);
-		this.$store.commit('changeSettings', changes);
+		this.$store.dispatch('changeSettings', changes);
 		this.saveToLocalStorage(this.getSettings);
 	}
 }

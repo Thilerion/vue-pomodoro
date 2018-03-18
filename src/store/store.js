@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: minToMs(30),
+				focus: 10000,
 				short: minToMs(7),
 				long: minToMs(25)
 			},
@@ -152,6 +152,12 @@ export const store = new Vuex.Store({
 		DEBUG_skipToSessionEnd: (state, endStartTime) => state.currentSession.startTime = endStartTime
 	},
 	actions: {
+		changeSettings: ({ commit, getters }, changes) => {
+			commit('changeSettings', changes);
+			if (changes.durations && changes.durations[getters.currentSessionName]) {
+				commit('setCurrentSessionDuration', changes.durations[getters.currentSessionName]);
+			}
+		},
 		initializeTimer({ state, commit, getters, dispatch }) {
 			if (state.initialized === true) return;
 			dispatch('getSettingsFromLocalStorage');

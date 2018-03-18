@@ -22,11 +22,13 @@ export default {
 			return this.$store.getters.runTweenTo;
 		},
 		timeDisplay() {
+			let display;
 			if (this.runTween === false) {
-				return Math.round(this.timeRemaining / 1000) * 1000;
+				display = Math.round(this.timeRemaining / 1000) * 1000;
 			} else if (this.runTween === true) {
-				return Math.round(this.tweenedNumber / 1000) * 1000;
+				display = Math.round(this.tweenedNumber / 1000) * 1000;
 			}
+			return Math.max(-50, display);
 		}
 	},
 	watch: {
