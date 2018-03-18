@@ -201,6 +201,7 @@ svg.close-icon {
 .input-group {
 	padding-bottom: 1em;
 	position: relative;
+	padding-left: 3px;
 }
 
 .input-label {
@@ -228,5 +229,30 @@ svg.close-icon {
 
 input[type="range"] {
 	width: calc(100% - 10px);
+}
+</style>
+
+<style scoped>
+input[type="range"]{
+  -webkit-appearance:none;
+  height:20px;
+  background: linear-gradient(to right, #bbb 0%, #bbb 100%);
+  background-size: 150px 6px;
+  background-position:center;
+  background-repeat:repeat-x;
+  overflow:hidden;
+  outline: none;
+  padding-right: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  margin-left: 1px;
+  width:10px;
+  height:18px;
+  background:#ddd;
+  position:relative;
+  z-index:3;
+  box-shadow:0 0 3px 0 rgba(0,0,0,1);
 }
 </style>
