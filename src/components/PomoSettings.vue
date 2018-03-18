@@ -77,6 +77,11 @@ export default {
 	methods: {
 		toggleSettings() {
 			this.$store.commit('toggleSettingsOpen');
+		},
+		saveToLocalStorage(settings) {
+			let str = JSON.stringify(settings);
+			localStorage.setItem('settings', str);
+			console.log(localStorage.getItem('settings'));
 		}
 	},
 	beforeMount() {
@@ -108,6 +113,7 @@ export default {
 		}
 		console.log(changes);
 		this.$store.commit('changeSettings', changes);
+		this.saveToLocalStorage(this.getSettings);
 	}
 }
 </script>

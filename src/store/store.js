@@ -149,8 +149,9 @@ export const store = new Vuex.Store({
 		DEBUG_skipToSessionEnd: (state, endStartTime) => state.currentSession.startTime = endStartTime
 	},
 	actions: {
-		initializeTimer({ state, commit, getters }) {
+		initializeTimer({ state, commit, getters, dispatch }) {
 			if (state.initialized === true) return;
+			dispatch('getSettingsFromLocalStorage');
 			let id = getters.trueNextSessionId;
 			let type = getters.trueNextSessionName;
 			let dur = getters.sessionTypeDuration(type);
@@ -158,6 +159,17 @@ export const store = new Vuex.Store({
 			commit('setNewSession', { type, dur, id });
 			commit('setSessionId', id);
 			commit('setInitialized');
+		},
+		getSettingsFromLocalStorage: ({getters, commit}) => {
+			if (localStorage) {
+				let s = localStorage.getItem('settings');
+				if (s != null) {
+					s = JSON.parse(s);
+					let old = getters.getSettings;
+					let merged = merge(old, s);
+					commit('changeSettings', merged);
+				}
+			}
 		},
 		createNewSession({ state, commit, getters }) {
 			let id = getters.trueNextSessionId;
