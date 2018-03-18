@@ -24,7 +24,7 @@ export const store = new Vuex.Store({
 			autoPlay: false,
 			speed: 1,
 			sound: false,
-			cycleLength: 4, //f s f s f l = 6
+			cycleLength: 6, //f s f s f l = 6
 			settingsOpen: false,
 			statsOpen: false
 		},
@@ -51,6 +51,9 @@ export const store = new Vuex.Store({
 				}
 			}
 			return arr;
+		},
+		cycleArrayDisplay: (state, getters) => {
+			return getters.cycleArray.map((cur) => sessionTypes[cur]);
 		},
 		sessionTypeDuration: state => sessionName => state.settings.durations[sessionName] / state.settings.speed,
 		sessionName: (state, getters) => sessionId => getters.cycleArray[sessionId],

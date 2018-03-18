@@ -16,11 +16,12 @@
 				
 			</div>
 			<div class="main">
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo magnam quam, rerum provident commodi sit molestias mollitia totam dolorem non.</p>
-				<p>Vitae voluptatem illum nam pariatur magni sed necessitatibus tenetur sint vel unde! Aut obcaecati molestiae cumque, possimus reiciendis debitis necessitatibus.</p>
-				<p>Quaerat excepturi possimus, nam esse, numquam pariatur aut, error quo veritatis ullam ex. Animi quam nulla quo nisi optio provident!</p>
-				<p>Quia sunt magnam esse odit quis vel commodi! Distinctio, molestias corporis facilis laboriosam provident eaque fugiat accusamus dolores adipisci hic!</p>
-				<p>Ratione blanditiis deserunt error eaque tempora, nam suscipit eos molestias beatae in perferendis cupiditate libero, ipsa mollitia. Facere, iure voluptatem!</p>
+				<div class="cycleDiv faded">
+					<ul class="cycleList" ref="sessionList">
+						<li class="cycleSession" v-for="(session, index) in cycleArray" :key="index" :ref="'session' + index" :class="cycleSessionClass(index)">{{session}}</li>
+					</ul>
+				</div>
+				
 			</div>
 		</div>
 	</transition>
@@ -31,17 +32,84 @@ export default {
 	computed: {
 		statsOpen() {
 			return this.$store.getters.statsOpen;
+		},
+		cycleArray() {
+			return this.$store.getters.cycleArrayDisplay;
+		},
+		currentSessionId() {
+			return this.$store.getters.currentSessionId;
 		}
 	},
 	methods: {
 		toggleStats() {
 			this.$store.commit('toggleStatsOpen');
+		},
+		cycleSessionClass(id) {
+			if (id < this.currentSessionId) {
+				return "finished";
+			} else if (id === this.currentSessionId) {
+				return "current";
+			} else return "future";
+		}
+	},
+	mounted() {
+		for (let i = 0; i < this.cycleArray.length; i++) {
+			let refName = "session" + i;
+			console.log(this.$refs[refName][0]);
+			if (i === this.currentSessionId) {
+				console.log("Current session!");
+			}
 		}
 	}
 }
 </script>
 
 <style scoped>
+.cycleList {
+	display: flex;
+	justify-content: space-between;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+.cycleDiv {
+	overflow: hidden;
+	width: 100%;
+	border: 1px solid black;
+}
+
+.faded {
+	position: relative;
+}
+
+.faded:after {
+	content: '';
+	position: absolute;
+	left: 0; right: 0;
+	top: 0; bottom: 0;
+	background-image: linear-gradient(to right, #eee, rgba(0,128,128,0) 50px),
+    linear-gradient(to left , #eee, rgba(0,128,128,0) 50px);
+}
+
+.cycleSession {
+	min-width: 6rem;
+	flex: 1 0 auto;
+	text-align: center;
+}
+
+.cycleSession.finished {
+	opacity: 0.3;
+	text-decoration: line-through;
+}
+
+.cycleSession.current {
+	font-weight: bold;
+}
+
+.cycleSession.future {
+	opacity: 0.8;
+}
+
 .stats-overlay {
 	position: fixed;
 	z-index: 100;
@@ -105,11 +173,11 @@ svg.close-icon {
 
 .main {
 	flex: 1;
-	padding: 0 1rem;
+	padding: 0 2rem;
 	margin-bottom: 1rem;
 	text-align: left;
 	overflow-y: scroll;
 	align-self: center;
-	width: 70%;
+	width: 100%;
 }
 </style>
