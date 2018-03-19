@@ -15,7 +15,7 @@ export default {
 		pastFocusSessions() {
 			let allPastSessions = [...this.$store.getters.currentCycleHistory];
 			return allPastSessions.filter(session => {
-				let parsed = JSON.parse(session);
+				let parsed = JSON.parse(JSON.stringify(session));
 				return parsed.type === "focus" && parsed.finished === true;
 			}).reduce((acc, cur) => {
 				acc.push("finished");

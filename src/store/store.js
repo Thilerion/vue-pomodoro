@@ -8,6 +8,8 @@ import formatDuration from '@/utils/format-duration';
 import { minToMs } from '@/utils/time-utils';
 import merge from 'deepmerge';
 
+import stats from './modules/stats';
+
 const sessionTypes = {
 	focus: "Focus",
 	short: "Short break",
@@ -15,6 +17,9 @@ const sessionTypes = {
 };
 
 export const store = new Vuex.Store({
+	modules: {
+		stats
+	},
 	state: {
 		settings: {
 			durations: {
@@ -33,7 +38,6 @@ export const store = new Vuex.Store({
 		sessionId: null,
 		cycleId: 0,
 		currentSession: new Session(),
-		history: [[]],
 		timeoutId: null,
 		timeTween: {
 			run: false,
@@ -89,8 +93,6 @@ export const store = new Vuex.Store({
 		runTween: state => state.timeTween.run,
 		runTweenTo: state => state.timeTween.tweenTo,
 		runAfterTween: state => state.timeTween.tweenCallback,
-		history: state => state.history,
-		currentCycleHistory: (state, getters) => state.history[getters.currentCycleId],
 		settingsOpen: state => state.settings.settingsOpen,
 		statsOpen: state => state.settings.statsOpen,
 		getSettings: state => state.settings
@@ -108,8 +110,6 @@ export const store = new Vuex.Store({
 		},
 		setCycleId: state => state.cycleId += 1,
 		setInitialized: state => state.initialized = true,
-		logCurrentSession: state => state.history[state.history.length - 1].push(JSON.stringify(state.currentSession)),
-		logNewCycle: state => state.history.push([]),
 		timerTick: state => state.currentSession.lastTick = Date.now(),
 		setStarted: state => {
 			state.currentSession.started = true;
@@ -248,8 +248,8 @@ export const store = new Vuex.Store({
 			let dur = getters.currentSession.duration;
 			dispatch('runTween', { to: dur, then: "initializeResetCurrentSession" });			
 		},
-		initializeResetCurrentSession({commit, dispatch}) {
-			commit('logCurrentSession');
+		initializeResetCurrentSession({commit, dispatch, getters}) {
+			commit('logCurrentSession', getters.currentSession);
 			dispatch('recreateCurrentSession');
 		},
 		timerFinished({commit, dispatch, getters}) {
@@ -259,7 +259,7 @@ export const store = new Vuex.Store({
 			//dispatch('initializeNextSession');
 		},
 		initializeNextSession({ commit, dispatch, getters }) {
-			commit('logCurrentSession');
+			commit('logCurrentSession', getters.currentSession);
 			if (getters.isCycleFinished === true) {
 				dispatch('startNewCycle');
 			} else {
