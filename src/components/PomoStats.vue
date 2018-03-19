@@ -16,16 +16,27 @@
 				
 			</div>
 			<div class="main">
-				<h3>Current cycle</h3>
+				<h3>Current cycle<span> ({{currentCycleProgress}})</span></h3>
 				<pomo-cycle-slider class="section-border"></pomo-cycle-slider>
 				<h3>Lifetime stats</h3>
-				<div class="section-border">
+				<div class="stats-section">
+					<div class="hr-large"></div>
 					<h4>Sessions</h4>
 					<p>Total: {{historyStats.totalSessions}} / Completed: {{historyStats.completed}}</p>
 					<p>Skipped: {{historyStats.skipped}} / Resets: {{historyStats.resets}}</p>
-					<div class="hr"></div>
+					<div class="hr-margin"></div>
 					<p>Time spent focussed: {{historyStats.totalFocusTime | form}}</p>
 					<p>Time spent in break: {{historyStats.totalBreakTime | form}}</p>
+					<div class="hr"></div>
+					<h4>Cycles</h4>
+					<p>Total cycles: {{historyStats.totalCycles}}</p>
+					<p>Sessions per cycle: {{avgSessionsPerCycle | toFixedOne}}</p>
+					<div class="hr"></div>
+					<h4>Pauses</h4>
+					<p>Times paused: {{historyStats.pausesAmount}}</p>
+					<p>Average pauses per cycle: {{avgPausesPerCycle | toFixedOne}}</p>
+					<p>Total pause duration: {{historyStats.totalPauseTime | form}}</p>
+					<p>Average pause duration: {{avgPauseDuration | form}}</p>
 				</div>
 			</div>
 		</div>
@@ -50,11 +61,23 @@ export default {
 		currentSessionId() {
 			return this.$store.getters.currentSessionId;
 		},
+		currentCycleProgress() {
+			return (this.currentSessionId + 1) + "/" + this.cycleArray.length;
+		},
 		history() {
 			return this.$store.getters.history;
 		},
 		historyStats() {
 			return this.$store.getters.totalSessionHistoryStats;
+		},
+		avgSessionsPerCycle() {
+			return this.historyStats.totalSessions / this.historyStats.totalCycles;
+		},
+		avgPauseDuration() {
+			return this.historyStats.totalPauseTime / this.historyStats.pausesAmount;
+		},
+		avgPausesPerCycle() {
+			return this.historyStats.pausesAmount / this.historyStats.totalCycles; 
 		}
 	},
 	methods: {
@@ -83,6 +106,9 @@ export default {
 
 			let formatted = formatDuration(ms, f);
 			return formatted;
+		},
+		toFixedOne(n) {
+			return Number.parseFloat(n).toFixed(1);
 		}
 	}
 }
@@ -100,13 +126,6 @@ li {
 	padding: 0.2rem 0;
 }
 
-.section-border {
-	border-top: 1px solid rgba(0,0,0,0.1);
-	border-bottom: 1px solid rgba(0,0,0,0.1);
-	padding: 0.5rem 0;
-	margin: 0.3rem 0 1rem 0;
-}
-
 .hr {
 	border-bottom: 1px solid rgba(0,0,0,0.08);
 	width: 90%;
@@ -114,9 +133,27 @@ li {
 	margin: 8px auto;
 }
 
+.hr-margin {
+	margin: 8px auto;
+}
+
+.hr-large {
+	border-bottom: 1px solid rgba(0,0,0,0.08);
+	width: 100%;
+	height: 1px;
+	margin: 8px auto;
+}
+
 h3 {
 	font-weight: bold;
 	line-height: 2.2;
+}
+
+h3 > span {
+	font-weight: normal;
+	font-size: 90%;
+	margin-left: 5px;
+	opacity: 0.8;
 }
 
 h4 {
