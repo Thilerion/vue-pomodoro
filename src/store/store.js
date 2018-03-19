@@ -108,7 +108,10 @@ export const store = new Vuex.Store({
 			if (id != null) state.sessionId = id;
 			else state.sessionId += 1;
 		},
-		setCycleId: state => state.cycleId += 1,
+		setCycleId: (state, id) => {
+			if (id == null) id = 1;
+			state.cycleId += id;
+		},
 		setInitialized: state => state.initialized = true,
 		timerTick: state => state.currentSession.lastTick = Date.now(),
 		setStarted: state => {
@@ -161,6 +164,11 @@ export const store = new Vuex.Store({
 		initializeTimer({ state, commit, getters, dispatch }) {
 			if (state.initialized === true) return;
 			dispatch('getSettingsFromLocalStorage');
+			dispatch('getHistoryFromLocalStorage');
+			if (getters.lastCycleHasSessions === true) {
+				commit('logNewCycle');
+			}
+			commit('setCycleId', getters.trueCycleId);
 			let id = getters.trueNextSessionId;
 			let type = getters.trueNextSessionName;
 			let dur = getters.sessionTypeDuration(type);

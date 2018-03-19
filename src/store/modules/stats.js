@@ -9,6 +9,8 @@ import merge from 'deepmerge';
 const getters = {
 	history: state => state.history,
 	currentCycleHistory: (state, getters, rootState, rootGetters) => state.history[rootGetters.currentCycleId],
+	lastCycleHasSessions: state => state.history[state.history.length - 1].length > 0,
+	trueCycleId: state => state.history.length - 1,
 	sessionHistoryStats: state => cycle => {
 		const cycleHistory = clone(state.history[cycle]);
 		const accumulator = clone(sessionStatsDefault);
@@ -52,7 +54,6 @@ const getters = {
 					//for each statistic from that session type
 					total[item] += perCycle[i][key][item];					
 					if (item === "totalSessions") {
-						console.log(item);
 						let s = `${key}Sessions`;
 						total[s] += perCycle[i][key][item];
 					}
@@ -67,7 +68,15 @@ const getters = {
 
 // actions
 const actions = {
-	
+	getHistoryFromLocalStorage: ({ commit }) => {
+		if (localStorage) {
+			let h = localStorage.getItem('history');
+			if (h != null) {
+				h = JSON.parse(h);
+				commit('setHistory', h);
+			}
+		}
+	}
 };
 
 // mutations
@@ -97,8 +106,12 @@ const mutations = {
 			skipped: cur.skipped
 		}
 		state.history[state.history.length - 1].push(JSON.parse(JSON.stringify(log)));
+
+		//SAVE TO LOCAL STORAGE
+		saveToLocalStorage(state.history);
 	},
-	logNewCycle: state => state.history.push([])
+	logNewCycle: state => state.history.push([]),
+	setHistory: (state, history) => state.history = history
 };
 
 export default {
@@ -139,3 +152,9 @@ const sessionStatsDefault = {
 }
 
 const clone = obj => JSON.parse(JSON.stringify(obj));
+
+const saveToLocalStorage = history => {
+	let str = JSON.stringify(history);
+	localStorage.setItem('history', str);
+	console.log("Saving history to local storage.");
+}

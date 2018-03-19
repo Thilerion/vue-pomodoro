@@ -74,10 +74,10 @@ export default {
 			return this.historyStats.totalSessions / this.historyStats.totalCycles;
 		},
 		avgPauseDuration() {
-			return this.historyStats.totalPauseTime / this.historyStats.pausesAmount;
+			return (this.historyStats.totalPauseTime / this.historyStats.pausesAmount) || 0;
 		},
 		avgPausesPerCycle() {
-			return this.historyStats.pausesAmount / this.historyStats.totalCycles; 
+			return (this.historyStats.pausesAmount / this.historyStats.totalCycles); 
 		}
 	},
 	methods: {
