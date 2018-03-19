@@ -16,18 +16,16 @@
 				
 			</div>
 			<div class="main">
-				<h3>Current Cycle</h3>
-					<ul class="cycleList section-border">
-						<li class="cycleSession" v-for="(session, index) in cycleArray" :key="index" :class="cycleSessionClass(index)">{{session}}</li>
-					</ul>
-				<h3>Current cycle 2.0</h3>
+				<h3>Current cycle</h3>
 				<pomo-cycle-slider class="section-border"></pomo-cycle-slider>
-				<h3>Total focus time</h3>
+				<h3>Lifetime stats</h3>
 				<div class="section-border">
-					<pre>
-						{{history[0][0]}}
-					</pre>
-					
+					<h4>Sessions</h4>
+					<p>Total: {{historyStats.totalSessions}} / Completed: {{historyStats.completed}}</p>
+					<p>Skipped: {{historyStats.skipped}} / Resets: {{historyStats.resets}}</p>
+					<div class="hr"></div>
+					<p>Time spent focussed: {{historyStats.totalFocusTime | form}}</p>
+					<p>Time spent in break: {{historyStats.totalBreakTime | form}}</p>
 				</div>
 			</div>
 		</div>
@@ -36,6 +34,8 @@
 
 <script>
 import PomoCycleSlider from './PomoCycleSlider';
+import moment from 'moment';
+import formatDuration from '@/utils/format-duration';
 export default {
 	components: {
 		PomoCycleSlider
@@ -52,6 +52,9 @@ export default {
 		},
 		history() {
 			return this.$store.getters.history;
+		},
+		historyStats() {
+			return this.$store.getters.totalSessionHistoryStats;
 		}
 	},
 	methods: {
@@ -64,6 +67,22 @@ export default {
 			} else if (id === this.currentSessionId) {
 				return "current";
 			} else return "future";
+		}
+	},
+	filters: {
+		form(ms) {
+			let dur = moment.duration(ms);
+			let f = "s[s]";
+			if (dur.hours() !== 0) {
+				f = 'H[h] m[m] ' + f;
+			} else if (dur.minutes() !== 0) {
+				f = 'm[m] ' + f;
+			}
+			console.log(dur.minutes());
+			console.log(dur.seconds());
+
+			let formatted = formatDuration(ms, f);
+			return formatted;
 		}
 	}
 }
@@ -88,9 +107,25 @@ li {
 	margin: 0.3rem 0 1rem 0;
 }
 
+.hr {
+	border-bottom: 1px solid rgba(0,0,0,0.08);
+	width: 90%;
+	height: 1px;
+	margin: 8px auto;
+}
+
 h3 {
 	font-weight: bold;
 	line-height: 2.2;
+}
+
+h4 {
+	font-weight: bold;
+	font-size: 95%;
+}
+
+p {
+	font-size: 95%;
 }
 
 .cycleSession {
