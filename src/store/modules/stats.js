@@ -111,7 +111,13 @@ const mutations = {
 		saveToLocalStorage(state.history);
 	},
 	logNewCycle: state => state.history.push([]),
-	setHistory: (state, history) => state.history = history
+	setHistory: (state, history) => state.history = history,
+	resetHistoryStats: state => {
+		let curCycleHistory = state.history[state.history.length - 1];
+		console.log(curCycleHistory);
+		state.history = [state.history[state.history.length -1]];
+		saveToLocalStorage(state.history);
+	}
 };
 
 export default {

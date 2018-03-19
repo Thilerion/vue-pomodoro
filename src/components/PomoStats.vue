@@ -2,6 +2,9 @@
 <transition name="fade">
 		<div class="stats-overlay" v-if="statsOpen">
 			<div class="top-bar">
+				<div class="left">
+					<button class="reset-history" @click="resetHistory">Reset history</button>
+				</div>
 				<div class="center">
 					<h2>Statistics</h2>
 				</div>
@@ -93,6 +96,9 @@ export default {
 			} else if (id === this.currentSessionId) {
 				return "current";
 			} else return "future";
+		},
+		resetHistory() {
+			this.$store.dispatch('resetHistory');
 		}
 	},
 	filters: {
@@ -245,6 +251,22 @@ svg.close-icon {
 .fade-enter, .fade-leave-to {
 	transform: scale(0.3);	
 	opacity: 0;	
+}
+
+.reset-history {
+	text-align: center;
+	font-size: 10px;
+	margin-left: 10px;
+	margin-bottom: 5px;
+	padding: 2px 0;
+	opacity: 0.3;
+	transition: all 0.3s;
+}
+
+.reset-history:hover {
+	opacity: 1;
+	border: 1px solid #bbb;
+	border-radius: 5px;
 }
 
 .main {

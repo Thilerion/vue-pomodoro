@@ -296,6 +296,10 @@ export const store = new Vuex.Store({
 			}
 			commit('setSkipped');
 			dispatch('initializeNextSession');
+		},
+		resetHistory({commit}) {
+			commit('resetHistoryStats');
+			commit('setCycleId', 0);
 		}
 	}	
 });
