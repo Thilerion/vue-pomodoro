@@ -110,8 +110,6 @@ export default {
 			} else if (dur.minutes() !== 0) {
 				f = 'm[m] ' + f;
 			}
-			console.log(dur.minutes());
-			console.log(dur.seconds());
 
 			let formatted = formatDuration(ms, f);
 			return formatted;

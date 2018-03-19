@@ -3,12 +3,10 @@ const state = {
 	history: [[]]
 };
 
-import merge from 'deepmerge';
-
 // getters
 const getters = {
 	history: state => state.history,
-	currentCycleHistory: (state, getters, rootState, rootGetters) => state.history[rootGetters.currentCycleId],
+	currentCycleHistory: (state, getters) => state.history[getters.trueCycleId],
 	lastCycleHasSessions: state => state.history[state.history.length - 1].length > 0,
 	trueCycleId: state => state.history.length - 1,
 	sessionHistoryStats: state => cycle => {
@@ -113,9 +111,7 @@ const mutations = {
 	logNewCycle: state => state.history.push([]),
 	setHistory: (state, history) => state.history = history,
 	resetHistoryStats: state => {
-		let curCycleHistory = state.history[state.history.length - 1];
-		console.log(curCycleHistory);
-		state.history = [state.history[state.history.length -1]];
+		state.history.splice(0, state.history.length - 1);
 		saveToLocalStorage(state.history);
 	}
 };

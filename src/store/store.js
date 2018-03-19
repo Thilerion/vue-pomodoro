@@ -298,8 +298,8 @@ export const store = new Vuex.Store({
 			dispatch('initializeNextSession');
 		},
 		resetHistory({commit}) {
-			commit('resetHistoryStats');
 			commit('setCycleId', 0);
+			commit('resetHistoryStats');			
 		}
 	}	
 });
