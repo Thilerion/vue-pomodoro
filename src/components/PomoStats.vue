@@ -17,7 +17,9 @@
 			</div>
 			<div class="main">
 				<h3>Current cycle<span> ({{currentCycleProgress}})</span></h3>
+				<div class="hr"></div>
 				<pomo-cycle-slider class="section-border"></pomo-cycle-slider>
+				<div class="hr"></div>
 				<h3>Lifetime stats</h3>
 				<div class="stats-section">
 					<div class="hr-large"></div>
@@ -37,6 +39,7 @@
 					<p>Average pauses per cycle: {{avgPausesPerCycle | toFixedOne}}</p>
 					<p>Total pause duration: {{historyStats.totalPauseTime | form}}</p>
 					<p>Average pause duration: {{avgPauseDuration | form}}</p>
+					<div class="hr-large"></div>
 				</div>
 			</div>
 		</div>
@@ -130,7 +133,7 @@ li {
 	border-bottom: 1px solid rgba(0,0,0,0.08);
 	width: 90%;
 	height: 1px;
-	margin: 8px auto;
+	margin: 12px auto;
 }
 
 .hr-margin {
