@@ -23,7 +23,7 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: 10000,
+				focus: 2000,
 				short: minToMs(7),
 				long: minToMs(25)
 			},
