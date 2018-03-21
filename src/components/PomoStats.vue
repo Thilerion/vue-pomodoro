@@ -23,6 +23,12 @@
 				<div class="hr"></div>
 				<pomo-cycle-slider class="section-border"></pomo-cycle-slider>
 				<div class="hr"></div>
+				<h3>Focus in last days</h3>
+				<div class="stats-section">
+					<div class="hr-large"></div>
+						<PomoStatsTimeline/>
+					<div class="hr-large"></div>
+				</div>
 				<h3>Lifetime stats</h3>
 				<div class="stats-section">
 					<div class="hr-large"></div>
@@ -51,11 +57,13 @@
 
 <script>
 import PomoCycleSlider from './PomoCycleSlider';
+import PomoStatsTimeline from './PomoStatsTimeline';
 import moment from 'moment';
 import formatDuration from '@/utils/format-duration';
 export default {
 	components: {
-		PomoCycleSlider
+		PomoCycleSlider,
+		PomoStatsTimeline
 	},
 	computed: {
 		statsOpen() {
