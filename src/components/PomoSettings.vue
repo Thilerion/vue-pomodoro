@@ -131,7 +131,7 @@ export default {
 	height: 100%;
 	width: 100%;
 	background: rgb(32, 32, 32);
-	background: #eeeeee;
+	background: var(--background-color-overlay);
 	transform-origin: calc(100% - 2rem) 2.8rem;
 	display: flex;
 	flex-direction: column;
@@ -276,7 +276,7 @@ input[type=range]:focus {
 }
 
 input[type=range]::-webkit-slider-thumb {
-  background: #eee;
-  border-color: #ccc;
+  background: var(--text-color-main);
+  border-color: var(--text-color-contrast1);
 }
 </style>

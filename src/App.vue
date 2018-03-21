@@ -64,7 +64,7 @@ export default {
 		},
 		themeClass() {
 			if (this.theme === true) {
-				return "theme-darker";
+				return "theme-dark";
 			} else {
 				return "theme-premium-white";
 			}
@@ -108,49 +108,35 @@ html {
 /* GRADIENTS https://webgradients.com/ */
 
 .theme-dark {
-	color: rgba(255, 255, 255, 0.9);
 	background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898; 
  	background-blend-mode: multiply,multiply;
-}
-
-.theme-darker {
-	color: hsl(210, 50%, 93%);
-	background-image: linear-gradient(60deg, hsl(207, 40%, 8%) 0%, hsl(208, 15%, 20%) 100%);
+	color: rgb(243, 243, 243);
+	--background-color: rgb(32, 32, 32);
+	--background-color-overlay: linear-gradient(to bottom, rgba(204, 204, 204, 0.1) 0%, rgba(0, 0, 0, 0.425) 100%), radial-gradient(at top center, rgba(34, 34, 34, 0.4) 0%, rgb(77, 77, 77) 120%) rgb(122, 122, 122);
+	--background-color-overlay-blend-mode: normal;
+	--text-color-main: rgb(243, 243, 243);
+	--text-color-contrast1: rgb(236, 236, 236);
+	--text-color-alpha03: rgba(236, 236, 236, 0.3);
 }
 
 .theme-light {
 	color: rgb(34, 34, 34);
 	background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
-}
-
-.theme-clear-mirror {
-	color: hsla(222, 10%, 0%, 0.9);
-	background-image: linear-gradient(45deg, hsl(222, 38%, 69%) 0%, #e4efe9 100%);
+	--background-color: rgb(235, 235, 235);
+	--background-color-overlay: rgb(230, 230, 230);
+	--background-color-overlay-blend-mode: normal;
+	--text-color-main: rgb(34, 34, 34);
+	--text-color-contrast1: rgb(22, 22, 22);
 }
 
 .theme-premium-white {
 	color: rgba(0,0,0,0.8);
 	background-image: linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #eeeeec 31%, #efeeec 75%, #e9e9e7 100%);
-}
-
-.theme-morpheus-den {
-	background-image: linear-gradient(20deg, #30cfd0 0%, #330867 100%);
-	color: #ececec;
-}
-
-.theme-sharpeye-eagle {
-	background-image: linear-gradient(to top, #9890e3 0%, #b1f4cf 100%);
-	color: #05021b;
-}
-
-.theme-strong-bliss {
-	background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
-	color: rgb(36, 4, 4);
-}
-
-.theme-sky-high {
-	background-image: linear-gradient(-30deg, #48c6ef 10%, #6f86d6 90%);
-	color: rgb(4, 21, 43);
+	--background-color: rgb(235, 235, 235);
+	--background-color-overlay: rgb(230, 230, 230);
+	--background-color-overlay-blend-mode: normal;
+	--text-color-main: rgb(34, 34, 34);
+	--text-color-contrast1: rgb(22, 22, 22);
 }
 
 nav {

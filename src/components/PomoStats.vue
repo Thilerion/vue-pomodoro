@@ -148,7 +148,7 @@ li {
 }
 
 .hr {
-	border-bottom: 1px solid rgba(0,0,0,0.08);
+	border-bottom: 1px solid var(--text-color-alpha03);
 	width: 90%;
 	height: 1px;
 	margin: 12px auto;
@@ -159,7 +159,7 @@ li {
 }
 
 .hr-large {
-	border-bottom: 1px solid rgba(0,0,0,0.08);
+	border-bottom: 1px solid var(--text-color-alpha03);
 	width: 100%;
 	height: 1px;
 	margin: 8px auto;
@@ -209,8 +209,8 @@ p {
 	z-index: 100;
 	height: 100%;
 	width: 100%;
-	background: rgb(32, 32, 32);
-	background: #eeeeee;
+	background: var(--background-color-overlay);
+	background-blend-mode: var(--background-color-overlay-blend-mode);
 	transform-origin: 2rem 2.8rem;
 	display: flex;
 	flex-direction: column;
@@ -277,7 +277,7 @@ svg.close-icon {
 
 .reset-history:hover {
 	opacity: 1;
-	border: 1px solid #bbb;
+	border: 1px solid var(--text-color-contrast1);
 	border-radius: 5px;
 }
 
