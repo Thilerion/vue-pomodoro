@@ -7,14 +7,22 @@ export default {
 	computed: {
 		isFinished() {
 			return this.$store.getters.isTimerFinished;
+		},
+		playSound() {
+			return this.$store.getters.soundEnabled;
 		}
 	},
 	watch: {
 		isFinished(oldVal, newVal) {
 			if (oldVal === true) {
 				console.log("Finished!");
-				console.log(this.$refs.finishedSound);
-				this.$refs.finishedSound.play();
+				if (this.playSound === true) {
+					console.log(this.$refs.finishedSound);
+					this.$refs.finishedSound.play();
+				} else {
+					console.log("Sound is disabled.");
+				}
+				
 			}
 		}
 	}

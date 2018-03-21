@@ -96,7 +96,8 @@ export const store = new Vuex.Store({
 		settingsOpen: state => state.settings.settingsOpen,
 		statsOpen: state => state.settings.statsOpen,
 		getSettings: state => state.settings,
-		autoPlay: state => state.settings.autoPlay
+		autoPlay: state => state.settings.autoPlay,
+		soundEnabled: state => state.settings.sound
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {
