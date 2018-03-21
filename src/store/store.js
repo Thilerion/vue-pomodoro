@@ -23,16 +23,16 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: 2000,
-				short: minToMs(7),
-				long: minToMs(25)
+				focus: 3000,
+				short: 1000,
+				long: 2000
 			},
 			autoPlay: false,
 			speed: 1,
 			sound: false,
 			cycleLength: 6, //f s f s f l = 6
 			settingsOpen: false,
-			statsOpen: false
+			statsOpen: true
 		},
 		initialized: false,
 		sessionId: null,
