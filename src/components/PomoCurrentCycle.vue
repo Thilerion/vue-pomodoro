@@ -6,7 +6,9 @@
 		:key="index"
 		:style="sessionStyle(index, sess)"
 		>
+			<transition name="arrow-trans">
 			<div class="cur-arrow" v-if="index === currentIndex" :style="currentArrowStyle"></div>
+			</transition>
 		</div>
 	</div>
 </template>
@@ -125,6 +127,7 @@ export default {
 	align-items: center;
 	position: relative;
 	border-radius: 10px;
+	transition: all .3s ease;
 }
 
 .cur-arrow {
@@ -145,5 +148,13 @@ export default {
 
 .no-refresh {
 	opacity: 1;
+}
+
+.arrow-trans-enter-active, .arrow-trans-leave-active {
+	transition: all .4s ease;
+}
+
+.arrow-trans-enter, .arrow-trans-leave-to {
+	opacity: 0;
 }
 </style>
