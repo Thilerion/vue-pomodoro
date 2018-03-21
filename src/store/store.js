@@ -23,9 +23,9 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: 3000,
-				short: 1000,
-				long: 2000
+				focus: 10000,
+				short: 6000,
+				long: 8000
 			},
 			autoPlay: false,
 			speed: 1,
@@ -95,7 +95,10 @@ export const store = new Vuex.Store({
 		runAfterTween: state => state.timeTween.tweenCallback,
 		settingsOpen: state => state.settings.settingsOpen,
 		statsOpen: state => state.settings.statsOpen,
-		getSettings: state => state.settings
+		getSettings: state => state.settings,
+		currentSessionPercentage: (state, getters) => {
+			return getters.currentSessionTimePassed / getters.currentSession.duration * 100;
+		}
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {
