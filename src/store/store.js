@@ -23,16 +23,16 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: 2000,
-				short: minToMs(7),
-				long: minToMs(25)
+				focus: 10000,
+				short: 6000,
+				long: 8000
 			},
 			autoPlay: false,
 			speed: 1,
 			sound: false,
 			cycleLength: 6, //f s f s f l = 6
 			settingsOpen: false,
-			statsOpen: false
+			statsOpen: true
 		},
 		initialized: false,
 		sessionId: null,
@@ -97,7 +97,10 @@ export const store = new Vuex.Store({
 		statsOpen: state => state.settings.statsOpen,
 		getSettings: state => state.settings,
 		autoPlay: state => state.settings.autoPlay,
-		soundEnabled: state => state.settings.sound
+		soundEnabled: state => state.settings.sound,
+		currentSessionPercentage: (state, getters) => {
+			return getters.currentSessionTimePassed / getters.currentSession.duration * 100;
+		}
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {

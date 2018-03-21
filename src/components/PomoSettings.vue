@@ -36,7 +36,7 @@
 				</div>
 				<div class="input-group">
 					<p class="input-label">Cycle length</p>
-					<input type="range" v-model="settings.cycleLength" min="2" max="10">
+					<input type="range" v-model="settings.cycleLength" min="2" max="10" step="2">
 					<span class="input-value">{{settings.cycleLength}}</span>
 				</div>
 				<div class="input-group">
