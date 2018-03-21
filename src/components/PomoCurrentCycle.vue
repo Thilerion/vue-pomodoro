@@ -127,16 +127,6 @@ export default {
 	border-radius: 10px;
 }
 
-.cur-arrow-two {
-	position: absolute;
-	top: -15%;
-	height: 130%;
-	width: 2px;
-	border-radius: 50px;
-	opacity: 0.4;
-	background: black;
-}
-
 .cur-arrow {
 	position: absolute;
 	bottom: -5px;
