@@ -110,5 +110,6 @@ export default {
 	background: hsla(114, 13%, 47%, 0.11);
 	border-radius: 2px;
 	font-size: 10px;
+	transition: all .3s ease;
 }
 </style>
