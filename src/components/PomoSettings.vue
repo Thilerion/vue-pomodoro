@@ -130,7 +130,6 @@ export default {
 	z-index: 100;
 	height: 100%;
 	width: 100%;
-	background: rgb(32, 32, 32);
 	background: var(--background-color-overlay);
 	transform-origin: calc(100% - 2rem) 2.8rem;
 	display: flex;
@@ -255,7 +254,7 @@ input[type=range]::-webkit-slider-runnable-track {
   height: 6px;
   border: none;
   border-radius: 3px;
-  background: rgba(0,0,0,0.2);
+  background: var(--slider-thumb-contrast1);
   box-shadow: inset 0px 8px 10px -10px rgba(0,0,0,0.5);
 }
 
@@ -276,7 +275,7 @@ input[type=range]:focus {
 }
 
 input[type=range]::-webkit-slider-thumb {
-  background: var(--text-color-main);
-  border-color: var(--text-color-contrast1);
+  background: var(--slider-thumb);
+  border-color: var(--slider-thumb-contrast1);
 }
 </style>

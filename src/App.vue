@@ -115,7 +115,9 @@ html {
 	--background-color-overlay: linear-gradient(to bottom, rgba(204, 204, 204, 0.1) 0%, rgba(0, 0, 0, 0.425) 100%), radial-gradient(at top center, rgba(34, 34, 34, 0.4) 0%, rgb(77, 77, 77) 120%) rgb(122, 122, 122);
 	--background-color-overlay-blend-mode: normal;
 	--text-color-main: rgb(243, 243, 243);
-	--text-color-contrast1: rgb(236, 236, 236);
+	--slider-thumb: rgb(235, 235, 235);
+	--slider-thumb-contrast1: rgb(230, 230, 230);
+	--text-color-contrast1: rgb(218, 218, 218);
 	--text-color-alpha03: rgba(236, 236, 236, 0.3);
 }
 
@@ -136,7 +138,9 @@ html {
 	--background-color-overlay: rgb(230, 230, 230);
 	--background-color-overlay-blend-mode: normal;
 	--text-color-main: rgb(34, 34, 34);
-	--text-color-contrast1: rgb(22, 22, 22);
+	--slider-thumb: rgb(235, 235, 235);
+	--slider-thumb-contrast1: rgb(194, 194, 194);
+	--text-color-contrast1: rgb(54, 54, 54);
 }
 
 nav {
