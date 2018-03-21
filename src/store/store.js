@@ -95,7 +95,8 @@ export const store = new Vuex.Store({
 		runAfterTween: state => state.timeTween.tweenCallback,
 		settingsOpen: state => state.settings.settingsOpen,
 		statsOpen: state => state.settings.statsOpen,
-		getSettings: state => state.settings
+		getSettings: state => state.settings,
+		autoPlay: state => state.settings.autoPlay
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {
@@ -264,7 +265,6 @@ export const store = new Vuex.Store({
 			commit('setFinished');
 			commit('clearTimeoutId');
 			dispatch('runTween', { to: getters.trueNextSessionDuration, then: "initializeNextSession" });
-			//dispatch('initializeNextSession');
 		},
 		initializeNextSession({ commit, dispatch, getters }) {
 			commit('logCurrentSession', getters.currentSession);
@@ -272,6 +272,9 @@ export const store = new Vuex.Store({
 				dispatch('startNewCycle');
 			} else {
 				dispatch('createNewSession');
+				if (getters.autoPlay === true) {
+					dispatch('startTimer');
+				}
 			}	
 		},
 		runTween({ commit }, { to, then }) {
