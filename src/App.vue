@@ -1,5 +1,5 @@
 <template>
-	<div id="app" class="theme-premium-white">
+	<div id="app" :class="themeClass">
 		<div class="wrapper">
 			<div class="overlays">
 				<!--<pomo-settings></pomo-settings>-->
@@ -58,6 +58,16 @@ export default {
 		},
 		statsOpen() {
 			return this.$store.getters.statsOpen;
+		},
+		theme() {
+			return this.$store.getters.theme;
+		},
+		themeClass() {
+			if (this.theme === true) {
+				return "theme-darker";
+			} else {
+				return "theme-premium-white";
+			}
 		}
 	}
 };

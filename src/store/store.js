@@ -32,7 +32,8 @@ export const store = new Vuex.Store({
 			sound: false,
 			cycleLength: 6, //f s f s f l = 6
 			settingsOpen: false,
-			statsOpen: true
+			statsOpen: true,
+			darkTheme: false
 		},
 		initialized: false,
 		sessionId: null,
@@ -100,7 +101,8 @@ export const store = new Vuex.Store({
 		soundEnabled: state => state.settings.sound,
 		currentSessionPercentage: (state, getters) => {
 			return getters.currentSessionTimePassed / getters.currentSession.duration * 100;
-		}
+		},
+		theme: state => state.settings.darkTheme
 	},
 	mutations: {
 		setNewSession(state, { type, dur, id }) {
@@ -156,6 +158,7 @@ export const store = new Vuex.Store({
 			state.settings = merge(state.settings, changes);
 			console.log(state.settings);
 		},
+		switchTheme: (state) => state.settings.darkTheme = !state.settings.darkTheme,
 
 		DEBUG_skipToSessionEnd: (state, endStartTime) => state.currentSession.startTime = endStartTime
 	},

@@ -52,6 +52,9 @@
 					<input type="range" v-model="settings.speed" min="1" max="200" step="1">
 					<span class="input-value">{{settings.speed}}</span>
 				</div>
+				<div class="input-group">
+					<button @click="changeTheme">Change theme</button>
+				</div>
 			</div>
 		</div>
 	</transition>
@@ -82,6 +85,9 @@ export default {
 			let str = JSON.stringify(settings);
 			localStorage.setItem('settings', str);
 			console.log(localStorage.getItem('settings'));
+		},
+		changeTheme() {
+			this.$store.commit('switchTheme');
 		}
 	},
 	beforeMount() {
