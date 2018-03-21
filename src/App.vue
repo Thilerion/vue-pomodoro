@@ -141,6 +141,7 @@ html {
 	--slider-thumb: rgb(235, 235, 235);
 	--slider-thumb-contrast1: rgb(194, 194, 194);
 	--text-color-contrast1: rgb(54, 54, 54);
+	--text-color-alpha03: rgba(168, 168, 168, 0.3);
 }
 
 nav {

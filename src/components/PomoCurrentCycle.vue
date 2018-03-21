@@ -135,10 +135,9 @@ export default {
 	bottom: -5px;
 	width: 2px;
 	height: 0;
-	opacity: 0.6;
 	border-left: 6px solid transparent;
 	border-right: 6px solid transparent;
-	border-bottom: 6px solid black;
+	border-bottom: 6px solid var(--text-color-main);
 	transition: all 1s linear;
 }
 
