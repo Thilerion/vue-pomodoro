@@ -138,10 +138,10 @@ html {
 }
 
 .theme-premium-white {
-	color: rgba(0,0,0,0.8);
+	color: #333;
 	background-image: linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #eeeeec 31%, #efeeec 75%, #e9e9e7 100%);
 	--background-color: rgb(235, 235, 235);
-	--background-color-overlay: rgb(230, 230, 230);
+	--background-color-overlay: rgb(240, 240, 240);
 	--background-color-overlay-blend-mode: normal;
 	--text-color-main: rgb(34, 34, 34);
 	--slider-thumb: rgb(235, 235, 235);
