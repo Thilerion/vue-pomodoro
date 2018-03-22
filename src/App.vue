@@ -114,11 +114,11 @@ html {
 }
 
 .theme-dark {
-	background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898; 
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(32, 35, 46, 0.315) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(31, 41, 71, 0.527) 120%) #74717e; 
  	background-blend-mode: multiply,multiply;
 	color: rgb(243, 243, 243);
 	--background-color: rgb(32, 32, 32);
-	--background-color-overlay: linear-gradient(to bottom, rgba(204, 204, 204, 0.1) 0%, rgba(0, 0, 0, 0.425) 100%), radial-gradient(at top center, rgba(34, 34, 34, 0.4) 0%, rgb(77, 77, 77) 120%) rgb(122, 122, 122);
+	--background-color-overlay: #363342;
 	--background-color-overlay-blend-mode: normal;
 	--text-color-main: rgb(243, 243, 243);
 	--slider-thumb: rgb(235, 235, 235);
