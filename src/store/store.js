@@ -23,9 +23,12 @@ export const store = new Vuex.Store({
 	state: {
 		settings: {
 			durations: {
-				focus: minToMs(25),
+				/*focus: minToMs(25),
 				short: minToMs(5),
-				long: minToMs(20)
+				long: minToMs(20)*/
+				focus: 4000,
+				short: 2000,
+				long: 3000
 			},
 			autoPlay: false,
 			speed: 1,

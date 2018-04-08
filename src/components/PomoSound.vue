@@ -4,21 +4,45 @@
 
 <script>
 export default {
+	data() {
+		return {
+			interval: null
+		}
+	},
 	computed: {
 		isFinished() {
 			return this.$store.getters.isTimerFinished;
 		},
-		playSound() {
+		soundEnabled() {
 			return this.$store.getters.soundEnabled;
+		},
+		nextSessionNotYetStarted() {
+			return this.$store.getters.isTimerFinished || !this.$store.getters.sessionStarted;
+		}
+	},
+	methods: {
+		startAlarmInterval() {
+			this.interval = setInterval(() => {
+				if (this.soundEnabled === false || !this.nextSessionNotYetStarted) {
+					console.log(this.nextSessionNotYetStarted);
+					clearInterval(this.interval);
+					this.interval = null;
+				} else {
+					this.playAlarm();
+				}
+			}, 10000);
+		},
+		playAlarm() {
+			this.$refs.finishedSound.play();
 		}
 	},
 	watch: {
 		isFinished(oldVal, newVal) {
 			if (oldVal === true) {
 				console.log("Finished!");
-				if (this.playSound === true) {
-					console.log(this.$refs.finishedSound);
-					this.$refs.finishedSound.play();
+				if (this.soundEnabled === true) {
+					this.playAlarm();
+					this.startAlarmInterval();
 				} else {
 					console.log("Sound is disabled.");
 				}
