@@ -108,9 +108,9 @@ html {
 /* GRADIENTS https://webgradients.com/ */
 
 :root {
-	--focus: hsl(208,79,55);
-	--short: hsl(174,50,51);
-	--long: hsl(122,50,60);
+	--focus: #3192e6;
+	--short: #43c0b4;
+	--long: #65cc69;
 }
 
 .theme-dark {

@@ -1,7 +1,7 @@
 <template>
 		<div class="session-name">
 			<transition name="fade-session">
-				<span :key="currentSessionName">
+				<span :key="currentSessionName" :class="currentSessionName">
 					{{currentSessionName}}
 				</span>
 			</transition>
@@ -33,6 +33,24 @@ export default {
 	margin: auto;
 	position: absolute;
 	width: 7rem;
+	border-radius: 0.6em;
+	font-weight: 600;
+	opacity: 0.8;
+}
+
+.session-name span.focus {
+	border: 2px solid var(--focus);
+	color: var(--focus);
+}
+
+.session-name span.short {
+	border: 2px solid var(--short);
+	color: var(--short);
+}
+
+.session-name span.long {
+	border: 2px solid var(--long);
+	color: var(--long);
 }
 
 .fade-session-enter-active, .fade-session-leave-active {
