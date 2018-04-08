@@ -27,6 +27,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 	position: relative;
+	opacity: 0.8;
 }
 
 .session-name span {
@@ -35,7 +36,7 @@ export default {
 	width: 7rem;
 	border-radius: 0.6em;
 	font-weight: 600;
-	opacity: 0.8;
+	
 }
 
 .session-name span.focus {
@@ -63,10 +64,10 @@ export default {
 }
 
 .fade-session-enter {
-	transform: translateX(3em);
+	transform: translateX(6em);
 }
 
 .fade-session-leave-to {
-	transform: translateX(-3em);
+	transform: translateX(-6em);
 }
 </style>
