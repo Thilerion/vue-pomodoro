@@ -95,6 +95,12 @@ export default {
 	line-height: 1;
 }
 
+@media (max-height: 600px) {
+	.time-display {
+		font-size: 20vmin;
+	}
+}
+
 @media (max-height: 400px) {
 	.time-display {
 		font-size: max(22vmin, 50px);
